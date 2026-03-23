@@ -1,1 +1,207 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phishing Email Example — Stay Safe Online</title>
+  <style>
+    body {
+      font-family: Tahoma, Geneva, sans-serif;
+      background: #f4f5ee;
+      margin: 0;
+      padding: 32px 16px;
+    }
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .edu-label {
+      font-size: 12px;
+      color: #6f7461;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin: 0 0 10px;
+    }
+    .email-card {
+      background: #ffffff;
+      border-radius: 10px;
+      border: 1px solid #d4d6c8;
+      overflow: hidden;
+    }
+    .email-header {
+      background: #003087;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .email-logo {
+      width: 28px;
+      height: 28px;
+      background: white;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 28px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #003087;
+      flex-shrink: 0;
+    }
+    .email-logo-name {
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    .email-meta {
+      padding: 14px 20px;
+      border-bottom: 1px solid #e8e9e0;
+    }
+    .email-meta table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .email-meta td {
+      padding: 4px 0;
+      vertical-align: top;
+    }
+    .meta-label {
+      color: #6f7461;
+      font-weight: bold;
+      width: 70px;
+    }
+    .meta-value {
+      color: #2c2c1e;
+    }
+    .flag {
+      display: inline-block;
+      background: #fdf0e6;
+      color: #8a4a00;
+      border: 1px solid #D4843A;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+    .email-body {
+      padding: 24px 28px;
+      font-size: 15px;
+      line-height: 1.75;
+      color: #2c2c1e;
+    }
+    .email-body p {
+      margin: 0 0 16px;
+    }
+    .fake-btn {
+      display: inline-block;
+      background: #0070e0;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 6px;
+      font-weight: bold;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: default;
+      pointer-events: none;
+    }
+    .url {
+      font-size: 13px;
+      color: #0070e0;
+      word-break: break-all;
+    }
+    .footer-text {
+      border-top: 1px solid #e8e9e0;
+      padding-top: 14px;
+      margin-top: 8px;
+    }
+    .footer-text p {
+      font-size: 12px;
+      color: #6f7461;
+      margin: 0 0 4px;
+    }
+    .warning {
+      background: #fdf0e6;
+      border-left: 4px solid #D4843A;
+      border-radius: 0 8px 8px 0;
+      padding: 12px 16px;
+      margin-top: 14px;
+    }
+    .warning p {
+      margin: 0;
+      font-size: 13px;
+      color: #5a3200;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <p class="edu-label">Example: Fraudulent Email — Educational Purposes Only</p>
+
+    <div class="email-card">
+
+      <div class="email-header">
+        <div class="email-logo">P</div>
+        <span class="email-logo-name">PayPal</span>
+      </div>
+
+      <div class="email-meta">
+        <table>
+          <tr>
+            <td class="meta-label">From:</td>
+            <td class="meta-value">service@paypa1-security.com <span class="flag">⚑ Red flag</span></td>
+          </tr>
+          <tr>
+            <td class="meta-label">To:</td>
+            <td class="meta-value">you@email.com</td>
+          </tr>
+          <tr>
+            <td class="meta-label">Subject:</td>
+            <td class="meta-value"><strong>URGENT: Your account has been suspended — action required within 24 hours</strong> <span class="flag">⚑ Red flag</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="email-body">
+
+        <p>Dear Valued Costumer, <span class="flag">⚑ Spelling error</span></p>
+
+        <p>We have detected <strong>unusual activity</strong> on your PayPal account. To avoid permanent suspension, you must verify your identity <strong>immediately.</strong> <span class="flag">⚑ Creates fear and urgency</span></p>
+
+        <p>Failure to verify within <strong>24 hours</strong> will result in your account being permanently closed and any funds being held for 180 days.</p>
+
+        <p>Please click the link below to confirm your identity and restore full account access:</p>
+
+        <p>
+          <span class="fake-btn">Verify My Account Now</span>
+          <span class="flag" style="margin-left: 12px;">⚑ Do not click unknown links</span>
+        </p>
+
+        <p style="font-size: 13px; color: #6f7461; margin-bottom: 4px;">Or copy this link into your browser:</p>
+        <p class="url">http://paypa1-verify-account-secure.ru/login/confirm?id=839201 <span class="flag">⚑ Suspicious URL</span></p>
+
+        <p>If you do not take action, we cannot be responsible for any loss of funds or account access.</p>
+
+        <p style="margin-bottom: 4px;">Sincerely,</p>
+        <p>The PayPal Security and Accounts Departement <span class="flag">⚑ Spelling error</span></p>
+
+        <div class="footer-text">
+          <p>PayPal Holdings Inc., 2211 North First Street, San Jose, CA 95131</p>
+          <p>This email was sent to you@email.com. Please do not reply to this email.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="warning">
+      <p>This is a simulated phishing email created for educational purposes only. It is not a real PayPal communication.</p>
+    </div>
+
+  </div>
+</body>
+</html>

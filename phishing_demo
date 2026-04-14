@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TOTALLY REAL BANK - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      margin: 0;
+    }
+
+    /* WARNING BANNER */
+    .banner {
+      background: #cc0000;
+      color: white;
+      text-align: center;
+      padding: 8px;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+
+    /* SUSPICIOUS HEADER */
+    .header {
+      background: #003366;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-box {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border: 3px dashed red;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: red;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .bank-name {
+      color: white;
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .bank-name span {
+      color: yellow;
+      font-size: 11px;
+      display: block;
+    }
+
+    /* MAIN FORM */
+    .container {
+      max-width: 380px;
+      margin: 40px auto;
+      background: white;
+      border: 1px solid #ccc;
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #aaa;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #003366;
+      color: white;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .fine-print {
+      font-size: 9px;
+      color: #999;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    /* URL BAR MOCK */
+    .fake-url {
+      background: #e8e8e8;
+      border: 1px solid #bbb;
+      padding: 5px 10px;
+      font-size: 12px;
+      color: #555;
+      font-family: monospace;
+      margin: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner">⚠️ SECURE VERIFIED OFFICIAL BANK WEBSITE — 100% SAFE ⚠️</div>
+
+  <div class="header">
+    <div class="logo-box">LOGO<br>HERE</div>
+    <div class="bank-name">
+      TOTALLY REAL BANK®
+      <span>A Division of Legitimate Finance Corp LLC™</span>
+    </div>
+  </div>
+
+  <!-- Fake URL bar for annotation purposes -->
+  <div class="fake-url">🔴 http://totally-real-bank.login-secure-verify.com/account</div>
+
+  <div class="container">
+    <h2>Sign In to Your Account</h2>
+
+    <label for="username">Username / Email</label>
+    <input type="text" id="username" placeholder="Enter username">
+
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Enter password">
+
+    <button type="button">LOG IN SECURELY</button>
+
+    <p class="fine-print">
+      By logging in you agree to transfer all data to our servers located somewhere.
+      This site is definitely encrypted. Trust us.
+    </p>
+  </div>
+
+</body>
+</html>

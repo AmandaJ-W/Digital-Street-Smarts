@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hot Spot Explorer</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Playfair+Display:wght@700&amp;display=swap" rel="stylesheet">
+  <style>
+    html, body { height: 100%; margin: 0; }
+    * { box-sizing: border-box; }
+
+    .hotspot-pulse {
+      animation: pulse-ring 2s ease-out infinite;
+    }
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
+      70% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+    }
+
+    .hotspot-btn {
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .hotspot-btn:hover {
+      transform: scale(1.3);
+    }
+    .hotspot-btn.visited {
+      opacity: 0.6;
+    }
+
+    .info-panel {
+      animation: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .scene-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+    .scene-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .progress-fill {
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stagger-1 { animation-delay: 0.1s; opacity: 0; }
+    .stagger-2 { animation-delay: 0.2s; opacity: 0; }
+    .stagger-3 { animation-delay: 0.3s; opacity: 0; }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="h-full w-full overflow-auto" style="background: #0a1628; font-family: 'DM Sans', sans-serif;">
+   <div class="max-w-4xl mx-auto px-4 py-6" style="min-height: 100%;"><!-- Header -->
+    <div class="text-center mb-5 fade-in stagger-1">
+     <h1 id="main-title" style="font-family: 'Playfair Display', serif; color: #e0f0ff; font-size: 32px;" class="font-bold mb-1">Website Demo Explorer</h1>
+     <p id="subtitle-text" style="color: #6b9cc3; font-size: 15px;">Click the colored spots to learn about key website elements</p>
+    </div><!-- Progress -->
+    <div class="mb-4 fade-in stagger-2">
+     <div class="flex items-center justify-between mb-1.5"><span style="color: #6b9cc3; font-size: 13px;" id="progress-label">0 of 5 discovered</span> <span style="color: #38bdf8; font-size: 13px; font-weight: 500;" id="progress-pct">0%</span>
+     </div>
+     <div style="background: #162a44; height: 6px; border-radius: 99px; overflow: hidden;">
+      <div id="progress-bar" class="progress-fill" style="background: linear-gradient(90deg, #0ea5e9, #38bdf8); height: 100%; width: 0%; border-radius: 99px;"></div>
+     </div>
+    </div><!-- Scene -->
+    <div class="fade-in stagger-3">
+     <div class="scene-container" style="border: 2px solid #1e3a5f;">
+      <svg class="scene-canvas" viewbox="0 0 1000 562" preserveaspectratio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+       <defs>
+        <lineargradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+         <stop offset="0%" stop-color="#f8fafc" />
+         <stop offset="100%" stop-color="#f1f5f9" />
+        </lineargradient>
+       </defs> <!-- Background --> <rect width="1000" height="562" fill="url(#bgGrad)" /> <!-- URL Bar --> <rect width="1000" height="35" fill="#f3f4f6" stroke="#d1d5db" stroke-width="1" /> <rect x="10" y="8" width="980" height="19" fill="white" stroke="#d1d5db" stroke-width="1" rx="3" /> <text x="20" y="20" font-size="11" fill="#9ca3af" font-family="monospace">
+        http://www.phishing-site.com
+       </text> <!-- Header bar --> <rect width="1000" height="60" fill="white" stroke="#e2e8f0" stroke-width="1" y="35" /> <!-- Logo box (top-left) --> <rect x="20" y="55" width="35" height="20" fill="#3b82f6" rx="4" /> <text x="37.5" y="70" font-size="16" fill="white" text-anchor="middle" font-weight="bold">
+        ☹️
+       </text> <!-- Nav items (center) --> <text x="250" y="73" font-size="12" fill="#64748b" font-family="sans-serif">
+        About
+       </text> <text x="350" y="73" font-size="12" fill="#64748b" font-family="sans-serif">
+        Services
+       </text> <text x="470" y="73" font-size="12" fill="#64748b" font-family="sans-serif">
+        Contact
+       </text> <!-- Sign In button (right) --> <rect x="750" y="53" width="60" height="24" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1" rx="4" /> <text x="780" y="69" font-size="11" fill="#475569" text-anchor="middle" font-family="sans-serif">
+        Sign In
+       </text> <!-- Login Modal/Box (Center) --> <g filter="drop-shadow(0 4px 12px rgba(0,0,0,0.15))">
+        <rect x="300" y="140" width="400" height="320" fill="white" rx="12" /> <!-- Modal Header -->
+        <rect x="300" y="140" width="400" height="50" fill="#f8fafc" rx="12" stroke="#e2e8f0" stroke-width="1" />
+        <text x="500" y="175" font-size="18" fill="#1e293b" text-anchor="middle" font-weight="bold" font-family="sans-serif">
+         Welcome Back
+        </text> <!-- Email field -->
+        <text x="320" y="215" font-size="12" fill="#475569" font-family="sans-serif">
+         Email Address
+        </text>
+        <rect x="320" y="225" width="360" height="36" fill="white" stroke="#cbd5e1" stroke-width="1" rx="6" />
+        <text x="330" y="248" font-size="13" fill="#cbd5e1" font-family="sans-serif">
+         you@example.com
+        </text> <!-- Password field -->
+        <text x="320" y="280" font-size="12" fill="#475569" font-family="sans-serif">
+         Password
+        </text>
+        <rect x="320" y="290" width="360" height="36" fill="white" stroke="#cbd5e1" stroke-width="1" rx="6" />
+        <circle cx="330" cy="308" r="2" fill="#9ca3af" />
+        <circle cx="338" cy="308" r="2" fill="#9ca3af" />
+        <circle cx="346" cy="308" r="2" fill="#9ca3af" />
+        <circle cx="354" cy="308" r="2" fill="#9ca3af" /> <!-- Remember me -->
+        <rect x="320" y="338" width="14" height="14" fill="white" stroke="#cbd5e1" stroke-width="1" rx="2" />
+        <text x="340" y="347" font-size="11" fill="#64748b" font-family="sans-serif">
+         Remember me
+        </text> <!-- Login Button -->
+        <rect x="320" y="365" width="360" height="40" fill="#3b82f6" rx="6" />
+        <text x="500" y="392" font-size="13" fill="white" text-anchor="middle" font-weight="bold" font-family="sans-serif">
+         Sign In
+        </text>
+       </g>
+      </svg><!-- Hotspot buttons overlaid -->
+      <div id="hotspots-container" class="absolute inset-0"><!-- Hotspots positioned via percentage -->
+      </div>
+     </div><!-- Info Panel -->
+     <div id="info-panel" class="mt-4 hidden">
+      <div class="info-panel rounded-xl p-5" style="background: linear-gradient(135deg, #0f2847, #1a3a5c); border: 1px solid #1e3a5f;">
+       <div class="flex items-start justify-between gap-3">
+        <div class="flex-1">
+         <div class="flex items-center gap-2 mb-2"><span id="info-icon" style="font-size: 24px;"></span>
+          <h2 id="info-title" style="color: #e0f0ff; font-size: 20px; font-weight: 700; font-family: 'Playfair Display', serif;"></h2>
+         </div>
+         <p id="info-desc" style="color: #94b8d4; font-size: 14px; line-height: 1.65;"></p>
+         <div id="info-fact" class="mt-3 inline-block rounded-lg px-3 py-1.5" style="background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.2);"><span style="color: #38bdf8; font-size: 12px; font-weight: 500;">💡 </span> <span id="info-fact-text" style="color: #7dd3fc; font-size: 12px;"></span>
+         </div>
+        </div><button id="info-close" class="flex-shrink-0 rounded-full p-1.5 hover:bg-white/10 transition-colors" style="color: #6b9cc3;" aria-label="Close info panel"> <i data-lucide="x" style="width: 18px; height: 18px;"></i> </button>
+       </div>
+      </div>
+     </div><!-- Completion message -->
+     <div id="completion-msg" class="mt-4 hidden text-center rounded-xl p-5" style="background: linear-gradient(135deg, #0c3d2e, #0f4a38); border: 1px solid #15803d;">
+      <p style="color: #4ade80; font-size: 18px; font-weight: 700;">🎉 You explored every website element!</p>
+      <p style="color: #86efac; font-size: 13px; margin-top: 4px;">Great job learning about all key parts of a website homepage.</p><button id="reset-btn" class="mt-3 px-5 py-2 rounded-lg text-sm font-medium transition-colors" style="background: #15803d; color: #dcfce7;" onmouseover="this.style.background='#16a34a'" onmouseout="this.style.background='#15803d'"> Start Over </button>
+     </div>
+    </div><!-- Hint -->
+    <p id="hint-text" class="text-center mt-4 fade-in stagger-3" style="color: #3d6a8f; font-size: 12px;">Click each colored circle to explore different parts of a website homepage</p>
+   </div>
+  </div>
+  <script>
+    const hotspotData = [
+      {
+        id: 'urlbar',
+        x: 50, y: 4,
+        color: '#ef4444',
+        icon: '⚠️',
+        title: 'Missing URL Security',
+        desc: 'This URL bar lacks a padlock icon and doesn\'t show "https://" at the beginning. Real secure websites show a padlock and use HTTPS encryption. This is a red flag for phishing attempts!',
+        fact: 'Always check for a padlock icon and "https://" before entering sensitive information like passwords.'
+      },
+      {
+        id: 'logo',
+        x: 15, y: 13,
+        color: '#3b82f6',
+        icon: '🏢',
+        title: 'Company Logo',
+        desc: 'The logo appears in the top-left corner and serves as the brand identifier. Phishers often copy legitimate logos to appear trustworthy. Always verify the website URL, not just the logo.',
+        fact: 'Phishing sites often mimic the look of real websites. Check the URL bar first, not the logo!'
+      },
+      {
+        id: 'nav',
+        x: 50, y: 13,
+        color: '#8b5cf6',
+        icon: '📍',
+        title: 'Navigation Menu',
+        desc: 'The navigation bar helps users explore different sections of the website. On phishing pages, these links may not work or could lead to fake pages designed to collect more information.',
+        fact: 'Phishing sites often have incomplete or non-functional navigation menus.'
+      },
+      {
+        id: 'email',
+        x: 50, y: 35,
+        color: '#ec4899',
+        icon: '📧',
+        title: 'Email Input Field',
+        desc: 'This field asks for your email address. Phishers collect emails to send more phishing attempts, sell to scammers, or use for identity theft. Never enter personal info on unsecured sites.',
+        fact: 'Phishing emails are often just the beginning—stolen emails are used for follow-up attacks.'
+      },
+      {
+        id: 'password',
+        x: 50, y: 55,
+        color: '#10b981',
+        icon: '🔐',
+        title: 'Password Input Field',
+        desc: 'This is the most dangerous field. Entering your password on a phishing page gives criminals direct access to your real account. Always verify the site is legitimate before entering passwords.',
+        fact: 'Once a hacker has your password, they can access your account, email, and linked services.'
+      }
+    ];
+
+    let visited = new Set();
+    let activeSpot = null;
+
+    const defaultConfig = {
+      main_title: 'Website Demo Explorer',
+      subtitle_text: 'Click the colored spots to learn about key website elements',
+      background_color: '#0a1628',
+      surface_color: '#0f2847',
+      text_color: '#e0f0ff',
+      accent_color: '#38bdf8',
+      secondary_color: '#6b9cc3',
+      font_family: 'DM Sans',
+      font_size: 15
+    };
+
+    function renderHotspots() {
+      const container = document.getElementById('hotspots-container');
+      container.innerHTML = '';
+      hotspotData.forEach(spot => {
+        const btn = document.createElement('button');
+        btn.className = 'hotspot-btn hotspot-pulse absolute rounded-full border-2 border-white/60';
+        btn.style.cssText = `left:${spot.x}%;top:${spot.y}%;width:28px;height:28px;transform:translate(-50%,-50%);background:${spot.color};cursor:pointer;z-index:10;`;
+        btn.setAttribute('aria-label', `Learn about ${spot.title}`);
+        btn.dataset.id = spot.id;
+        if (visited.has(spot.id)) {
+          btn.classList.add('visited');
+          btn.classList.remove('hotspot-pulse');
+        }
+        btn.addEventListener('click', () => openSpot(spot));
+        container.appendChild(btn);
+      });
+    }
+
+    function openSpot(spot) {
+      visited.add(spot.id);
+      activeSpot = spot.id;
+
+      document.getElementById('info-icon').textContent = spot.icon;
+      document.getElementById('info-title').textContent = spot.title;
+      document.getElementById('info-desc').textContent = spot.desc;
+      document.getElementById('info-fact-text').textContent = spot.fact;
+
+      const panel = document.getElementById('info-panel');
+      panel.classList.remove('hidden');
+      // Re-trigger animation
+      const inner = panel.firstElementChild;
+      inner.style.animation = 'none';
+      inner.offsetHeight;
+      inner.style.animation = '';
+
+      updateProgress();
+      renderHotspots();
+    }
+
+    function updateProgress() {
+      const count = visited.size;
+      const total = hotspotData.length;
+      const pct = Math.round((count / total) * 100);
+      document.getElementById('progress-label').textContent = `${count} of ${total} discovered`;
+      document.getElementById('progress-pct').textContent = `${pct}%`;
+      document.getElementById('progress-bar').style.width = `${pct}%`;
+
+      if (count === total) {
+        document.getElementById('completion-msg').classList.remove('hidden');
+        document.getElementById('hint-text').classList.add('hidden');
+      }
+    }
+
+    document.getElementById('info-close').addEventListener('click', () => {
+      document.getElementById('info-panel').classList.add('hidden');
+      activeSpot = null;
+    });
+
+    document.getElementById('reset-btn').addEventListener('click', () => {
+      visited.clear();
+      activeSpot = null;
+      document.getElementById('info-panel').classList.add('hidden');
+      document.getElementById('completion-msg').classList.add('hidden');
+      document.getElementById('hint-text').classList.remove('hidden');
+      updateProgress();
+      renderHotspots();
+    });
+
+    function applyConfig(config) {
+      const c = { ...defaultConfig, ...config };
+      const font = c.font_family || defaultConfig.font_family;
+      const baseFont = 'DM Sans, sans-serif';
+      const headingFont = `Playfair Display, serif`;
+      const fontStack = `${font}, ${baseFont}`;
+      const size = c.font_size || defaultConfig.font_size;
+
+      document.getElementById('app-wrapper').style.background = c.background_color;
+      document.getElementById('app-wrapper').style.fontFamily = fontStack;
+
+      const title = document.getElementById('main-title');
+      title.textContent = c.main_title || defaultConfig.main_title;
+      title.style.color = c.text_color;
+      title.style.fontFamily = `${font}, ${headingFont}`;
+      title.style.fontSize = `${size * 2.1}px`;
+
+      const sub = document.getElementById('subtitle-text');
+      sub.textContent = c.subtitle_text || defaultConfig.subtitle_text;
+      sub.style.color = c.secondary_color;
+      sub.style.fontSize = `${size}px`;
+
+      document.getElementById('progress-label').style.color = c.secondary_color;
+      document.getElementById('progress-label').style.fontSize = `${size * 0.87}px`;
+      document.getElementById('progress-pct').style.color = c.accent_color;
+      document.getElementById('progress-pct').style.fontSize = `${size * 0.87}px`;
+
+      const bar = document.getElementById('progress-bar');
+      bar.style.background = `linear-gradient(90deg, ${c.accent_color}, ${c.accent_color}dd)`;
+
+      // Info panel
+      const infoPanel = document.querySelector('.info-panel');
+      if (infoPanel) {
+        infoPanel.style.background = `linear-gradient(135deg, ${c.surface_color}, ${c.surface_color}ee)`;
+      }
+      const infoTitle = document.getElementById('info-title');
+      if (infoTitle) {
+        infoTitle.style.color = c.text_color;
+        infoTitle.style.fontFamily = `${font}, ${headingFont}`;
+        infoTitle.style.fontSize = `${size * 1.33}px`;
+      }
+      const infoDesc = document.getElementById('info-desc');
+      if (infoDesc) {
+        infoDesc.style.fontSize = `${size * 0.93}px`;
+      }
+
+      document.getElementById('hint-text').style.fontSize = `${size * 0.8}px`;
+    }
+
+    // Init
+    renderHotspots();
+    updateProgress();
+
+    window.elementSdk.init({
+      defaultConfig,
+      onConfigChange: async (config) => applyConfig(config),
+      mapToCapabilities: (config) => ({
+        recolorables: [
+          { get: () => config.background_color || defaultConfig.background_color, set: v => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+          { get: () => config.surface_color || defaultConfig.surface_color, set: v => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+          { get: () => config.text_color || defaultConfig.text_color, set: v => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+          { get: () => config.accent_color || defaultConfig.accent_color, set: v => { config.accent_color = v; window.elementSdk.setConfig({ accent_color: v }); } },
+          { get: () => config.secondary_color || defaultConfig.secondary_color, set: v => { config.secondary_color = v; window.elementSdk.setConfig({ secondary_color: v }); } }
+        ],
+        borderables: [],
+        fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: v => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); } },
+        fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: v => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); } }
+      }),
+      mapToEditPanelValues: (config) => new Map([
+        ['main_title', config.main_title || defaultConfig.main_title],
+        ['subtitle_text', config.subtitle_text || defaultConfig.subtitle_text]
+      ])
+    });
+
+    lucide.createIcons();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ecadcd6176a130c',t:'MTc3NjI1NTE4OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

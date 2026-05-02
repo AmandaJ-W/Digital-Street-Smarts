@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Street Smarts: Course Takeaway</title>
+<style>
+  /* ── VARIABLES ── */
+  :root {
+    --navy:       #004d21;
+    --teal:       #01738f;
+    --amber:      #D97A2B;
+    --red:        #C0392B;
+    --green:      #1A7A4A;
+    --purple:     #5A3E8A;
+    --bg-blue:    #EBF4FA;
+    --bg-teal:    #E6F7F7;
+    --bg-amber:   #FEF3CD;
+    --bg-red:     #FDECEA;
+    --bg-green:   #E8F5EE;
+    --bg-purple:  #F0EBF8;
+    --bg-gray:    #F4F4F4;
+    --dark:       #2D2D2D;
+    --mid-gray:   #666666;
+    --border:     #D0D0D0;
+    --white:      #ffffff;
+    --body-font:  'Franklin Gothic Medium', 'Franklin Gothic Medium', Helvetica, Arial, sans-serif;
+    --head-font:  'Franklin Gothic Book', 'Franklin Gothic Medium', Helvetica, Arial, sans-serif;
+    --sans:       'Franklin Gothic Book', 'Franklin Gothic Medium', Helvetica, Arial, sans-serif;
+  }
+
+  /* ── RESET & BASE ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--dark);
+    background: #f0f2f5;
+  }
+
+  /* ── PAGE WRAPPER ── */
+  .page {
+    max-width: 860px;
+    margin: 32px auto;
+    background: var(--white);
+    box-shadow: 0 4px 32px rgba(0,0,0,0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: var(--navy);
+    padding: 52px 48px 44px;
+    text-align: center;
+  }
+  .cover-icon { font-size: 56px; display: block; margin-bottom: 16px; }
+  .cover h1 {
+    font-family: var(--head-font);
+    font-size: 36px;
+    color: var(--white);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .cover h2 {
+    font-size: 18px;
+    font-weight: 400;
+    color: #BDE0F5;
+    margin-bottom: 14px;
+  }
+  .cover .subtitle {
+    font-size: 14px;
+    color: #80C8E8;
+    font-style: italic;
+    margin-top: 4px;
+  }
+
+  /* ── STATS ROW ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    background: var(--bg-gray);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-cell {
+    padding: 20px 14px;
+    text-align: center;
+    border-right: 1px solid #ccc;
+  }
+  .stat-cell:last-child { border-right: none; }
+  .stat-number {
+    font-family: var(--head-font);
+    font-size: 26px;
+    color: var(--teal);
+    display: block;
+    line-height: 1.1;
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--mid-gray);
+    line-height: 1.4;
+  }
+
+  /* ── CONTENTS OVERVIEW ── */
+  .toc {
+    background: var(--bg-teal);
+    border-bottom: 3px solid var(--teal);
+  }
+  .toc-row {
+    display: flex;
+    align-items: center;
+    padding: 11px 24px;
+    border-bottom: 1px solid #C0E0E0;
+    gap: 12px;
+  }
+  .toc-row:last-child { border-bottom: none; }
+  .toc-label {
+    font-weight: 700;
+    color: var(--teal);
+    font-size: 14px;
+    min-width: 120px;
+  }
+  .toc-desc { font-size: 14px; color: var(--dark); }
+
+  /* ── CONTENT AREA ── */
+  .content { padding: 40px 48px; }
+
+  /* ── SECTION DIVIDER ── */
+  .section-divider {
+    margin: 44px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--teal);
+  }
+  .section-divider:first-child { margin-top: 0; }
+  .section-divider h2 {
+    font-family: var(--head-font);
+    font-size: 22px;
+    color: var(--navy);
+    letter-spacing: -0.3px;
+  }
+
+  /* ── INTRO PARAGRAPH ── */
+  .intro-para {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--dark);
+    margin-bottom: 20px;
+  }
+
+  /* ── COLORED CARD ── */
+  .card {
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .card-header {
+    padding: 10px 16px;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--white);
+  }
+  .card-body {
+    padding: 14px 18px;
+  }
+  .card-body ul {
+    padding-left: 22px;
+    margin: 0;
+  }
+  .card-body li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .card-body p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .card-body p:last-child { margin-bottom: 0; }
+
+  .card-red   .card-header { background: var(--red); }
+  .card-red   .card-body   { background: var(--bg-red); }
+  .card-teal  .card-header { background: var(--teal); }
+  .card-teal  .card-body   { background: var(--bg-teal); }
+  .card-navy  .card-header { background: var(--navy); }
+  .card-navy  .card-body   { background: var(--bg-blue); }
+  .card-green .card-header { background: var(--green); }
+  .card-green .card-body   { background: var(--bg-green); }
+
+  /* ── CALLOUT BOX ── */
+  .callout {
+    border-left: 5px solid;
+    border-radius: 0 6px 6px 0;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .callout-amber { border-color: var(--amber); background: var(--bg-amber); }
+  .callout-red   { border-color: var(--red);   background: var(--bg-red);   color: var(--red); font-weight: 700; }
+  .callout-blue  { border-color: var(--navy);  background: var(--bg-blue);  }
+  .callout-green { border-color: var(--green); background: var(--bg-green); }
+
+  /* ── TABLES ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 13px;
+  }
+  .data-table thead th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 9px 10px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .data-table thead.teal th { background: var(--teal); }
+  .data-table thead.red th  { background: var(--red);  }
+  .data-table tbody tr:nth-child(odd)  td { background: var(--bg-blue); }
+  .data-table tbody tr:nth-child(even) td { background: var(--white);   }
+  .data-table.teal-rows tbody tr:nth-child(odd)  td { background: var(--bg-teal); }
+  .data-table.teal-rows tbody tr:nth-child(even) td { background: var(--white);  }
+  .data-table.red-rows tbody tr:nth-child(odd)  td { background: var(--bg-red); }
+  .data-table.red-rows tbody tr:nth-child(even) td { background: var(--white);  }
+  .data-table td {
+    padding: 8px 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #e0e0e0;
+    line-height: 1.5;
+  }
+  .data-table td.row-label {
+    font-weight: 700;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+  .data-table td.row-action { color: var(--green); font-weight: 600; }
+  .data-table tr:last-child td { border-bottom: none; }
+
+  /* ── STEP CARDS ── */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .step-card {
+    padding: 18px 10px 14px;
+    text-align: center;
+    color: var(--white);
+  }
+  .step-card .step-word {
+    font-family: var(--head-font);
+    font-size: 17px;
+    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .step-card .step-emoji { font-size: 26px; display: block; }
+  .step-card-red    { background: var(--red); }
+  .step-card-teal   { background: var(--teal); }
+  .step-card-amber  { background: var(--amber); }
+  .step-card-purple { background: var(--purple); }
+
+  .step-detail {
+    border-left: 5px solid;
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+  }
+  .step-detail h4 {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .step-detail ul {
+    padding-left: 18px;
+    margin: 0;
+  }
+  .step-detail li { font-size: 13px; margin-bottom: 4px; line-height: 1.5; }
+  .step-detail-red    { border-color: var(--red);    background: var(--bg-red);    }
+  .step-detail-red    h4 { color: var(--red);    }
+  .step-detail-teal   { border-color: var(--teal);   background: var(--bg-teal);   }
+  .step-detail-teal   h4 { color: var(--teal);  }
+  .step-detail-amber  { border-color: var(--amber);  background: var(--bg-amber);  }
+  .step-detail-amber  h4 { color: var(--amber); }
+  .step-detail-purple { border-color: var(--purple); background: var(--bg-purple); }
+  .step-detail-purple h4 { color: var(--purple); }
+
+  /* ── RESOURCE TABLE ── */
+  .resource-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .resource-table thead th {
+    background: var(--navy);
+    color: var(--white);
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .resource-table tbody tr:nth-child(odd)  td { background: var(--bg-blue); }
+  .resource-table tbody tr:nth-child(even) td { background: var(--white);  }
+  .resource-table td {
+    padding: 8px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid #e0e0e0;
+    line-height: 1.5;
+  }
+  .resource-table td:first-child { font-weight: 700; color: var(--navy); }
+  .resource-table td:nth-child(2) { color: var(--teal); font-weight: 600; }
+  .resource-table tr:last-child td { border-bottom: none; }
+
+  /* ── FINAL REMINDER ── */
+  .final-reminder {
+    border-left: 6px solid var(--amber);
+    background: var(--bg-amber);
+    border-radius: 0 8px 8px 0;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+  .final-reminder h3 {
+    font-size: 17px;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .final-reminder p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--dark);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 16px 24px;
+    font-size: 11px;
+    color: var(--mid-gray);
+    border-top: 1px solid var(--border);
+    background: var(--bg-gray);
+  }
+
+  /* ── SECTION PAGE BREAK hint ── */
+  .page-break-hint {
+    border-top: 2px dashed #ccc;
+    margin: 40px 0 0;
+    padding-top: 8px;
+    font-size: 11px;
+    color: #aaa;
+    text-align: center;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; }
+    .page { box-shadow: none; margin: 0; max-width: 100%; border-radius: 0; }
+    .page-break-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ══════════ COVER ══════════ -->
+  <div class="cover">
+    <h1>Digital Street Smarts</h1>
+    <h2>Navigating online risks</h2>
+    <p class="subtitle">Course takeaway</p>
+  </div>
+
+  <!-- STAT ROW -->
+  <div class="stats-row">
+    <div class="stat-cell">
+      <span class="stat-number">$5 Billion</span>
+      <span class="stat-label">lost by older adults to online fraud in 2024 (FBI, 2024)</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">4 Lessons</span>
+      <span class="stat-label">covering the most common online threats today</span>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-number">1 Strategy</span>
+      <span class="stat-label">Stop · Verify · Report · Block</span>
+    </div>
+  </div>
+
+  <!-- CALLOUT -->
+  <div style="padding: 20px 48px 0;">
+    <div class="callout callout-blue">
+      You do not need to be a technology expert to protect yourself. What you need is awareness, a few practical skills, and the habit of <strong>pausing before you act</strong>. That is exactly what this guide gives you.
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <div class="toc-row"><span class="toc-label">📧 Lesson 1</span><span class="toc-desc">Scam Emails, Calls &amp; Texts</span></div>
+    <div class="toc-row"><span class="toc-label">🌐 Lesson 2</span><span class="toc-desc">Websites</span></div>
+    <div class="toc-row"><span class="toc-label">🤖 Lesson 3</span><span class="toc-desc">AI-Generated Content &amp; Deepfakes</span></div>
+    <div class="toc-row"><span class="toc-label">🧰 Lesson 4</span><span class="toc-desc">Emergency Toolbox</span></div>
+  </div>
+
+  <!-- ══════════ CONTENT ══════════ -->
+  <div class="content">
+
+    <!-- ── LESSON 1 ── -->
+    <div class="section-divider">
+      <h2>Lesson 1: Scam Emails, Calls &amp; Texts</h2>
+    </div>
+    <p class="intro-para">
+      Every day, millions of people receive messages designed to trick them. Scammers reach out by email, phone, and text — often pretending to be your bank, a government agency, a delivery company, or a family member in trouble. Their goal: get you to act quickly before you have time to think.
+    </p>
+
+    <!-- Red flags card -->
+    <div class="card card-red">
+      <div class="card-header">🚩 Email Red Flags to Watch For</div>
+      <div class="card-body">
+        <ul>
+          <li>Urgent or threatening subject lines — <em>"Act now!"</em> / <em>"Your account will be deleted"</em></li>
+          <li>Sender email doesn't match the company (e.g. support@<strong>paypa1</strong>.com instead of paypal.com)</li>
+          <li>Generic greetings like <em>"Dear Customer"</em> instead of your name</li>
+          <li>Spelling mistakes, odd symbols, or awkward grammar</li>
+          <li>Suspicious links or unexpected file attachments</li>
+          <li>Requests for payment by gift card, wire transfer, or cryptocurrency</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Hover technique card -->
+    <div class="card card-teal">
+      <div class="card-header">✅ The Hover-before-you-click technique</div>
+      <div class="card-body">
+        <p><strong>On a computer:</strong> Move your mouse over a link without clicking. The real web address will appear in the bottom-left corner of your screen. Check it carefully before clicking.</p>
+        <p><strong>On a phone or tablet:</strong> Press and hold the link until a preview appears. Slide your finger away — then lift — to avoid accidentally opening it.</p>
+        <p><strong>The safest option:</strong> Type the official website address yourself in your browser rather than clicking any link.</p>
+      </div>
+    </div>
+
+    <!-- Scam types table -->
+    <p style="font-weight:700; margin-bottom:8px;">Common scam types at a glance</p>
+    <table class="data-table">
+      <thead><tr><th style="width:22%">Scam type</th><th style="width:42%">How it works</th><th style="width:36%">Your defense</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="row-label">Grandchild scam</td>
+          <td>Pretends to be a family member in urgent trouble — accident, arrest, stranded abroad</td>
+          <td class="row-action">Hang up. Call that family member directly on a number you already have saved.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Government impersonation</td>
+          <td>Fake IRS, Social Security, or Medicare claims — threatening arrest or benefit loss</td>
+          <td class="row-action">Hang up. Real agencies send letters by mail first. Call their official number.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Tech support scam</td>
+          <td>Fake Microsoft/Apple alert; asks you to install software or pay to "fix" a virus</td>
+          <td class="row-action">Do not call the number. Real companies do not contact you this way.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Phishing email</td>
+          <td>Fake bank or store email with a link to a lookalike website to steal your login</td>
+          <td class="row-action">Do not click. Type the company's address yourself in your browser.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-red">
+      🚨 No legitimate business or government agency will EVER ask you to pay using a gift card, wire transfer, or cryptocurrency. If they do — it is a scam, 100% of the time.
+    </div>
+
+    <!-- ── LESSON 2 ── -->
+    <div class="section-divider">
+      <h2>Lesson 2: Websites</h2>
+    </div>
+    <p class="intro-para">
+      Getting you to click a link is only the first step. Once you land on a fake website, scammers need you to trust it enough to enter your personal or financial information. Fraudulent sites copy the logos, colors, and layouts of real companies. <strong>A website can look completely real and still be fake.</strong>
+    </p>
+
+    <!-- URL card -->
+    <div class="card card-navy">
+      <div class="card-header">🌐 Reading a web address (URL)</div>
+      <div class="card-body">
+        <p>A web address (URL) has two key parts to check:</p>
+        <ul>
+          <li><strong>https://</strong> — the "S" means the connection is encrypted (secure). If it only says "http://" (no S), leave immediately.</li>
+          <li><strong>The domain name</strong> — e.g. amazon.com — look for misspellings or unusual extensions.</li>
+        </ul>
+        <p style="margin-top:10px;">⚠️ Watch for tricks like:</p>
+        <ul>
+          <li>Replacing letters with numbers: <strong>paypa1.com</strong> instead of paypal.com</li>
+          <li>Extra words added: <strong>amazon-support-help.com</strong> instead of amazon.com</li>
+          <li>Wrong extension: <strong>irs.net</strong> instead of irs.gov</li>
+        </ul>
+        <p style="margin-top:10px;">💡 The padlock icon (🔒) in your browser means the connection is encrypted — but scammers can have it too. Always also check the domain name.</p>
+      </div>
+    </div>
+
+    <!-- Fake store table -->
+    <p style="font-weight:700; margin-bottom:8px;">Spotting a fake online store</p>
+    <table class="data-table teal-rows">
+      <thead class="teal"><tr><th style="width:30%">Warning sign</th><th>What to look for</th></tr></thead>
+      <tbody>
+        <tr><td class="row-label">🏷️ Extreme discounts</td><td>70–90% off luxury or designer goods is almost certainly a scam</td></tr>
+        <tr><td class="row-label">📷 Stolen photos</td><td>Same photo on multiple sites with different brand names</td></tr>
+        <tr><td class="row-label">⭐ No reviews</td><td>No feedback history, or all reviews posted on the same day</td></tr>
+        <tr><td class="row-label">📞 No contact info</td><td>No phone number, address, or verifiable email on the site</td></tr>
+        <tr><td class="row-label">💳 Unusual payment</td><td>Only accepts gift cards, cryptocurrency, or wire transfers</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Safety checklist -->
+    <div class="card card-green">
+      <div class="card-header">✅ Website safety checklist — Ask yourself before entering any information</div>
+      <div class="card-body">
+        <ul>
+          <li>✅ Did I arrive here by typing the address myself (not by clicking a link)?</li>
+          <li>✅ Does the address start with <strong>https://</strong>?</li>
+          <li>✅ Is the domain name spelled correctly?</li>
+          <li>✅ Does this site have real contact information?</li>
+          <li>✅ Have I searched the site name + "scam" to check its reputation?</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-amber">
+      <strong>The golden rule:</strong> NEVER enter personal or financial information on a website until you have verified it is legitimate.
+    </div>
+
+    <!-- ── LESSON 3 ── -->
+    <div class="section-divider">
+      <h2>Lesson 3: AI-generated content &amp; deepfakes</h2>
+    </div>
+    <p class="intro-para">
+      Artificial Intelligence (AI) can now create realistic fake photos, clone voices from just a few seconds of audio, and generate convincing videos of real people saying things they never said. These are called <strong>deepfakes</strong>. You do not need to spot every fake — you just need a healthy sense of caution and the habit of verifying before acting.
+    </p>
+
+    <!-- Visual clues -->
+    <div class="card card-navy">
+      <div class="card-header">👀 Visual clues in photos &amp; videos</div>
+      <div class="card-body">
+        <ul>
+          <li>👐 <strong>Hands and fingers</strong> look twisted, missing, or have too many digits</li>
+          <li>👁️ <strong>Blinking</strong> is too frequent, too rare, or unnatural</li>
+          <li>👄 <strong>Lip sync</strong> is slightly off — words don't quite match the mouth movements</li>
+          <li>🌫️ <strong>Edges</strong> around hair, face, or background are blurry or smudged</li>
+          <li>💡 <strong>Lighting and shadows</strong> look uneven or fall in the wrong direction</li>
+          <li>🔄 <strong>Inconsistencies</strong> — hair color, clothing, or skin tone changes mid-video</li>
+          <li>📏 <strong>Very short</strong> — AI deepfake videos are often only a few seconds long</li>
+          <li>🔤 <strong>Text in images</strong> looks distorted or doesn't make sense</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Audio clues -->
+    <div class="card card-teal">
+      <div class="card-header">👂 Audio clues in voice messages</div>
+      <div class="card-body">
+        <ul>
+          <li>🎵 <strong>Unnaturally smooth or flat tone</strong> — no emotion or variation in the voice</li>
+          <li>💨 <strong>No breathing sounds</strong> — real speech includes natural pauses and breaths</li>
+          <li>⏱️ <strong>Strange pacing</strong> — words come too quickly, too evenly, or with odd pauses</li>
+          <li>🗣️ <strong>Mispronunciations</strong> — certain words sound slightly off or oddly emphasized</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- AI scams table -->
+    <p style="font-weight:700; margin-bottom:8px;">Common AI scam scenarios</p>
+    <table class="data-table">
+      <thead><tr><th style="width:22%">AI scam type</th><th style="width:42%">How it works</th><th style="width:36%">Your defense</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="row-label">Voice cloning</td>
+          <td>Uses a few seconds of a real person's voice to fake a call from a loved one in trouble</td>
+          <td class="row-action">Hang up. Call that person directly on a number you already have.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Fake celebrity endorsements</td>
+          <td>AI video of a celebrity promoting a fake investment or product</td>
+          <td class="row-action">Real celebrities don't endorse products in unsolicited videos. Ignore it.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Romance scams</td>
+          <td>Fake profile with AI-generated photo builds a relationship, then asks for money</td>
+          <td class="row-action">Never send money to someone you haven't met in person.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-amber">
+      If a video, photo, or voice message feels unusual — or asks you to do something urgently or provide personal information — <strong>stop and verify through a separate channel</strong> before taking any action.
+    </div>
+
+    <!-- ── LESSON 4 ── -->
+    <div class="section-divider">
+      <h2>Lesson 4: Your Emergency Toolbox</h2>
+    </div>
+    <p class="intro-para">
+      Scams can happen to anyone, even when you are being careful. What matters most is knowing what to do in the moment. This toolbox gives you a clear, simple plan to stay calm, take control, and protect yourself.
+    </p>
+
+    <!-- STOP VERIFY REPORT BLOCK -->
+    <div class="steps-grid">
+      <div class="step-card step-card-red">
+        <span class="step-word">STOP</span>
+        <span class="step-emoji">🛑</span>
+      </div>
+      <div class="step-card step-card-teal">
+        <span class="step-word">VERIFY</span>
+        <span class="step-emoji">🔎</span>
+      </div>
+      <div class="step-card step-card-amber">
+        <span class="step-word">REPORT</span>
+        <span class="step-emoji">📝</span>
+      </div>
+      <div class="step-card step-card-purple">
+        <span class="step-word">BLOCK</span>
+        <span class="step-emoji">🚫</span>
+      </div>
+    </div>
+
+    <div class="step-detail step-detail-red">
+      <h4>🛑 STOP</h4>
+      <ul>
+        <li>Do not respond right away</li>
+        <li>Do not click links or open attachments</li>
+        <li>Do not share any personal information</li>
+        <li>If you are on a call — hang up</li>
+      </ul>
+    </div>
+    <div class="step-detail step-detail-teal">
+      <h4>🔎 VERIFY</h4>
+      <ul>
+        <li>Call your bank using the number on your card</li>
+        <li>Contact the person directly on a number you already have saved</li>
+        <li>Visit official websites by typing the address yourself</li>
+        <li>Never use contact details provided in the suspicious message</li>
+      </ul>
+    </div>
+    <div class="step-detail step-detail-amber">
+      <h4>📝 REPORT</h4>
+      <ul>
+        <li>Report to the FTC: reportfraud.ftc.gov or call 1-877-382-4357</li>
+        <li>Report to the FBI: ic3.gov</li>
+        <li>Forward suspicious texts to 7726 (SPAM)</li>
+        <li>Use the "Report Spam" or "Report Phishing" option in your email</li>
+      </ul>
+    </div>
+    <div class="step-detail step-detail-purple">
+      <h4>🚫 BLOCK &amp; DELETE</h4>
+      <ul>
+        <li>Block the phone number or sender</li>
+        <li>Delete the message</li>
+        <li>Do not reply — even to messages that say "STOP" or "UNSUBSCRIBE"</li>
+      </ul>
+    </div>
+
+    <p style="font-weight:700; margin: 20px 0 8px;">If you think you've already been scammed</p>
+    <table class="data-table red-rows">
+      <thead class="red"><tr><th style="width:32%">What happened</th><th>What to do right away</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="row-label">Shared a password</td>
+          <td>Change it immediately. Update any account that uses the same password.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Shared bank or card info</td>
+          <td>Call your bank right away. Ask them to freeze your card and monitor your account.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Shared your Social Security Number</td>
+          <td>Place a credit freeze with Equifax (1-800-525-6285), Experian (1-888-397-3742), and TransUnion (1-800-680-7289). Visit identitytheft.gov.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Clicked a suspicious link</td>
+          <td>Close the page. Run a virus scan on your device. Change your passwords.</td>
+        </tr>
+        <tr>
+          <td class="row-label">Gave remote access to your device</td>
+          <td>Disconnect from internet. Turn off device. Change passwords from another device. Contact your bank.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── QUICK REFERENCE ── -->
+    <div class="section-divider">
+      <h2>Quick Reference: Key Contacts &amp; Resources</h2>
+    </div>
+
+    <table class="resource-table">
+      <thead><tr><th style="width:34%">Organization</th><th style="width:32%">Contact</th><th>For</th></tr></thead>
+      <tbody>
+        <tr><td>Federal Trade Commission (FTC)</td><td>reportfraud.ftc.gov<br>1-877-382-4357</td><td>Report scams and fraud</td></tr>
+        <tr><td>FBI Internet Crime Complaint Center</td><td>ic3.gov</td><td>Report internet crime</td></tr>
+        <tr><td>Identity Theft Recovery</td><td>identitytheft.gov</td><td>Personalized recovery plan</td></tr>
+        <tr><td>Equifax Credit Freeze</td><td>1-800-525-6285<br>equifax.com</td><td>Freeze credit after SSN theft</td></tr>
+        <tr><td>Experian Credit Freeze</td><td>1-888-397-3742<br>experian.com</td><td>Freeze credit after SSN theft</td></tr>
+        <tr><td>TransUnion Credit Freeze</td><td>1-800-680-7289<br>transunion.com</td><td>Freeze credit after SSN theft</td></tr>
+        <tr><td>AARP Fraud Watch Network</td><td>aarp.org/fraud</td><td>Scam alerts and support</td></tr>
+        <tr><td>Senior Planet Tech Hotline</td><td>888-713-3495<br>seniorplanet.org</td><td>Free tech help by phone</td></tr>
+      </tbody>
+    </table>
+
+    <!-- FINAL REMINDER -->
+    <div class="final-reminder">
+      <h3>🧠 Your #1 Defense</h3>
+      <p>Scammers rely on panic, urgency, and trust. Your best protection against all of them is the same simple habit: <strong>pause before you act</strong>. Slow down, look closely, and when in doubt, verify through a source you already know and trust. You are not alone — help is always available.</p>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    Digital Street Smarts: Navigating Online Risks &nbsp;·&nbsp; Course Takeaway &nbsp;·&nbsp; Adult Learners
+  </div>
+
+</div><!-- /page -->
+</body>
+</html>

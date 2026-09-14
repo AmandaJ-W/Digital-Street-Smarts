@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spot the Scam: Interactive Email Activity</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background: #f4f5ee;
+      padding: 32px 16px 64px;
+      color: #1a1a1a;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .page-wrap { max-width: 680px; margin: 0 auto; }
+    .page-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6f7461;
+      margin-bottom: 6px;
+    }
+    .page-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+    .page-intro {
+      font-size: 15px;
+      color: #444;
+      margin-bottom: 20px;
+    }
+    .score-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .hint { font-size: 14px; color: #6f7461; }
+    .score-pill {
+      background: #e8f0fe;
+      color: #1a56a0;
+      font-size: 13px;
+      font-weight: bold;
+      padding: 4px 14px;
+      border-radius: 99px;
+    }
+    .email-card {
+      background: #ffffff;
+      border: 1px solid #d4d6c8;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .email-header-bar {
+      background: #1a3a5c;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .email-logo {
+      width: 26px;
+      height: 26px;
+      border-radius: 4px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: #1a3a5c;
+      flex-shrink: 0;
+    }
+    .email-logo-name { color: white; font-size: 13px; font-weight: bold; }
+    .email-meta {
+      padding: 12px 18px;
+      border-bottom: 1px solid #e8e9e0;
+      font-size: 13px;
+    }
+    .email-meta table { width: 100%; border-collapse: collapse; }
+    .email-meta td { padding: 3px 0; vertical-align: top; color: #1a1a1a; }
+    .meta-lbl { color: #777; width: 65px; }
+    .email-body {
+      padding: 18px 22px;
+      font-size: 14px;
+      line-height: 1.85;
+      color: #1a1a1a;
+    }
+    .email-body p { margin: 0 0 12px; }
+    .hotspot {
+      cursor: pointer;
+      border-bottom: 2px dashed #c85a00;
+      padding: 1px 3px;
+      border-radius: 2px;
+      transition: background 0.15s;
+    }
+    .hotspot:hover { background: #fdf0e6; }
+    .hotspot.found { background: #fdf0e6; border-bottom-color: #8a3a00; }
+    .fake-btn {
+      display: inline-block;
+      background: #1a3a5c;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      font-family: Helvetica, Arial, sans-serif;
+      margin: 4px 0;
+    }
+    .fake-btn.found {
+      background: #fdf0e6;
+      color: #8a3a00;
+      border: 1px solid #c85a00;
+    }
+    .email-footer-text {
+      border-top: 1px solid #e8e9e0;
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+    .email-footer-text p {
+      font-size: 11px;
+      color: #999;
+      margin: 0;
+    }
+    .popup-box {
+      display: none;
+      background: #ffffff;
+      border: 1px solid #c85a00;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-size: 14px;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    .popup-box.show { display: block; }
+    .popup-flag-label {
+      display: inline-block;
+      background: #fdf0e6;
+      color: #8a3a00;
+      border: 1px solid #c85a00;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 10px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .congrats {
+      display: none;
+      background: #eaf3de;
+      border: 1px solid #6a9b4a;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-top: 14px;
+      font-size: 14px;
+      color: #2c5a10;
+      font-weight: bold;
+    }
+    .disclaimer {
+      margin-top: 12px;
+      background: #fff3cd;
+      border-left: 4px solid #e8a020;
+      border-radius: 0 6px 6px 0;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #7a4800;
+    }
+    .nav-bar {
+      background: #2c5f2e;
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+    }
+    .nav-title { color: white; font-weight: bold; font-size: 15px; }
+    .nav-lesson { color: rgba(255,255,255,0.75); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="page-wrap">
+
+    <div class="nav-bar">
+      <span class="nav-title">Digital Street Smarts</span>
+      <span class="nav-lesson">Lesson 1: Common Scams</span>
+    </div>
+
+    <p class="page-label">Activity: Lesson 1.2</p>
+    <h1 class="page-title">Can you spot the scam?</h1>
+    <p class="page-intro">Read the email below carefully. Click on any part that looks suspicious to find out why it is a red flag. See if you can find all 6.</p>
+
+    <div class="score-bar">
+      <span class="hint">Click on the suspicious parts of the email.</span>
+      <span class="score-pill" id="score">0 / 6 found</span>
+    </div>
+
+    <div class="email-card">
+
+      <div class="email-header-bar">
+        <div class="email-logo">B</div>
+        <span class="email-logo-name">Bank of America: Security Alerts</span>
+      </div>
+
+      <div class="email-meta">
+        <table>
+          <tr>
+            <td class="meta-lbl">From:</td>
+            <td><span class="hotspot" data-id="1" onclick="reveal(this)">security-alert@bankofamerica-notifications.net</span></td>
+          </tr>
+          <tr>
+            <td class="meta-lbl">To:</td>
+            <td>you@email.com</td>
+          </tr>
+          <tr>
+            <td class="meta-lbl">Subject:</td>
+            <td style="font-weight:bold;"><span class="hotspot" data-id="2" onclick="reveal(this)">URGENT!! Your Acount Has Been Temporarly Suspended</span></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="email-body">
+
+        <p>Dear <span class="hotspot" data-id="3" onclick="reveal(this)">Costumer</span>,</p>
+
+        <p>We are writing to inform you that your Bank of America account has been <span class="hotspot" data-id="4" onclick="reveal(this)">temporarly suspended due to a security issue. To reactivate your account, please click the link below immeditaly or your account will be permanently closed within 24 hours.</span></p>
+
+        <p><button class="fake-btn hotspot" data-id="5" onclick="reveal(this)">Verify My Account Now</button></p>
+
+        <p style="margin-bottom:4px;">Sincerely,</p>
+        <p>Bank of America <span class="hotspot" data-id="6" onclick="reveal(this)">Costumer Security Departement</span></p>
+
+        <div class="email-footer-text">
+          <p>Bank of America Corporation, 100 North Tryon Street, Charlotte, NC 28255</p>
+          <p style="margin-top:3px;">This is an automated message. Please do not reply to this email.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="popup-box" id="popup-box">
+      <div class="popup-flag-label" id="popup-label"></div>
+      <div id="popup-text"></div>
+    </div>
+
+    <div class="congrats" id="congrats">
+      &#10003; Well done! You found all 6 red flags. You are now better equipped to spot a scam email in real life.
+    </div>
+
+    <div class="disclaimer">
+      This is a simulated scam email created for educational purposes only. It is not a real Bank of America communication.
+    </div>
+
+  </div>
+
+  <script>
+    var found = 0;
+    var total = 6;
+    var explanations = {
+      '1': {
+        label: 'Red flag 1: Fake sender address',
+        text: 'The real Bank of America sends emails from @bankofamerica.com. This address uses "bankofamerica-notifications.net" a fake domain designed to look official at a quick glance. Always check the full email address carefully, not just the display name.'
+      },
+      '2': {
+        label: 'Red flag 2: Urgency and spelling errors',
+        text: 'All caps and double exclamation marks are scare tactics designed to create panic. Look closely: "Acount" and "Temporarly" are both misspelled. A real bank would never send an email with errors like these.'
+      },
+      '3': {
+        label: 'Red flag 3: Generic misspelled greeting',
+        text: '"Costumer" is a misspelling of "Customer." Your real bank knows your name and would address you personally, not with a generic, misspelled greeting.'
+      },
+      '4': {
+        label: 'Red flag 4: Spelling errors and threats',
+        text: 'Spelling errors ("temporarly," "immeditaly") and a 24-hour deadline are designed to cause panic and stop you from thinking clearly. Scammers use urgency so you act before you have time to verify whether the message is real.'
+      },
+      '5': {
+        label: 'Red flag 5: Suspicious button',
+        text: 'Never click a button or link in an unexpected email. Instead, open your browser and type your bank\'s web address directly into the address bar to check your account.'
+      },
+      '6': {
+        label: 'Red flag 6: Spelling errors in sign-off',
+        text: '"Costumer" and "Departement" are both misspelled. A legitimate bank communication is professionally written and carefully proofread. Multiple spelling errors throughout an email are a strong sign that it is fraudulent.'
+      }
+    };
+
+    function reveal(el) {
+      var id = el.getAttribute('data-id');
+      var box = document.getElementById('popup-box');
+      document.getElementById('popup-label').textContent = explanations[id].label;
+      document.getElementById('popup-text').textContent = explanations[id].text;
+      box.classList.add('show');
+      if (!el.classList.contains('found')) {
+        el.classList.add('found');
+        found++;
+        document.getElementById('score').textContent = found + ' / ' + total + ' found';
+        if (found === total) {
+          document.getElementById('congrats').style.display = 'block';
+        }
+      }
+    }
+  </script>
+
+</body>
+</html>

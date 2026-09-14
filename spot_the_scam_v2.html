@@ -82,6 +82,26 @@
     }
     .nav-title { color: white; font-weight: bold; font-size: 1rem; }
     .nav-lesson { color: rgba(255,255,255,0.85); font-size: 0.875rem; }
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.5);
+      border-radius: 6px;
+      padding: 0.4rem 0.875rem;
+      font-size: 0.875rem;
+      font-weight: bold;
+      font-family: var(--font);
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      min-height: 44px;
+    }
+    .back-btn:hover { background: rgba(255,255,255,0.25); }
+    .back-btn:focus { outline: 3px solid white; outline-offset: 2px; }
+    .back-arrow { font-size: 1rem; line-height: 1; }
 
     .intro-box {
       background: var(--white);
@@ -308,14 +328,19 @@
   <div class="page-wrap">
 
     <nav class="nav-bar" aria-label="Course navigation">
-      <span class="nav-title">Digital Street Smarts</span>
-      <span class="nav-lesson">Lesson 1: Common Scams</span>
+      <div>
+        <span class="nav-title">Digital Street Smarts</span><br>
+        <span class="nav-lesson">Lesson 1: Common Scams</span>
+      </div>
+      <button class="back-btn" onclick="goBack()" aria-label="Close this tab and return to Lesson 1">
+        <span class="back-arrow">&#8592;</span> Back to Lesson 1
+      </button>
     </nav>
 
     <main id="activity">
 
       <div class="intro-box">
-        <p class="page-label">Activity: Lesson 1</p>
+        <p class="page-label">Activity: Lesson 1.2</p>
         <h1 class="page-title">Can you spot the scam?</h1>
         <p class="page-intro">Read the email below carefully. Click or tap on any part that looks suspicious to find out why it is a red flag. See if you can find all 6.</p>
       </div>
@@ -422,6 +447,10 @@
         text: '"Costumer" and "Departement" are both misspelled. A legitimate bank communication is professionally written and carefully proofread. Multiple spelling errors throughout an email are a strong sign that it is fraudulent.'
       }
     };
+
+    function goBack() {
+      window.close();
+    }
 
     function reveal(el) {
       var id = el.getAttribute('data-id');

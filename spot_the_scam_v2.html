@@ -6,256 +6,382 @@
   <title>Spot the Scam: Interactive Email Activity</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Helvetica, Arial, sans-serif;
-      background: #f4f5ee;
-      padding: 32px 16px 64px;
-      color: #1a1a1a;
-      font-size: 16px;
-      line-height: 1.6;
+
+    :root {
+      --font: Helvetica, Arial, sans-serif;
+      --text: #1a1a1a;
+      --text-mid: #3d3d3d;
+      --bg: #f5f5f0;
+      --white: #ffffff;
+      --border: #b0b0a0;
+      --navy: #1a3a5c;
+      --green: #1e4d20;
+      --danger-bg: #fff3e0;
+      --danger-border: #b34700;
+      --danger-text: #6b2a00;
+      --success-bg: #e6f4e6;
+      --success-border: #2e7d32;
+      --success-text: #1a4d1c;
+      --warning-bg: #fff8e1;
+      --warning-border: #f57c00;
+      --warning-text: #5c3800;
+      --focus: #0057b8;
     }
-    .page-wrap { max-width: 680px; margin: 0 auto; }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      padding: 2rem 1rem 4rem;
+      color: var(--text);
+      font-size: 1.125rem;
+      line-height: 1.7;
+    }
+
+    a:focus, button:focus, [tabindex]:focus, span[onclick]:focus {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -999px;
+      left: 0;
+      background: var(--focus);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 0 0 8px 0;
+      z-index: 999;
+      text-decoration: none;
+    }
+    .skip-link:focus { top: 0; }
+
+    .page-wrap { max-width: 700px; margin: 0 auto; }
+
+    .nav-bar {
+      background: var(--green);
+      padding: 0.875rem 1.25rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+    }
+    .nav-title { color: white; font-weight: bold; font-size: 1rem; }
+    .nav-lesson { color: rgba(255,255,255,0.85); font-size: 0.875rem; }
+
     .page-label {
-      font-size: 12px;
+      font-size: 1rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #6f7461;
-      margin-bottom: 6px;
+      color: #3a3a2a;
+      margin-bottom: 0.375rem;
+      font-weight: bold;
     }
     .page-title {
-      font-size: 22px;
+      font-size: 1.5rem;
       font-weight: bold;
-      color: #1a1a1a;
-      margin-bottom: 6px;
+      color: var(--text);
+      margin-bottom: 0.5rem;
     }
     .page-intro {
-      font-size: 15px;
-      color: #444;
-      margin-bottom: 20px;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      max-width: 620px;
+      font-weight: bold;
     }
+
     .score-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 14px;
+      margin-bottom: 0.875rem;
+      flex-wrap: wrap;
+      gap: 8px;
     }
-    .hint { font-size: 14px; color: #6f7461; }
+    .hint { font-size: 0.9rem; color: #3a3a2a; font-weight: bold; }
     .score-pill {
-      background: #e8f0fe;
-      color: #1a56a0;
-      font-size: 13px;
+      background: #dceeff;
+      color: #003a7a;
+      font-size: 0.875rem;
       font-weight: bold;
-      padding: 4px 14px;
+      padding: 0.25rem 0.875rem;
       border-radius: 99px;
+      border: 1px solid #6699cc;
     }
+
     .email-card {
-      background: #ffffff;
-      border: 1px solid #d4d6c8;
+      background: var(--white);
+      border: 2px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
     }
+
     .email-header-bar {
-      background: #1a3a5c;
-      padding: 12px 18px;
+      background: var(--navy);
+      padding: 0.75rem 1.125rem;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 0.625rem;
     }
     .email-logo {
-      width: 26px;
-      height: 26px;
+      width: 30px;
+      height: 30px;
       border-radius: 4px;
       background: white;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
+      font-size: 0.875rem;
       font-weight: bold;
-      color: #1a3a5c;
+      color: var(--navy);
       flex-shrink: 0;
+      font-family: var(--font);
     }
-    .email-logo-name { color: white; font-size: 13px; font-weight: bold; }
+    .email-logo-name { color: white; font-size: 0.875rem; font-weight: bold; }
+
     .email-meta {
-      padding: 12px 18px;
-      border-bottom: 1px solid #e8e9e0;
-      font-size: 13px;
+      padding: 0.75rem 1.125rem;
+      border-bottom: 1px solid #d0d0c0;
+      font-size: 0.9rem;
     }
     .email-meta table { width: 100%; border-collapse: collapse; }
-    .email-meta td { padding: 3px 0; vertical-align: top; color: #1a1a1a; }
-    .meta-lbl { color: #777; width: 65px; }
+    .email-meta td { padding: 0.2rem 0; vertical-align: top; color: var(--text); }
+    .meta-lbl { color: #5a5a4a; width: 70px; font-weight: bold; }
+
     .email-body {
-      padding: 18px 22px;
-      font-size: 14px;
+      padding: 1.125rem 1.375rem;
+      font-size: 1rem;
       line-height: 1.85;
-      color: #1a1a1a;
+      color: var(--text);
     }
-    .email-body p { margin: 0 0 12px; }
+    .email-body p { margin: 0 0 0.75rem; }
+
     .hotspot {
       cursor: pointer;
-      border-bottom: 2px dashed #c85a00;
-      padding: 1px 3px;
-      border-radius: 2px;
+      border: none;
+      border-bottom: 3px dashed var(--danger-border);
+      padding: 2px 4px;
+      border-radius: 3px;
+      background: transparent;
+      color: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: inherit;
+      text-align: left;
+      display: inline;
       transition: background 0.15s;
+      -webkit-appearance: none;
+      appearance: none;
+      box-shadow: none;
     }
-    .hotspot:hover { background: #fdf0e6; }
-    .hotspot.found { background: #fdf0e6; border-bottom-color: #8a3a00; }
+    .hotspot:hover { background: var(--danger-bg); }
+    .hotspot:focus {
+      background: var(--danger-bg);
+      outline: 3px solid var(--focus);
+      outline-offset: 2px;
+    }
+    .hotspot.found {
+      background: var(--danger-bg);
+      border-bottom-color: var(--danger-text);
+    }
+
     .fake-btn {
       display: inline-block;
-      background: #1a3a5c;
+      background: var(--navy);
       color: white;
-      padding: 10px 22px;
-      border-radius: 5px;
-      font-size: 13px;
+      padding: 0.75rem 1.375rem;
+      border-radius: 6px;
+      font-size: 1rem;
       font-weight: bold;
       cursor: pointer;
       border: none;
-      font-family: Helvetica, Arial, sans-serif;
-      margin: 4px 0;
+      font-family: var(--font);
+      margin: 0.25rem 0;
+      min-height: 44px;
+      text-align: left;
+      -webkit-appearance: none;
+      appearance: none;
+      box-shadow: none;
+    }
+    .fake-btn.hotspot {
+      border-bottom: 3px dashed var(--danger-border);
     }
     .fake-btn.found {
-      background: #fdf0e6;
-      color: #8a3a00;
-      border: 1px solid #c85a00;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 2px solid var(--danger-border);
     }
+
     .email-footer-text {
-      border-top: 1px solid #e8e9e0;
-      padding-top: 10px;
-      margin-top: 4px;
+      border-top: 1px solid #d0d0c0;
+      padding-top: 0.625rem;
+      margin-top: 0.25rem;
     }
     .email-footer-text p {
-      font-size: 11px;
-      color: #999;
-      margin: 0;
+      font-size: 0.8rem;
+      color: #777;
+      margin: 0 0 0.2rem;
     }
+
     .popup-box {
       display: none;
-      background: #ffffff;
-      border: 1px solid #c85a00;
+      background: var(--white);
+      border: 2px solid var(--danger-border);
       border-radius: 8px;
-      padding: 14px 16px;
-      margin-top: 14px;
-      font-size: 14px;
-      color: #1a1a1a;
-      line-height: 1.6;
+      padding: 1rem 1.125rem;
+      margin-top: 0.875rem;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.65;
     }
     .popup-box.show { display: block; }
     .popup-flag-label {
       display: inline-block;
-      background: #fdf0e6;
-      color: #8a3a00;
-      border: 1px solid #c85a00;
-      font-size: 11px;
+      background: var(--danger-bg);
+      color: var(--danger-text);
+      border: 1px solid var(--danger-border);
+      font-size: 0.8rem;
       font-weight: bold;
-      padding: 2px 10px;
+      padding: 0.2rem 0.625rem;
       border-radius: 4px;
-      margin-bottom: 8px;
+      margin-bottom: 0.5rem;
     }
+    .popup-text { color: var(--text-mid); }
+
     .congrats {
       display: none;
-      background: #eaf3de;
-      border: 1px solid #6a9b4a;
+      background: var(--success-bg);
+      border: 2px solid var(--success-border);
       border-radius: 8px;
-      padding: 14px 16px;
-      margin-top: 14px;
-      font-size: 14px;
-      color: #2c5a10;
+      padding: 1rem 1.125rem;
+      margin-top: 0.875rem;
+      font-size: 1rem;
+      color: var(--success-text);
       font-weight: bold;
     }
+
     .disclaimer {
-      margin-top: 12px;
-      background: #fff3cd;
-      border-left: 4px solid #e8a020;
+      margin-top: 0.875rem;
+      background: var(--warning-bg);
+      border-left: 5px solid var(--warning-border);
       border-radius: 0 6px 6px 0;
-      padding: 10px 14px;
-      font-size: 13px;
-      color: #7a4800;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      color: var(--warning-text);
     }
-    .nav-bar {
-      background: #2c5f2e;
-      padding: 12px 20px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 28px;
+
+    @media (max-width: 480px) {
+      body { font-size: 1rem; padding: 1rem 0.75rem 3rem; }
+      .page-title { font-size: 1.25rem; }
+      .email-body { padding: 1rem; font-size: 0.95rem; }
+      .email-meta { padding: 0.625rem 1rem; }
     }
-    .nav-title { color: white; font-weight: bold; font-size: 15px; }
-    .nav-lesson { color: rgba(255,255,255,0.75); font-size: 13px; }
   </style>
 </head>
 <body>
+
+  <a class="skip-link" href="#activity">Skip to activity</a>
+
   <div class="page-wrap">
 
-    <div class="nav-bar">
+    <nav class="nav-bar" aria-label="Course navigation">
       <span class="nav-title">Digital Street Smarts</span>
       <span class="nav-lesson">Lesson 1: Common Scams</span>
-    </div>
+    </nav>
 
-    <p class="page-label">Activity: Lesson 1.2</p>
-    <h1 class="page-title">Can you spot the scam?</h1>
-    <p class="page-intro">Read the email below carefully. Click on any part that looks suspicious to find out why it is a red flag. See if you can find all 6.</p>
+    <main id="activity">
 
-    <div class="score-bar">
-      <span class="hint">Click on the suspicious parts of the email.</span>
-      <span class="score-pill" id="score">0 / 6 found</span>
-    </div>
+      <p class="page-label">Activity: Lesson 1.2</p>
+      <h1 class="page-title">Can you spot the scam?</h1>
+      <p class="page-intro">Read the email below carefully. Click or tap on any part that looks suspicious to find out why it is a red flag. See if you can find all 6.</p>
 
-    <div class="email-card">
-
-      <div class="email-header-bar">
-        <div class="email-logo">B</div>
-        <span class="email-logo-name">Bank of America: Security Alerts</span>
+      <div class="score-bar">
+        <span class="hint" aria-live="polite">Click on the suspicious parts of the email.</span>
+        <span class="score-pill" id="score" aria-live="polite" aria-atomic="true">0 / 6 found</span>
       </div>
 
-      <div class="email-meta">
-        <table>
-          <tr>
-            <td class="meta-lbl">From:</td>
-            <td><span class="hotspot" data-id="1" onclick="reveal(this)">security-alert@bankofamerica-notifications.net</span></td>
-          </tr>
-          <tr>
-            <td class="meta-lbl">To:</td>
-            <td>you@email.com</td>
-          </tr>
-          <tr>
-            <td class="meta-lbl">Subject:</td>
-            <td style="font-weight:bold;"><span class="hotspot" data-id="2" onclick="reveal(this)">URGENT!! Your Acount Has Been Temporarly Suspended</span></td>
-          </tr>
-        </table>
-      </div>
+      <article class="email-card" aria-label="Example scam email for educational purposes">
 
-      <div class="email-body">
-
-        <p>Dear <span class="hotspot" data-id="3" onclick="reveal(this)">Costumer</span>,</p>
-
-        <p>We are writing to inform you that your Bank of America account has been <span class="hotspot" data-id="4" onclick="reveal(this)">temporarly suspended due to a security issue. To reactivate your account, please click the link below immeditaly or your account will be permanently closed within 24 hours.</span></p>
-
-        <p><button class="fake-btn hotspot" data-id="5" onclick="reveal(this)">Verify My Account Now</button></p>
-
-        <p style="margin-bottom:4px;">Sincerely,</p>
-        <p>Bank of America <span class="hotspot" data-id="6" onclick="reveal(this)">Costumer Security Departement</span></p>
-
-        <div class="email-footer-text">
-          <p>Bank of America Corporation, 100 North Tryon Street, Charlotte, NC 28255</p>
-          <p style="margin-top:3px;">This is an automated message. Please do not reply to this email.</p>
+        <div class="email-header-bar" role="presentation">
+          <div class="email-logo" aria-hidden="true">B</div>
+          <span class="email-logo-name">Bank of America: Security Alerts</span>
         </div>
 
+        <div class="email-meta">
+          <table>
+            <caption class="sr-only">Email header information</caption>
+            <tbody>
+              <tr>
+                <td class="meta-lbl">From:</td>
+                <td>
+                  <button class="hotspot" data-id="1" onclick="reveal(this)" aria-label="Suspicious sender address: click to find out why this is a red flag">security-alert@bankofamerica-notifications.net</button>
+                </td>
+              </tr>
+              <tr>
+                <td class="meta-lbl">To:</td>
+                <td>you@email.com</td>
+              </tr>
+              <tr>
+                <td class="meta-lbl">Subject:</td>
+                <td style="font-weight:bold;">
+                  <button class="hotspot" data-id="2" onclick="reveal(this)" aria-label="Suspicious subject line: click to find out why this is a red flag">URGENT!! Your Acount Has Been Temporarly Suspended</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="email-body">
+
+          <p>Dear <button class="hotspot" data-id="3" onclick="reveal(this)" aria-label="Suspicious greeting: click to find out why this is a red flag">Costumer</button>,</p>
+
+          <p>We are writing to inform you that your Bank of America account has been <button class="hotspot" data-id="4" onclick="reveal(this)" aria-label="Suspicious body text: click to find out why this is a red flag">temporarly suspended due to a security issue. To reactivate your account, please click the link below immeditaly or your account will be permanently closed within 24 hours.</button></p>
+
+          <p>
+            <button class="fake-btn hotspot" data-id="5" onclick="reveal(this)" aria-label="Suspicious button: click to find out why this is a red flag">Verify My Account Now</button>
+          </p>
+
+          <p style="margin-bottom:0.25rem;">Sincerely,</p>
+          <p>Bank of America <button class="hotspot" data-id="6" onclick="reveal(this)" aria-label="Suspicious sign-off: click to find out why this is a red flag">Costumer Security Departement</button></p>
+
+          <div class="email-footer-text">
+            <p>Bank of America Corporation, 100 North Tryon Street, Charlotte, NC 28255</p>
+            <p>This is an automated message. Please do not reply to this email.</p>
+          </div>
+
+        </div>
+      </article>
+
+      <div class="popup-box" id="popup-box" role="status" aria-live="polite" aria-atomic="true">
+        <div class="popup-flag-label" id="popup-label"></div>
+        <p class="popup-text" id="popup-text"></p>
       </div>
-    </div>
 
-    <div class="popup-box" id="popup-box">
-      <div class="popup-flag-label" id="popup-label"></div>
-      <div id="popup-text"></div>
-    </div>
+      <div class="congrats" id="congrats" role="alert">
+        Well done! You found all 6 red flags. You are now better equipped to spot a scam email in real life.
+      </div>
 
-    <div class="congrats" id="congrats">
-      &#10003; Well done! You found all 6 red flags. You are now better equipped to spot a scam email in real life.
-    </div>
+      <div class="disclaimer" role="note">
+        This is a simulated scam email created for educational purposes only. It is not a real Bank of America communication.
+      </div>
 
-    <div class="disclaimer">
-      This is a simulated scam email created for educational purposes only. It is not a real Bank of America communication.
-    </div>
-
+    </main>
   </div>
 
   <script>
@@ -264,7 +390,7 @@
     var explanations = {
       '1': {
         label: 'Red flag 1: Fake sender address',
-        text: 'The real Bank of America sends emails from @bankofamerica.com. This address uses "bankofamerica-notifications.net" a fake domain designed to look official at a quick glance. Always check the full email address carefully, not just the display name.'
+        text: 'The real Bank of America sends emails from @bankofamerica.com. This address uses "bankofamerica-notifications.net", a fake domain designed to look official at a quick glance. Always check the full email address carefully, not just the display name.'
       },
       '2': {
         label: 'Red flag 2: Urgency and spelling errors',
@@ -272,7 +398,7 @@
       },
       '3': {
         label: 'Red flag 3: Generic misspelled greeting',
-        text: '"Costumer" is a misspelling of "Customer." Your real bank knows your name and would address you personally, not with a generic, misspelled greeting.'
+        text: '"Costumer" is a misspelling of "Customer." Your real bank knows your name and would address you personally, not with a generic and misspelled greeting.'
       },
       '4': {
         label: 'Red flag 4: Spelling errors and threats',
@@ -294,12 +420,14 @@
       document.getElementById('popup-label').textContent = explanations[id].label;
       document.getElementById('popup-text').textContent = explanations[id].text;
       box.classList.add('show');
+      box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       if (!el.classList.contains('found')) {
         el.classList.add('found');
         found++;
         document.getElementById('score').textContent = found + ' / ' + total + ' found';
         if (found === total) {
           document.getElementById('congrats').style.display = 'block';
+          document.getElementById('congrats').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
       }
     }

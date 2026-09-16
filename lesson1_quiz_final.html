@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 1 Quiz: Common Scams</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Open Sans", Arial, sans-serif;
+      background: #f5f5f0;
+      padding: 2rem 1rem 4rem;
+      color: #1a1a1a;
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    .wrap { max-width: 680px; margin: 0 auto; }
+
+    .quiz-header {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-left: 6px solid #1e4d20;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .quiz-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #1e4d20;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .quiz-desc {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .progress-bar-wrap {
+      background: #e0e0d8;
+      border-radius: 99px;
+      height: 6px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: #1e4d20;
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .question-card {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .question-card.active { display: block; }
+
+    .q-number {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .q-prompt {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+
+    .option-btn {
+      background: #f5f5f0;
+      border: 1.5px solid #d0d0c8;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-family: "Open Sans", Arial, sans-serif;
+      color: #1a1a1a;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      line-height: 1.5;
+    }
+    .option-btn:hover:not(:disabled) { border-color: #1e4d20; background: #eaf3de; }
+    .option-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+    .option-btn.correct { background: #e6f4e6; border-color: #2e7d32; color: #1a4d1c; font-weight: bold; }
+    .option-btn.incorrect { background: #fdecea; border-color: #c62828; color: #5a1212; }
+    .option-btn.reveal-correct { background: #e6f4e6; border-color: #2e7d32; color: #1a4d1c; }
+    .option-btn:disabled { cursor: default; }
+
+    .hint-btn {
+      background: none;
+      border: none;
+      font-size: 0.88rem;
+      color: #1e4d20;
+      cursor: pointer;
+      font-family: "Open Sans", Arial, sans-serif;
+      padding: 0;
+      text-decoration: underline;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .hint-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
+    .hint-box {
+      background: #fff8e1;
+      border-left: 4px solid #f57c00;
+      border-radius: 0 6px 6px 0;
+      padding: 0.75rem 1rem;
+      font-size: 0.92rem;
+      color: #5c3800;
+      margin-bottom: 0.75rem;
+      display: none;
+    }
+    .hint-box.show { display: block; }
+
+    .feedback-box {
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .feedback-box.show { display: block; }
+    .feedback-box.correct-fb { background: #e6f4e6; border: 1px solid #2e7d32; color: #1a4d1c; }
+    .feedback-box.incorrect-fb { background: #fdecea; border: 1px solid #c62828; color: #5a1212; }
+    .feedback-label { font-weight: bold; margin-bottom: 4px; }
+
+    .nav-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 0.5rem;
+    }
+    .nav-btn {
+      background: #1e4d20;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+      display: none;
+    }
+    .nav-btn:hover { background: #163a18; }
+    .nav-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+    .nav-btn.show { display: inline-block; }
+
+    .results-card {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      display: none;
+    }
+    .results-card.show { display: block; }
+    .results-score {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #1e4d20;
+      margin-bottom: 0.5rem;
+    }
+    .results-label {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+    .results-message {
+      font-size: 1rem;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .retry-btn {
+      background: #1e4d20;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .retry-btn:hover { background: #163a18; }
+    .retry-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
+    @media (max-width: 480px) {
+      body { font-size: 1rem; padding: 1rem 0.75rem 3rem; }
+      .q-prompt { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="quiz-header">
+    <p class="quiz-label">Lesson 1 Check</p>
+    <h1 class="quiz-title">Common Scams</h1>
+    <p class="quiz-desc">Test your understanding of the key concepts from Lesson 1. Select the best answer for each question.</p>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress" style="width: 0%"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card active" id="q1">
+    <p class="q-number">Question 1 of 4</p>
+    <p class="q-prompt">You receive an email from 'support@bankofamerica-notifications.net' warning that your account has been suspended. What should you do first?</p>
+    <button class="hint-btn" onclick="toggleHint('h1', this)">Show hint</button>
+    <div class="hint-box" id="h1">Think about what you learned about sender addresses and suspicious links.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q1', false)">Click the link in the email to log in and check your account.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">Reply to the email asking for more information.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', true)">Go directly to bankofamerica.com by typing it into your browser and log in from there.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">Call the number provided in the email to speak with customer service.</button>
+    </div>
+    <div class="feedback-box" id="fb1"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next1" onclick="nextQ(1)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card" id="q2">
+    <p class="q-number">Question 2 of 4</p>
+    <p class="q-prompt">Which of the following is a red flag that an email may be fraudulent?</p>
+    <button class="hint-btn" onclick="toggleHint('h2', this)">Show hint</button>
+    <div class="hint-box" id="h2">Scammers use a specific tactic to stop you from pausing to verify.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q2', false)">The email addresses you by your full name.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', true)">The email contains spelling errors and demands immediate action.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', false)">The email comes from an address ending in .gov.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', false)">The email includes the company's official logo.</button>
+    </div>
+    <div class="feedback-box" id="fb2"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next2" onclick="nextQ(2)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card" id="q3">
+    <p class="q-number">Question 3 of 4</p>
+    <p class="q-prompt">You receive a phone call from someone who sounds like your grandson. He says he has been arrested abroad and needs $1,500 wired immediately. He asks you not to tell his parents. What is the safest thing to do?</p>
+    <button class="hint-btn" onclick="toggleHint('h3', this)">Show hint</button>
+    <div class="hint-box" id="h3">What did you learn about verifying suspicious calls independently?</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q3', false)">Wire the money immediately. He needs help.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">Ask the caller to send you proof before you wire the money.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', true)">Hang up and call your grandson back using the number you already have saved.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">Call the lawyer the caller mentions to verify the story.</button>
+    </div>
+    <div class="feedback-box" id="fb3"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next3" onclick="nextQ(3)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card" id="q4">
+    <p class="q-number">Question 4 of 4</p>
+    <p class="q-prompt">A caller claims to be from a government agency and says you owe back taxes. They say you will be arrested if you do not pay immediately by gift card. What should you do?</p>
+    <button class="hint-btn" onclick="toggleHint('h4', this)">Show hint</button>
+    <div class="hint-box" id="h4">Think about what you learned about how legitimate government agencies contact people.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Purchase the gift cards and provide the numbers over the phone to avoid arrest.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Ask the caller for their badge number and then pay.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', true)">Hang up. Legitimate government agencies do not demand immediate payment by gift card or threaten arrest over the phone.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Stay on the line and ask the caller to transfer you to their supervisor.</button>
+    </div>
+    <div class="feedback-box" id="fb4"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next4" onclick="showResults()">See my results &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-card" id="results">
+    <div class="results-score" id="score-display"></div>
+    <p class="results-label">out of 4 correct</p>
+    <p class="results-message" id="results-msg"></p>
+    <button class="retry-btn" onclick="restartQuiz()">Try again</button>
+  </div>
+
+</div>
+
+<script>
+  var score = 0;
+  var answered = [false, false, false, false];
+
+  var explanations = {
+    q1: { correct: 'Correct! The sender address uses a fake domain. Never click links or use contact information from a suspicious email. Always type the web address directly into your browser yourself.', incorrect: 'Not quite. The sender address uses a fake domain. You should never click links in suspicious emails. Instead, type the official web address directly into your browser.' },
+    q2: { correct: "That's right. Spelling errors and urgent demands are classic scam tactics. A logo alone does not guarantee legitimacy. Scammers can copy and paste real logos into fake emails.", incorrect: "Think again. Spelling errors and urgent demands are the red flags to watch for. A company logo or a .gov address can be faked or used out of context." },
+    q3: { correct: "Well done. This is a classic grandparent scam. AI can clone voices convincingly. Always hang up and call the person directly using a number you already have saved.", incorrect: "Not the safest choice. This is a grandparent scam. The request for secrecy and urgency are deliberate tactics. Always hang up and call back using a number you already trust." },
+    q4: { correct: "Exactly right. No legitimate government agency will ever demand immediate payment by gift card or threaten arrest over the phone. Hang up and contact the agency directly.", incorrect: "Remember: no legitimate government agency demands payment by gift card or threatens arrest over the phone. Hang up immediately." }
+  };
+
+  function toggleHint(id, btn) {
+    var box = document.getElementById(id);
+    if (box.classList.contains('show')) {
+      box.classList.remove('show');
+      btn.textContent = 'Show hint';
+    } else {
+      box.classList.add('show');
+      btn.textContent = 'Hide hint';
+    }
+  }
+
+  function answer(btn, qid, isCorrect) {
+    var qNum = parseInt(qid.replace('q', ''));
+    if (answered[qNum - 1]) return;
+    answered[qNum - 1] = true;
+
+    var options = btn.parentElement.querySelectorAll('.option-btn');
+    options.forEach(function(o) {
+      o.disabled = true;
+    });
+
+    var fb = document.getElementById('fb' + qNum);
+    var exp = explanations[qid];
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      score++;
+      fb.className = 'feedback-box show correct-fb';
+      fb.innerHTML = '<p class="feedback-label">Correct!</p><p>' + exp.correct + '</p>';
+    } else {
+      btn.classList.add('incorrect');
+      options.forEach(function(o) {
+        if (o.onclick && o.onclick.toString().indexOf('true') > -1) {
+          o.classList.add('reveal-correct');
+        }
+      });
+      fb.className = 'feedback-box show incorrect-fb';
+      fb.innerHTML = '<p class="feedback-label">Not quite.</p><p>' + exp.incorrect + '</p>';
+    }
+
+    document.getElementById('next' + qNum).classList.add('show');
+    updateProgress(qNum);
+  }
+
+  function updateProgress(qNum) {
+    var pct = (qNum / 4) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  function nextQ(current) {
+    document.getElementById('q' + current).classList.remove('active');
+    document.getElementById('q' + (current + 1)).classList.add('active');
+  }
+
+  function showResults() {
+    document.getElementById('q4').classList.remove('active');
+    document.getElementById('progress').style.width = '100%';
+    var results = document.getElementById('results');
+    results.classList.add('show');
+    document.getElementById('score-display').textContent = score + ' / 4';
+
+    var msg;
+    if (score === 4) {
+      msg = 'Excellent work! You answered every question correctly. You are well prepared to spot these common scam tactics.';
+    } else if (score === 3) {
+      msg = 'Good work! You got most questions right. Review the explanations for any questions you missed before moving on.';
+    } else if (score === 2) {
+      msg = 'You are getting there. Take a moment to review the lesson content and read through the explanations, then try again.';
+    } else {
+      msg = 'It looks like this material needs a bit more review. Go back and re-read Lesson 1, then try the quiz again.';
+    }
+    document.getElementById('results-msg').textContent = msg;
+  }
+
+  function restartQuiz() {
+    score = 0;
+    answered = [false, false, false, false];
+
+    for (var i = 1; i <= 4; i++) {
+      var card = document.getElementById('q' + i);
+      card.classList.remove('active');
+      var opts = card.querySelectorAll('.option-btn');
+      opts.forEach(function(o) {
+        o.disabled = false;
+        o.className = 'option-btn';
+      });
+      var fb = document.getElementById('fb' + i);
+      fb.className = 'feedback-box';
+      fb.innerHTML = '';
+      var nb = document.getElementById('next' + i);
+      nb.classList.remove('show');
+      var hb = card.querySelector('.hint-box');
+      hb.classList.remove('show');
+      var hbtn = card.querySelector('.hint-btn');
+      hbtn.textContent = 'Show hint';
+    }
+
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('progress').style.width = '0%';
+    document.getElementById('q1').classList.add('active');
+  }
+</script>
+
+</body>
+</html>

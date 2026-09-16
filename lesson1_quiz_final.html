@@ -211,6 +211,26 @@
     .retry-btn:hover { background: #163a18; }
     .retry-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
 
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e4d20;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+      margin-bottom: 1rem;
+    }
+    .back-btn:hover { background: #163a18; }
+    .back-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
     @media (max-width: 480px) {
       body { font-size: 1rem; padding: 1rem 0.75rem 3rem; }
       .q-prompt { font-size: 1rem; }
@@ -219,6 +239,8 @@
 </head>
 <body>
 <div class="wrap">
+
+  <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 1">&#8592; Back to Lesson 1</button>
 
   <div class="quiz-header">
     <p class="quiz-label">Lesson 1 Check</p>
@@ -308,6 +330,8 @@
     <p class="results-label">out of 4 correct</p>
     <p class="results-message" id="results-msg"></p>
     <button class="retry-btn" onclick="restartQuiz()">Try again</button>
+    <br><br>
+    <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 1">&#8592; Back to Lesson 1</button>
   </div>
 
 </div>

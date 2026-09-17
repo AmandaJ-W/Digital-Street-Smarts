@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Lesson 2 Quiz: Artificial Intelligence Scams</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Open Sans", Arial, sans-serif;
+      background: #f5f5f0;
+      padding: 2rem 1rem 4rem;
+      color: #1a1a1a;
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    .wrap { max-width: 680px; margin: 0 auto; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e4d20;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+      margin-bottom: 1rem;
+    }
+    .back-btn:hover { background: #163a18; }
+    .back-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
+    .quiz-header {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-left: 6px solid #1e4d20;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .quiz-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #1e4d20;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .quiz-desc {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .progress-bar-wrap {
+      background: #e0e0d8;
+      border-radius: 99px;
+      height: 6px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: #1e4d20;
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .question-card {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .question-card.active { display: block; }
+
+    .q-number {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .q-prompt {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+
+    .option-btn {
+      background: #f5f5f0;
+      border: 1.5px solid #d0d0c8;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-family: "Open Sans", Arial, sans-serif;
+      color: #1a1a1a;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      line-height: 1.5;
+    }
+    .option-btn:hover:not(:disabled) { border-color: #1e4d20; background: #eaf3de; }
+    .option-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+    .option-btn.correct { background: #e6f4e6; border-color: #2e7d32; color: #1a4d1c; font-weight: bold; }
+    .option-btn.incorrect { background: #fdecea; border-color: #c62828; color: #5a1212; }
+    .option-btn.reveal-correct { background: #e6f4e6; border-color: #2e7d32; color: #1a4d1c; }
+    .option-btn:disabled { cursor: default; }
+
+    .hint-btn {
+      background: none;
+      border: none;
+      font-size: 0.88rem;
+      color: #1e4d20;
+      cursor: pointer;
+      font-family: "Open Sans", Arial, sans-serif;
+      padding: 0;
+      text-decoration: underline;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .hint-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
+    .hint-box {
+      background: #fff8e1;
+      border-left: 4px solid #f57c00;
+      border-radius: 0 6px 6px 0;
+      padding: 0.75rem 1rem;
+      font-size: 0.92rem;
+      color: #5c3800;
+      margin-bottom: 0.75rem;
+      display: none;
+    }
+    .hint-box.show { display: block; }
+
+    .feedback-box {
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .feedback-box.show { display: block; }
+    .feedback-box.correct-fb { background: #e6f4e6; border: 1px solid #2e7d32; color: #1a4d1c; }
+    .feedback-box.incorrect-fb { background: #fdecea; border: 1px solid #c62828; color: #5a1212; }
+    .feedback-label { font-weight: bold; margin-bottom: 4px; }
+
+    .nav-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 0.5rem;
+    }
+    .nav-btn {
+      background: #1e4d20;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+      display: none;
+    }
+    .nav-btn:hover { background: #163a18; }
+    .nav-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+    .nav-btn.show { display: inline-block; }
+
+    .results-card {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      display: none;
+    }
+    .results-card.show { display: block; }
+    .results-score {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #1e4d20;
+      margin-bottom: 0.5rem;
+    }
+    .results-label {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+    .results-message {
+      font-size: 1rem;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .retry-btn {
+      background: #1e4d20;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .retry-btn:hover { background: #163a18; }
+    .retry-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
+    @media (max-width: 480px) {
+      body { font-size: 1rem; padding: 1rem 0.75rem 3rem; }
+      .q-prompt { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 2">&#8592; Back to Lesson 2</button>
+
+  <div class="quiz-header">
+    <p class="quiz-label">Lesson 2 Check</p>
+    <h1 class="quiz-title">Artificial Intelligence Scams</h1>
+    <p class="quiz-desc">Test your understanding of the key concepts from Lesson 2. Select the best answer for each question.</p>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress" style="width: 0%"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card active" id="q1">
+    <p class="q-number">Question 1 of 4</p>
+    <p class="q-prompt">Margaret sees a video on Facebook of a celebrity endorsing an investment opportunity with guaranteed returns. The video looks completely real. What is the most likely explanation?</p>
+    <button class="hint-btn" onclick="toggleHint('h1', this)">Show hint</button>
+    <div class="hint-box" id="h1">Think about what you learned about how AI can be used to manipulate video footage of real people.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q1', false)">The celebrity genuinely endorses this investment and the video is real.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', true)">The video is a deepfake generated by AI to make it appear the celebrity is saying something they never said.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">The video was recorded without the celebrity's knowledge but is otherwise real.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">The celebrity was paid to appear in the video but later regretted it.</button>
+    </div>
+    <div class="feedback-box" id="fb1"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next1" onclick="nextQ(1)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card" id="q2">
+    <p class="q-number">Question 2 of 4</p>
+    <p class="q-prompt">Which of the following is a visual clue that a photo may have been generated by AI?</p>
+    <button class="hint-btn" onclick="toggleHint('h2', this)">Show hint</button>
+    <div class="hint-box" id="h2">Think about which part of the human body AI most commonly struggles to generate correctly.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q2', false)">The photo was taken outdoors in natural lighting.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', false)">The person in the photo is smiling.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', true)">The person in the photo has distorted or extra fingers on their hands.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', false)">The photo was shared on social media.</button>
+    </div>
+    <div class="feedback-box" id="fb2"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next2" onclick="nextQ(2)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card" id="q3">
+    <p class="q-number">Question 3 of 4</p>
+    <p class="q-prompt">You receive a voice message that sounds exactly like your grandson. He asks you to send money urgently. Which of the following should make you suspicious that the voice may be AI-generated?</p>
+    <button class="hint-btn" onclick="toggleHint('h3', this)">Show hint</button>
+    <div class="hint-box" id="h3">Think about what clues in the content of a message, beyond just the voice itself, might indicate something is wrong.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The voice sounds completely natural and matches your grandson perfectly.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', true)">The message is short and does not include any personal details you would expect him to know.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The message was left as a voicemail rather than a live call.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">Your grandson has called you before asking for small favors.</button>
+    </div>
+    <div class="feedback-box" id="fb3"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next3" onclick="nextQ(3)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card" id="q4">
+    <p class="q-number">Question 4 of 4</p>
+    <p class="q-prompt">You receive an unexpected call from someone who sounds like a family member asking for money urgently. What is the safest course of action?</p>
+    <button class="hint-btn" onclick="toggleHint('h4', this)">Show hint</button>
+    <div class="hint-box" id="h4">Think about what you learned about verifying suspicious contacts independently.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Send the money immediately because the voice sounds genuine.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Ask the caller a personal question only your family member would know before deciding.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', true)">Hang up and call your family member back using a number you already have saved.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Ask the caller to video call you so you can see their face before sending money.</button>
+    </div>
+    <div class="feedback-box" id="fb4"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next4" onclick="showResults()">See my results &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-card" id="results">
+    <div class="results-score" id="score-display"></div>
+    <p class="results-label">out of 4 correct</p>
+    <p class="results-message" id="results-msg"></p>
+    <button class="retry-btn" onclick="restartQuiz()">Try again</button>
+    <br><br>
+    <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 2">&#8592; Back to Lesson 2</button>
+  </div>
+
+</div>
+
+<script>
+  var score = 0;
+  var answered = [false, false, false, false];
+
+  var explanations = {
+    q1: {
+      correct: "Correct! Investment endorsement videos featuring celebrities are one of the most common uses of AI deepfakes. Even if a video looks completely real, you should never invest money based on a social media video alone. Always research independently through a trusted financial source.",
+      incorrect: "Not quite. This is a classic AI deepfake scam. Scammers generate fake videos of celebrities endorsing investments to make them appear legitimate. Even a video that looks completely real can be entirely AI-generated."
+    },
+    q2: {
+      correct: "That's right. AI frequently struggles to generate hands correctly, often producing extra fingers, unusual proportions, or blurred edges. This remains one of the most reliable visual clues that a photo may be AI-generated.",
+      incorrect: "Not quite. The most reliable visual clue that a photo may be AI-generated is distorted or extra fingers on the hands. AI frequently struggles to generate hands correctly, which is why checking the hands is one of the first things to look for."
+    },
+    q3: {
+      correct: "Well done. A genuine family member calling with an urgent request would likely include personal details that only they would know. A short, generic message that lacks those personal details is a red flag, even if the voice sounds right. AI can clone a voice but cannot easily replicate personal knowledge.",
+      incorrect: "Think again. The key red flag here is that the message lacks personal details you would expect your grandson to include. AI can clone a voice convincingly, but it cannot replicate the personal knowledge a real family member would have."
+    },
+    q4: {
+      correct: "Correct. Hanging up and calling back using a number you already have saved is always the safest response. This applies whether the threat is a cloned voice or any other type of impersonation scam. Note that asking a personal question or requesting a video call are not safe alternatives, as AI can now answer questions using gathered information and generate convincing video in real time.",
+      incorrect: "Not the safest choice. The only truly safe response is to hang up and call back using a number you already have saved. Asking a personal question is not safe because scammers can gather information from social media, and a video call is not safe because AI can generate convincing video in real time."
+    }
+  };
+
+  function toggleHint(id, btn) {
+    var box = document.getElementById(id);
+    if (box.classList.contains('show')) {
+      box.classList.remove('show');
+      btn.textContent = 'Show hint';
+    } else {
+      box.classList.add('show');
+      btn.textContent = 'Hide hint';
+    }
+  }
+
+  function answer(btn, qid, isCorrect) {
+    var qNum = parseInt(qid.replace('q', ''));
+    if (answered[qNum - 1]) return;
+    answered[qNum - 1] = true;
+
+    var options = btn.parentElement.querySelectorAll('.option-btn');
+    options.forEach(function(o) { o.disabled = true; });
+
+    var fb = document.getElementById('fb' + qNum);
+    var exp = explanations[qid];
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      score++;
+      fb.className = 'feedback-box show correct-fb';
+      fb.innerHTML = '<p class="feedback-label">Correct!</p><p>' + exp.correct + '</p>';
+    } else {
+      btn.classList.add('incorrect');
+      options.forEach(function(o) {
+        if (o.onclick && o.onclick.toString().indexOf('true') > -1) {
+          o.classList.add('reveal-correct');
+        }
+      });
+      fb.className = 'feedback-box show incorrect-fb';
+      fb.innerHTML = '<p class="feedback-label">Not quite.</p><p>' + exp.incorrect + '</p>';
+    }
+
+    document.getElementById('next' + qNum).classList.add('show');
+    updateProgress(qNum);
+  }
+
+  function updateProgress(qNum) {
+    var pct = (qNum / 4) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  function nextQ(current) {
+    document.getElementById('q' + current).classList.remove('active');
+    document.getElementById('q' + (current + 1)).classList.add('active');
+  }
+
+  function showResults() {
+    document.getElementById('q4').classList.remove('active');
+    document.getElementById('progress').style.width = '100%';
+    var results = document.getElementById('results');
+    results.classList.add('show');
+    document.getElementById('score-display').textContent = score + ' / 4';
+
+    var msg;
+    if (score === 4) {
+      msg = 'Excellent work! You answered every question correctly. You have a strong understanding of how AI is used in scams and how to protect yourself.';
+    } else if (score === 3) {
+      msg = 'Good work! You got most questions right. Review the explanations for any questions you missed before moving on.';
+    } else if (score === 2) {
+      msg = 'You are getting there. Take a moment to review the lesson content and read through the explanations, then try again.';
+    } else {
+      msg = 'It looks like this material needs a bit more review. Go back and re-read Lesson 2, then try the quiz again.';
+    }
+    document.getElementById('results-msg').textContent = msg;
+  }
+
+  function restartQuiz() {
+    score = 0;
+    answered = [false, false, false, false];
+
+    for (var i = 1; i <= 4; i++) {
+      var card = document.getElementById('q' + i);
+      card.classList.remove('active');
+      var opts = card.querySelectorAll('.option-btn');
+      opts.forEach(function(o) {
+        o.disabled = false;
+        o.className = 'option-btn';
+      });
+      var fb = document.getElementById('fb' + i);
+      fb.className = 'feedback-box';
+      fb.innerHTML = '';
+      var nb = document.getElementById('next' + i);
+      nb.classList.remove('show');
+      var hb = card.querySelector('.hint-box');
+      hb.classList.remove('show');
+      var hbtn = card.querySelector('.hint-btn');
+      hbtn.textContent = 'Show hint';
+    }
+
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('progress').style.width = '0%';
+    document.getElementById('q1').classList.add('active');
+  }
+</script>
+
+</body>
+</html>

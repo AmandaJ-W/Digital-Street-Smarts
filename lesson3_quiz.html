@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Lesson 3 Quiz: Emergency Toolbox</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Open Sans", Arial, sans-serif;
+      background: #f5f5f0;
+      padding: 2rem 1rem 4rem;
+      color: #1a1a1a;
+      font-size: 1.05rem;
+      line-height: 1.65;
+    }
+
+    .wrap { max-width: 680px; margin: 0 auto; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1e4d20;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+      margin-bottom: 1rem;
+    }
+    .back-btn:hover { background: #163a18; }
+    .back-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
+    .quiz-header {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-left: 6px solid #1e4d20;
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .quiz-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #1e4d20;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+    .quiz-desc {
+      font-size: 0.95rem;
+      color: #444;
+    }
+
+    .progress-bar-wrap {
+      background: #e0e0d8;
+      border-radius: 99px;
+      height: 6px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: #1e4d20;
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    .question-card {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .question-card.active { display: block; }
+
+    .q-number {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #888;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    .q-prompt {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+
+    .option-btn {
+      background: #f5f5f0;
+      border: 1.5px solid #d0d0c8;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      font-family: "Open Sans", Arial, sans-serif;
+      color: #1a1a1a;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      line-height: 1.5;
+    }
+    .option-btn:hover:not(:disabled) { border-color: #1e4d20; background: #eaf3de; }
+    .option-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+    .option-btn.correct { background: #e6f4e6; border-color: #2e7d32; color: #1a4d1c; font-weight: bold; }
+    .option-btn.incorrect { background: #fdecea; border-color: #c62828; color: #5a1212; }
+    .option-btn.reveal-correct { background: #e6f4e6; border-color: #2e7d32; color: #1a4d1c; }
+    .option-btn:disabled { cursor: default; }
+
+    .hint-btn {
+      background: none;
+      border: none;
+      font-size: 0.88rem;
+      color: #1e4d20;
+      cursor: pointer;
+      font-family: "Open Sans", Arial, sans-serif;
+      padding: 0;
+      text-decoration: underline;
+      margin-bottom: 0.75rem;
+      display: block;
+    }
+    .hint-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
+    .hint-box {
+      background: #fff8e1;
+      border-left: 4px solid #f57c00;
+      border-radius: 0 6px 6px 0;
+      padding: 0.75rem 1rem;
+      font-size: 0.92rem;
+      color: #5c3800;
+      margin-bottom: 0.75rem;
+      display: none;
+    }
+    .hint-box.show { display: block; }
+
+    .feedback-box {
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .feedback-box.show { display: block; }
+    .feedback-box.correct-fb { background: #e6f4e6; border: 1px solid #2e7d32; color: #1a4d1c; }
+    .feedback-box.incorrect-fb { background: #fdecea; border: 1px solid #c62828; color: #5a1212; }
+    .feedback-label { font-weight: bold; margin-bottom: 4px; }
+
+    .nav-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 0.5rem;
+    }
+    .nav-btn {
+      background: #1e4d20;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+      display: none;
+    }
+    .nav-btn:hover { background: #163a18; }
+    .nav-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+    .nav-btn.show { display: inline-block; }
+
+    .results-card {
+      background: #ffffff;
+      border: 1px solid #d0d0c8;
+      border-radius: 10px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      display: none;
+    }
+    .results-card.show { display: block; }
+    .results-score {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #1e4d20;
+      margin-bottom: 0.5rem;
+    }
+    .results-label {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 1.5rem;
+    }
+    .results-message {
+      font-size: 1rem;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .retry-btn {
+      background: #1e4d20;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 2rem;
+      font-size: 1rem;
+      font-weight: bold;
+      font-family: "Open Sans", Arial, sans-serif;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .retry-btn:hover { background: #163a18; }
+    .retry-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+
+    @media (max-width: 480px) {
+      body { font-size: 1rem; padding: 1rem 0.75rem 3rem; }
+      .q-prompt { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 3">&#8592; Back to Lesson 3</button>
+
+  <div class="quiz-header">
+    <p class="quiz-label">Lesson 3 Check</p>
+    <h1 class="quiz-title">Emergency Toolbox</h1>
+    <p class="quiz-desc">Test your understanding of the key concepts from Lesson 3. Select the best answer for each question.</p>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress" style="width: 0%"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card active" id="q1">
+    <p class="q-number">Question 1 of 4</p>
+    <p class="q-prompt">You are on a phone call with someone claiming to be from your bank's fraud department. They are asking you to transfer your savings to a new secure account to protect them. Something feels wrong. What should you do?</p>
+    <button class="hint-btn" onclick="toggleHint('h1', this)">Show hint</button>
+    <div class="hint-box" id="h1">Think about what you learned about what to do in the moment when something does not feel right.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q1', false)">Transfer the money as instructed. Your bank knows best how to protect your funds.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">Ask the caller for their employee ID number before transferring the money.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', true)">Hang up immediately and call your bank back using the number on the back of your bank card.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">Ask the caller to send you a confirmation email before you proceed.</button>
+    </div>
+    <div class="feedback-box" id="fb1"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next1" onclick="nextQ(1)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card" id="q2">
+    <p class="q-number">Question 2 of 4</p>
+    <p class="q-prompt">You realize you have fallen victim to a scam and shared your bank account details. What is the very first thing you should do?</p>
+    <button class="hint-btn" onclick="toggleHint('h2', this)">Show hint</button>
+    <div class="hint-box" id="h2">Think about which step in section 3.2 comes first and why speed matters.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q2', false)">Post about it on social media to warn others.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', false)">Wait to see if any unauthorized transactions appear before taking action.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', true)">Contact your bank immediately using the number on the back of your bank card.</button>
+      <button class="option-btn" onclick="answer(this, 'q2', false)">File a report with the FTC before doing anything else.</button>
+    </div>
+    <div class="feedback-box" id="fb2"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next2" onclick="nextQ(2)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card" id="q3">
+    <p class="q-number">Question 3 of 4</p>
+    <p class="q-prompt">You received a phishing email that appeared to come from the IRS asking for your Social Security Number. You did not respond but want to report it. Which is the most appropriate place to report this?</p>
+    <button class="hint-btn" onclick="toggleHint('h3', this)">Show hint</button>
+    <div class="hint-box" id="h3">Think about which agencies handle online fraud and which agency handles IRS-related scams specifically.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q3', false)">Your local police department.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', true)">The FTC at reportfraud.ftc.gov and forward the email to phishing@irs.gov.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">Your email provider only.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The Social Security Administration.</button>
+    </div>
+    <div class="feedback-box" id="fb3"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next3" onclick="nextQ(3)">Next question &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card" id="q4">
+    <p class="q-number">Question 4 of 4</p>
+    <p class="q-prompt">Which of the following is the most effective way to protect your online accounts from being accessed by a scammer who has obtained your password?</p>
+    <button class="hint-btn" onclick="toggleHint('h4', this)">Show hint</button>
+    <div class="hint-box" id="h4">Think about what you learned in section 3.4 about adding an extra layer of security to your accounts.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Change your password every six months.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Use the same strong password across all accounts so it is easier to remember.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', true)">Set up multi-factor authentication so that a second verification step is required to log in.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Only log into your accounts from home.</button>
+    </div>
+    <div class="feedback-box" id="fb4"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next4" onclick="showResults()">See my results &rarr;</button>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-card" id="results">
+    <div class="results-score" id="score-display"></div>
+    <p class="results-label">out of 4 correct</p>
+    <p class="results-message" id="results-msg"></p>
+    <button class="retry-btn" onclick="restartQuiz()">Try again</button>
+    <br><br>
+    <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 3">&#8592; Back to Lesson 3</button>
+  </div>
+
+</div>
+
+<script>
+  var score = 0;
+  var answered = [false, false, false, false];
+
+  var explanations = {
+    q1: {
+      correct: "Correct. Hanging up and calling back using a number you already know and trust is always the right response when something feels wrong on a phone call. No legitimate bank will ever ask you to transfer your savings to a new account to protect them. That request alone is a clear sign of a scam.",
+      incorrect: "Not quite. No legitimate bank will ever ask you to transfer your savings to a new account to protect them. The safest thing to do is hang up immediately and call your bank back using the number on the back of your bank card."
+    },
+    q2: {
+      correct: "Correct. Contacting your bank immediately is always the first step after sharing financial information with a scammer. The sooner you call, the greater your chances of stopping unauthorized transactions or recovering funds. Reporting to the FTC is also important, but it comes after securing your accounts.",
+      incorrect: "Not quite. Contacting your bank immediately is the first and most urgent step. Every minute matters when financial information has been shared. Waiting to see if transactions appear or reporting to the FTC first means valuable time is lost."
+    },
+    q3: {
+      correct: "Correct. The FTC is the primary agency for reporting online fraud, and the IRS specifically asks that suspicious emails impersonating them be forwarded to phishing@irs.gov. Reporting to both ensures the incident is captured by the right agencies.",
+      incorrect: "Not quite. The most appropriate response is to report to the FTC at reportfraud.ftc.gov and forward the email directly to phishing@irs.gov. The IRS maintains this dedicated email address specifically for reporting phishing attempts that impersonate them."
+    },
+    q4: {
+      correct: "Correct. Multi-factor authentication means that even if a scammer has your password, they still cannot access your account without completing a second verification step such as a code sent to your phone. It is one of the most effective account protection tools available.",
+      incorrect: "Not quite. Multi-factor authentication is the most effective protection here. Even if a scammer has your password, they cannot get into your account without also completing the second verification step. Changing passwords periodically helps but does not protect an account that has already been compromised."
+    }
+  };
+
+  function toggleHint(id, btn) {
+    var box = document.getElementById(id);
+    if (box.classList.contains('show')) {
+      box.classList.remove('show');
+      btn.textContent = 'Show hint';
+    } else {
+      box.classList.add('show');
+      btn.textContent = 'Hide hint';
+    }
+  }
+
+  function answer(btn, qid, isCorrect) {
+    var qNum = parseInt(qid.replace('q', ''));
+    if (answered[qNum - 1]) return;
+    answered[qNum - 1] = true;
+
+    var options = btn.parentElement.querySelectorAll('.option-btn');
+    options.forEach(function(o) { o.disabled = true; });
+
+    var fb = document.getElementById('fb' + qNum);
+    var exp = explanations[qid];
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      score++;
+      fb.className = 'feedback-box show correct-fb';
+      fb.innerHTML = '<p class="feedback-label">Correct!</p><p>' + exp.correct + '</p>';
+    } else {
+      btn.classList.add('incorrect');
+      options.forEach(function(o) {
+        if (o.onclick && o.onclick.toString().indexOf('true') > -1) {
+          o.classList.add('reveal-correct');
+        }
+      });
+      fb.className = 'feedback-box show incorrect-fb';
+      fb.innerHTML = '<p class="feedback-label">Not quite.</p><p>' + exp.incorrect + '</p>';
+    }
+
+    document.getElementById('next' + qNum).classList.add('show');
+    updateProgress(qNum);
+  }
+
+  function updateProgress(qNum) {
+    var pct = (qNum / 4) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+  }
+
+  function nextQ(current) {
+    document.getElementById('q' + current).classList.remove('active');
+    document.getElementById('q' + (current + 1)).classList.add('active');
+  }
+
+  function showResults() {
+    document.getElementById('q4').classList.remove('active');
+    document.getElementById('progress').style.width = '100%';
+    var results = document.getElementById('results');
+    results.classList.add('show');
+    document.getElementById('score-display').textContent = score + ' / 4';
+
+    var msg;
+    if (score === 4) {
+      msg = 'Excellent work! You answered every question correctly. You now have a solid understanding of what to do if you are ever targeted by a scam.';
+    } else if (score === 3) {
+      msg = 'Good work! You got most questions right. Review the explanations for any questions you missed before moving on.';
+    } else if (score === 2) {
+      msg = 'You are getting there. Take a moment to review the lesson content and read through the explanations, then try again.';
+    } else {
+      msg = 'It looks like this material needs a bit more review. Go back and re-read Lesson 3, then try the quiz again.';
+    }
+    document.getElementById('results-msg').textContent = msg;
+  }
+
+  function restartQuiz() {
+    score = 0;
+    answered = [false, false, false, false];
+
+    for (var i = 1; i <= 4; i++) {
+      var card = document.getElementById('q' + i);
+      card.classList.remove('active');
+      var opts = card.querySelectorAll('.option-btn');
+      opts.forEach(function(o) {
+        o.disabled = false;
+        o.className = 'option-btn';
+      });
+      var fb = document.getElementById('fb' + i);
+      fb.className = 'feedback-box';
+      fb.innerHTML = '';
+      var nb = document.getElementById('next' + i);
+      nb.classList.remove('show');
+      var hb = card.querySelector('.hint-box');
+      hb.classList.remove('show');
+      var hbtn = card.querySelector('.hint-btn');
+      hbtn.textContent = 'Show hint';
+    }
+
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('progress').style.width = '0%';
+    document.getElementById('q1').classList.add('active');
+  }
+</script>
+
+</body>
+</html>

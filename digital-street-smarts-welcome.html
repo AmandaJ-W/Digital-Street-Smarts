@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Street Smarts – Welcome</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Lato, "Trebuchet MS", sans-serif; background: #ffffff; color: #1f2a1f; }
+
+  .wrap { padding-left: 12.5%; padding-right: 12.5%; }
+
+
+  /* Welcome */
+  .welcome { padding-top: 48px; padding-bottom: 48px; }
+  .welcome h2 { margin: 0 0 22px; font-size: 38px; font-weight: 900; color: #2e7d1a; }
+  .welcome p { margin: 0; font-size: 22px; line-height: 1.6; max-width: 900px; }
+
+  /* Cards */
+  .expect { padding-bottom: 56px; }
+  .expect h3 { margin: 0 0 24px; font-size: 26px; font-weight: 700; color: #0b3f8f; }
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .card { padding: 28px; border-radius: 18px; background: linear-gradient(180deg, #f2f8ff 0%, #dcebfb 100%); border: 2px solid #b9d4f2; }
+  .icon { width: 64px; height: 64px; border-radius: 32px; background: linear-gradient(180deg, #4a9be8 0%, #1552b0 100%); box-shadow: inset 0 2px 0 rgba(255,255,255,.5); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+  .card .title { font-size: 24px; font-weight: 900; color: #0b3f8f; margin-bottom: 14px; }
+  .card p { margin: 0; font-size: 20px; line-height: 1.5; }
+
+  /* Before you begin */
+  .notice { background: linear-gradient(180deg, #2c6e16 0%, #1f5410 100%); border-top: 4px solid #8fd14f; padding-top: 52px; padding-bottom: 52px; display: flex; gap: 32px; align-items: flex-start; }
+  .notice .alert { width: 72px; height: 72px; flex-shrink: 0; border-radius: 36px; background: #fff; display: flex; align-items: center; justify-content: center; }
+  .notice h3 { margin: 0 0 14px; font-size: 30px; font-weight: 900; color: #fff; }
+  .notice p { margin: 0; font-size: 22px; line-height: 1.6; color: #fff; max-width: 860px; }
+  .notice strong { color: #fff3b0; }
+
+  /* Start */
+  .start { padding-top: 64px; padding-bottom: 72px; text-align: center; }
+  .start p { margin: 0 0 28px; font-size: 22px; line-height: 1.6; }
+  .btn { display: inline-flex; align-items: center; gap: 14px; min-height: 72px; padding: 0 44px; border-radius: 36px;
+         background: linear-gradient(180deg, #3d8ae0 0%, #1552b0 50%, #0b3f8f 100%); border: 2px solid #08397a;
+         box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 6px 14px rgba(11,63,143,.35);
+         color: #fff; font-size: 26px; font-weight: 900; text-decoration: none; }
+  .btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
+  .btn:focus-visible { outline: 4px solid #8fd14f; outline-offset: 4px; }
+
+  /* Footer */
+  .footer { background: linear-gradient(180deg, #1552b0 0%, #0a2f73 100%); border-top: 4px solid #8fd14f; padding-top: 32px; padding-bottom: 32px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .footer .name { font-size: 20px; font-weight: 700; color: #fff; }
+  .footer .credit { font-size: 18px; color: #d8ecff; }
+
+  /* Smaller screens */
+  @media (max-width: 900px) {
+    .wrap { padding-left: 24px; padding-right: 24px; }
+    .cards { grid-template-columns: 1fr; }
+    .notice { flex-direction: column; gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+
+<!-- WELCOME -->
+<div class="welcome wrap">
+  <h2>Welcome, learner!</h2>
+  <p>Welcome to <strong>Digital Street Smarts: Navigating Online Risks</strong>. Thank you for taking part in this capstone project. Your participation is greatly valued!</p>
+</div>
+
+<!-- WHAT TO EXPECT -->
+<div class="expect wrap">
+  <h3>What to expect</h3>
+  <div class="cards">
+    <div class="card">
+      <div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+      <div class="title">About 1 hour</div>
+      <p>A short learning module about staying safe online. You can go at your own pace.</p>
+    </div>
+    <div class="card">
+      <div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></div>
+      <div class="title">Have notes ready</div>
+      <p>Keep a pen and paper or a Microsoft Word document nearby for notes and scenario tasks.</p>
+    </div>
+    <div class="card">
+      <div class="icon"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg></div>
+      <div class="title">No login needed</div>
+      <p>You do not need an account or a password to take this course.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BEFORE YOU BEGIN -->
+<div class="notice wrap">
+  <div class="alert"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1f5410" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5v.01"/></svg></div>
+  <div>
+    <h3>Before you begin</h3>
+    <p>This course <strong>will not save your progress</strong>. If you need to stop and come back later, please write down the name of the page where you left off.</p>
+  </div>
+</div>
+
+<!-- START COURSE -->
+<div class="start wrap">
+  <p>When you are ready, click the <strong>Start course</strong> button to read the course introduction.</p>
+  <!-- Replace the href below with the full link to your Course Introduction page -->
+  <a class="btn" href="https://sites.google.com/view/YOUR-SITE/course-introduction" target="_top">
+    Start course
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+  </a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer wrap">
+  <span class="name">Digital Street Smarts</span>
+  <span class="credit">[YOUR NAME] · Capstone project</span>
+</div>
+
+</body>
+</html>

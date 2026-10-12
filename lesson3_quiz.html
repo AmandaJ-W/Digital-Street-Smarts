@@ -2,87 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <title>Lesson 3 Quiz: Emergency Toolbox</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: "Open Sans", Arial, sans-serif;
-      background: #f5f5f0;
+      font-family: Lato, "Trebuchet MS", sans-serif;
+      background: #ffffff;
       padding: 2rem 1rem 4rem;
-      color: #1a1a1a;
-      font-size: 1.05rem;
+      color: #1f2a1f;
+      font-size: 1.1rem;
       line-height: 1.65;
     }
 
-    .wrap { max-width: 680px; margin: 0 auto; }
-
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #1e4d20;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 0.5rem 1rem;
-      font-size: 0.875rem;
-      font-weight: bold;
-      font-family: "Open Sans", Arial, sans-serif;
-      cursor: pointer;
-      min-height: 44px;
-      margin-bottom: 1rem;
-    }
-    .back-btn:hover { background: #163a18; }
-    .back-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+    .wrap { max-width: 720px; margin: 0 auto; }
 
     .quiz-header {
-      background: #ffffff;
-      border: 1px solid #d0d0c8;
-      border-left: 6px solid #1e4d20;
-      border-radius: 8px;
+      background: linear-gradient(180deg, #f2f8ff 0%, #dcebfb 100%);
+      border: 2px solid #b9d4f2;
+      border-top: 5px solid #8fd14f;
+      border-radius: 16px;
       padding: 1.25rem 1.5rem;
       margin-bottom: 1.5rem;
     }
     .quiz-label {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #1e4d20;
-      font-weight: bold;
+      color: #2e7d1a;
+      font-weight: 900;
       margin-bottom: 4px;
     }
     .quiz-title {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #1a1a1a;
-      margin-bottom: 4px;
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: #0b3f8f;
+      line-height: 1.2;
+      margin-bottom: 6px;
     }
     .quiz-desc {
-      font-size: 0.95rem;
-      color: #444;
+      font-size: 1.05rem;
+      color: #2a3a2a;
     }
 
     .progress-bar-wrap {
-      background: #e0e0d8;
+      background: #dcebfb;
+      border: 1px solid #b9d4f2;
       border-radius: 99px;
-      height: 6px;
+      height: 12px;
       margin-bottom: 1.5rem;
       overflow: hidden;
     }
     .progress-bar-fill {
       height: 100%;
-      background: #1e4d20;
+      background: linear-gradient(180deg, #b6e67f 0%, #6fbf3a 45%, #3f9a24 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
       border-radius: 99px;
       transition: width 0.4s ease;
     }
 
     .question-card {
       background: #ffffff;
-      border: 1px solid #d0d0c8;
-      border-radius: 10px;
+      border: 2px solid #b9d4f2;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(11,63,143,.08);
       padding: 1.5rem;
       margin-bottom: 1rem;
       display: none;
@@ -90,81 +75,85 @@
     .question-card.active { display: block; }
 
     .q-number {
-      font-size: 0.78rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      color: #888;
-      font-weight: bold;
+      color: #2e7d1a;
+      font-weight: 900;
       margin-bottom: 0.5rem;
     }
     .q-prompt {
-      font-size: 1.05rem;
-      font-weight: bold;
-      color: #1a1a1a;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0b3f8f;
       margin-bottom: 1.25rem;
       line-height: 1.5;
     }
 
-    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+    .options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1rem; }
 
     .option-btn {
-      background: #f5f5f0;
-      border: 1.5px solid #d0d0c8;
-      border-radius: 8px;
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      font-family: "Open Sans", Arial, sans-serif;
-      color: #1a1a1a;
+      background: linear-gradient(180deg, #ffffff 0%, #f2f8ff 100%);
+      border: 2px solid #b9d4f2;
+      border-radius: 12px;
+      padding: 0.85rem 1.1rem;
+      min-height: 56px;
+      font-size: 1.05rem;
+      font-family: Lato, "Trebuchet MS", sans-serif;
+      color: #1f2a1f;
       text-align: left;
       cursor: pointer;
       transition: border-color 0.15s, background 0.15s;
       line-height: 1.5;
     }
-    .option-btn:hover:not(:disabled) { border-color: #1e4d20; background: #eaf3de; }
-    .option-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
-    .option-btn.correct { background: #e6f4e6; border-color: #2e7d32; color: #1a4d1c; font-weight: bold; }
+    .option-btn:hover:not(:disabled) { border-color: #1552b0; background: #e6f1fd; }
+    .option-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
+    .option-btn.correct { background: #eaf6df; border-color: #3f9a24; color: #1f5410; font-weight: 700; }
     .option-btn.incorrect { background: #fdecea; border-color: #c62828; color: #5a1212; }
-    .option-btn.reveal-correct { background: #e6f4e6; border-color: #2e7d32; color: #1a4d1c; }
+    .option-btn.reveal-correct { background: #eaf6df; border-color: #3f9a24; color: #1f5410; }
     .option-btn:disabled { cursor: default; }
 
     .hint-btn {
       background: none;
       border: none;
-      font-size: 0.88rem;
-      color: #1e4d20;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1552b0;
       cursor: pointer;
-      font-family: "Open Sans", Arial, sans-serif;
-      padding: 0;
+      font-family: Lato, "Trebuchet MS", sans-serif;
+      padding: 0.25rem 0;
+      min-height: 44px;
       text-decoration: underline;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       display: block;
     }
-    .hint-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
+    .hint-btn:hover { color: #0b3f8f; }
+    .hint-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 2px; }
 
     .hint-box {
-      background: #fff8e1;
-      border-left: 4px solid #f57c00;
-      border-radius: 0 6px 6px 0;
+      background: #fff8d6;
+      border: 2px solid #f0dc8a;
+      border-radius: 12px;
       padding: 0.75rem 1rem;
-      font-size: 0.92rem;
-      color: #5c3800;
+      font-size: 1rem;
+      color: #4a3a00;
       margin-bottom: 0.75rem;
       display: none;
     }
     .hint-box.show { display: block; }
 
     .feedback-box {
-      border-radius: 8px;
-      padding: 0.875rem 1rem;
-      font-size: 0.95rem;
+      border-radius: 12px;
+      padding: 0.9rem 1.1rem;
+      font-size: 1.02rem;
       line-height: 1.55;
       margin-bottom: 1rem;
       display: none;
     }
     .feedback-box.show { display: block; }
-    .feedback-box.correct-fb { background: #e6f4e6; border: 1px solid #2e7d32; color: #1a4d1c; }
-    .feedback-box.incorrect-fb { background: #fdecea; border: 1px solid #c62828; color: #5a1212; }
-    .feedback-label { font-weight: bold; margin-bottom: 4px; }
+    .feedback-box.correct-fb { background: #eaf6df; border: 2px solid #3f9a24; color: #1f5410; }
+    .feedback-box.incorrect-fb { background: #fdecea; border: 2px solid #c62828; color: #5a1212; }
+    .feedback-label { font-weight: 900; margin-bottom: 4px; }
 
     .nav-row {
       display: flex;
@@ -172,78 +161,76 @@
       gap: 10px;
       margin-top: 0.5rem;
     }
-    .nav-btn {
-      background: #1e4d20;
+    .nav-btn, .retry-btn {
+      background: linear-gradient(180deg, #3d8ae0 0%, #1552b0 50%, #0b3f8f 100%);
       color: #ffffff;
-      border: none;
-      border-radius: 6px;
-      padding: 0.6rem 1.25rem;
-      font-size: 0.95rem;
-      font-weight: bold;
-      font-family: "Open Sans", Arial, sans-serif;
+      border: 2px solid #08397a;
+      border-radius: 999px;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 4px 10px rgba(11,63,143,.3);
+      font-weight: 900;
+      font-family: Lato, "Trebuchet MS", sans-serif;
       cursor: pointer;
-      min-height: 44px;
+      min-height: 52px;
+    }
+    .nav-btn:hover, .retry-btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
+    .nav-btn:focus-visible, .retry-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
+
+    .nav-btn {
+      padding: 0.6rem 1.6rem;
+      font-size: 1.05rem;
       display: none;
     }
-    .nav-btn:hover { background: #163a18; }
-    .nav-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
     .nav-btn.show { display: inline-block; }
 
     .results-card {
-      background: #ffffff;
-      border: 1px solid #d0d0c8;
-      border-radius: 10px;
+      background: linear-gradient(180deg, #f2f8ff 0%, #dcebfb 100%);
+      border: 2px solid #b9d4f2;
+      border-top: 5px solid #8fd14f;
+      border-radius: 16px;
       padding: 2rem 1.5rem;
       text-align: center;
       display: none;
     }
     .results-card.show { display: block; }
     .results-score {
-      font-size: 3rem;
-      font-weight: bold;
-      color: #1e4d20;
-      margin-bottom: 0.5rem;
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #0b3f8f;
+      margin-bottom: 0.25rem;
     }
     .results-label {
-      font-size: 1rem;
-      color: #444;
-      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #2e7d1a;
+      margin-bottom: 1.25rem;
     }
     .results-message {
-      font-size: 1rem;
-      color: #1a1a1a;
+      font-size: 1.1rem;
+      color: #1f2a1f;
       margin-bottom: 1.5rem;
       line-height: 1.6;
     }
     .retry-btn {
-      background: #1e4d20;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 0.75rem 2rem;
-      font-size: 1rem;
-      font-weight: bold;
-      font-family: "Open Sans", Arial, sans-serif;
-      cursor: pointer;
-      min-height: 44px;
+      padding: 0.75rem 2.2rem;
+      font-size: 1.1rem;
     }
-    .retry-btn:hover { background: #163a18; }
-    .retry-btn:focus { outline: 3px solid #0057b8; outline-offset: 2px; }
 
     @media (max-width: 480px) {
-      body { font-size: 1rem; padding: 1rem 0.75rem 3rem; }
-      .q-prompt { font-size: 1rem; }
+      body { font-size: 1.05rem; padding: 1rem 0.75rem 3rem; }
+      .quiz-title { font-size: 1.6rem; }
+      .q-prompt { font-size: 1.1rem; }
+      .question-card { padding: 1.1rem; }
+      .nav-row { justify-content: stretch; }
+      .nav-btn.show { width: 100%; }
     }
   </style>
 </head>
 <body>
 <div class="wrap">
 
-  <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 3">&#8592; Back to Lesson 3</button>
-
   <div class="quiz-header">
     <p class="quiz-label">Lesson 3 Check</p>
-    <h1 class="quiz-title">Emergency Toolbox</h1>
+    <h1 class="quiz-title">Emergency toolbox</h1>
     <p class="quiz-desc">Test your understanding of the key concepts from Lesson 3. Select the best answer for each question.</p>
   </div>
 
@@ -329,8 +316,6 @@
     <p class="results-label">out of 4 correct</p>
     <p class="results-message" id="results-msg"></p>
     <button class="retry-btn" onclick="restartQuiz()">Try again</button>
-    <br><br>
-    <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 3">&#8592; Back to Lesson 3</button>
   </div>
 
 </div>

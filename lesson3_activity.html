@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <title>Lesson 3 Activity: What went wrong?</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Lato, "Trebuchet MS", sans-serif;
+      background: #ffffff;
+      padding: 2rem 1rem 4rem;
+      color: #1f2a1f;
+      font-size: 1.1rem;
+      line-height: 1.65;
+    }
+
+    .wrap { max-width: 720px; margin: 0 auto; }
+
+    .activity-header {
+      background: linear-gradient(180deg, #f2f8ff 0%, #dcebfb 100%);
+      border: 2px solid #b9d4f2;
+      border-top: 5px solid #8fd14f;
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .activity-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #2e7d1a;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .activity-title {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: #0b3f8f;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .activity-desc {
+      font-size: 1.05rem;
+      color: #2a3a2a;
+    }
+
+    .progress-bar-wrap {
+      height: 8px;
+      background: #dcebfb;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #b6e67f 0%, #6fbf3a 45%, #3f9a24 100%);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+      transition: width 0.4s ease;
+    }
+
+    .question-card {
+      display: none;
+      background: #ffffff;
+      border: 2px solid #b9d4f2;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(11,63,143,.08);
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+    .question-card.active { display: block; }
+
+    .story-block {
+      background: #f7f9fc;
+      border-bottom: 2px solid #b9d4f2;
+      padding: 1.25rem 1.5rem;
+    }
+    .story-label {
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #1552b0;
+      margin-bottom: 0.5rem;
+    }
+    .story-text {
+      font-size: 1rem;
+      color: #2a3a2a;
+      line-height: 1.7;
+    }
+
+    .question-block {
+      padding: 1.25rem 1.5rem;
+    }
+    .q-number {
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: #2e7d1a;
+      margin-bottom: 0.3rem;
+    }
+    .q-prompt {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0b3f8f;
+      margin-bottom: 1rem;
+      text-wrap: balance;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 0.8rem 1.1rem;
+      background: linear-gradient(180deg, #ffffff 0%, #f2f8ff 100%);
+      border: 2px solid #b9d4f2;
+      border-radius: 12px;
+      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-size: 1rem;
+      color: #1f2a1f;
+      cursor: pointer;
+      min-height: 52px;
+      transition: border-color 0.15s, background 0.15s;
+      line-height: 1.45;
+    }
+    .option-btn:hover:not(:disabled) { border-color: #1552b0; background: #e6f1fd; }
+    .option-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 2px; }
+    .option-btn.correct  { background: #eaf6df; border-color: #3f9a24; color: #1f5410; font-weight: 700; cursor: default; }
+    .option-btn.incorrect { background: #fdecea; border-color: #c62828; color: #5a1212; cursor: default; }
+    .option-btn:disabled:not(.correct):not(.incorrect) { opacity: 0.5; cursor: default; }
+
+    .feedback-box {
+      display: none;
+      padding: 0.9rem 1.1rem;
+      border-radius: 10px;
+      font-size: 0.97rem;
+      line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+    .feedback-box.show { display: block; }
+    .feedback-box.correct-fb  { background: #eaf6df; border: 2px solid #3f9a24; color: #1f5410; }
+    .feedback-box.incorrect-fb { background: #fdecea; border: 2px solid #c62828; color: #5a1212; }
+    .feedback-label { font-weight: 900; margin-bottom: 4px; }
+
+    .nav-btn {
+      display: none;
+      background: linear-gradient(180deg, #3d8ae0 0%, #1552b0 50%, #0b3f8f 100%);
+      border: 2px solid #08397a;
+      border-radius: 999px;
+      color: #ffffff;
+      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 0.65rem 2rem;
+      cursor: pointer;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 4px 10px rgba(11,63,143,.3);
+      transition: background 0.15s;
+    }
+    .nav-btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
+    .nav-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
+    .nav-btn.show { display: inline-block; }
+
+    .results-card {
+      display: none;
+      background: linear-gradient(180deg, #f2f8ff 0%, #dcebfb 100%);
+      border: 2px solid #b9d4f2;
+      border-top: 5px solid #8fd14f;
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+    .results-card.show { display: block; }
+    .results-score {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #0b3f8f;
+      margin-bottom: 0.4rem;
+    }
+    .results-msg {
+      font-size: 1rem;
+      color: #2a3a2a;
+      margin-bottom: 1.25rem;
+    }
+    .summary-title {
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #2e7d1a;
+      margin-bottom: 0.6rem;
+    }
+    .summary-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .summary-list li {
+      display: flex;
+      gap: 0.65rem;
+      font-size: 0.97rem;
+      color: #1f2a1f;
+      line-height: 1.5;
+    }
+    .summary-list li::before {
+      content: "✓";
+      color: #3f9a24;
+      font-weight: 900;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .retry-btn {
+      background: linear-gradient(180deg, #3d8ae0 0%, #1552b0 50%, #0b3f8f 100%);
+      border: 2px solid #08397a;
+      border-radius: 999px;
+      color: #ffffff;
+      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 0.65rem 2rem;
+      cursor: pointer;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 4px 10px rgba(11,63,143,.3);
+      transition: background 0.15s;
+    }
+    .retry-btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
+    .retry-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
+
+    @media (max-width: 480px) {
+      body { font-size: 1rem; padding: 1.5rem 1rem 3rem; }
+      .activity-title { font-size: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="activity-header">
+    <p class="activity-label">Lesson 3 Activity</p>
+    <h1 class="activity-title">What went wrong?</h1>
+    <p class="activity-desc">Read John's story and spot the mistakes.</p>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress" style="width: 0%"></div>
+  </div>
+
+ 
+  <div class="question-card active" id="q1">
+    <div class="story-block">
+      <p class="story-label">John's story: Part 1</p>
+      <p class="story-text">Last Tuesday, John received a phone call from someone who said they were from his bank's fraud department. The caller said there was suspicious activity on his account and asked him to confirm his account number and PIN to verify his identity. John was worried, so he provided the information. After he hung up, he decided to wait a few days to see if any unauthorized charges showed up.</p>
+    </div>
+    <div class="question-block">
+      <p class="q-number">Question 1 of 3</p>
+      <p class="q-prompt">What should John have done right after hanging up?</p>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q1',false)">Waited to see if any unauthorized charges appeared on his account.</button>
+        <button class="option-btn" onclick="answer(this,'q1',true)">Called his bank immediately using the number on the back of his card.</button>
+        <button class="option-btn" onclick="answer(this,'q1',false)">Filed a report with the FTC at reportfraud.ftc.gov right away.</button>
+      </div>
+      <div class="feedback-box" id="fb1"></div>
+      <button class="nav-btn" id="nav1" onclick="next(1)">Next</button>
+    </div>
+  </div>
+
+
+  <div class="question-card" id="q2">
+    <div class="story-block">
+      <p class="story-label">John's story: Part 2</p>
+      <p class="story-text">A few days later, John noticed a charge he did not recognize. He remembered that the caller had left him a callback number, so he called it to report the problem.</p>
+    </div>
+    <div class="question-block">
+      <p class="q-number">Question 2 of 3</p>
+      <p class="q-prompt">Was calling that number a good idea?</p>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q2',false)">Yes, he was following up responsibly.</button>
+        <button class="option-btn" onclick="answer(this,'q2',true)">No, he should have called the number on the back of his bank card.</button>
+      </div>
+      <div class="feedback-box" id="fb2"></div>
+      <button class="nav-btn" id="nav2" onclick="next(2)">Next</button>
+    </div>
+  </div>
+
+  <!-- Part 3 -->
+  <div class="question-card" id="q3">
+    <div class="story-block">
+      <p class="story-label">John's story: Part 3</p>
+      <p class="story-text">John felt embarrassed about what had happened. He did not tell his family, did not report it to anyone, and did not change any of his passwords. He reasoned that the scammer only had his bank information, not his email or other accounts.</p>
+    </div>
+    <div class="question-block">
+      <p class="q-number">Question 3 of 3</p>
+      <p class="q-prompt">John made two mistakes here. Which of the following is one of them?</p>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q3',true)">He should have reported the scam and told someone he trusted.</button>
+        <button class="option-btn" onclick="answer(this,'q3',false)">He should have closed all of his bank accounts immediately.</button>
+        <button class="option-btn" onclick="answer(this,'q3',false)">He should have waited longer before taking any action.</button>
+      </div>
+      <div class="feedback-box" id="fb3"></div>
+      <button class="nav-btn" id="nav3" onclick="showResults()">See results</button>
+    </div>
+  </div>
+
+  
+  <div class="results-card" id="results">
+    <p class="results-score" id="resultsScore"></p>
+    <p class="results-msg" id="resultsMsg"></p>
+    <p class="summary-title">What John should have done</p>
+    <ul class="summary-list">
+      <li>Called his bank immediately using the number on the back of his card. He should not have waited, and should not have called back a number given by the caller.</li>
+      <li>Changed his passwords right away. Scammers often use one piece of information to access other accounts.</li>
+      <li>Reported the scam to the FTC at reportfraud.ftc.gov and the FBI at ic3.gov.</li>
+      <li>Told someone he trusted. Being scammed can happen to anyone. There is nothing to be ashamed of.</li>
+    </ul>
+    <button class="retry-btn" onclick="restart()">Try again</button>
+  </div>
+
+</div>
+<script>
+  var score = 0;
+  var answered = { q1: false, q2: false, q3: false };
+  var total = 3;
+
+  var explanations = {
+    q1: {
+      correct:   "Correct. Time matters. Calling your bank right away gives them the chance to freeze your account and stop unauthorized transactions. Reporting to the FTC is also important, but securing your accounts always comes first.",
+      incorrect: "Not quite. Waiting gives scammers more time to act. John needed to call his bank immediately using the number on the back of his card. He should not have waited, and should not have called any number given to him by the caller."
+    },
+    q2: {
+      correct:   "Correct. The callback number came from the scammer. Calling it gave them another chance to collect information or convince John that everything was fine. Always use the number on the back of your card or on your bank's official website.",
+      incorrect: "Not quite. The callback number came from the scammer, not from his bank. Calling it was not following up responsibly; it was handing the scammer another opportunity. John needed to call the number on the back of his card."
+    },
+    q3: {
+      correct:   "Correct. John needed to report the scam to the FTC and someone he trusted. He also needed to change his passwords. Scammers often use one piece of information to access other accounts. Being scammed can happen to anyone; there is nothing to be ashamed of.",
+      incorrect: "Not quite. John's two mistakes were not reporting it and not changing his passwords. Scammers often use one piece of information to access other accounts. Telling someone he trusted would also have helped him get through it."
+    }
+  };
+
+  function answer(btn, qid, isCorrect) {
+    if (answered[qid]) return;
+    answered[qid] = true;
+    if (isCorrect) score++;
+
+    var card = document.getElementById(qid);
+    var btns = card.querySelectorAll('.option-btn');
+    btns.forEach(function(b) { b.disabled = true; });
+    btn.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+    var fb = document.getElementById('fb' + qid.slice(1));
+    fb.className = 'feedback-box show ' + (isCorrect ? 'correct-fb' : 'incorrect-fb');
+    fb.innerHTML = '<p class="feedback-label">' + (isCorrect ? 'Correct.' : 'Not quite.') + '</p><p>' + explanations[qid][isCorrect ? 'correct' : 'incorrect'] + '</p>';
+
+    var navId = 'nav' + qid.slice(1);
+    var navBtn = document.getElementById(navId);
+    navBtn.classList.add('show');
+    navBtn.focus();
+
+    updateProgress(Object.values(answered).filter(Boolean).length);
+  }
+
+  function next(num) {
+    document.getElementById('q' + num).classList.remove('active');
+    var nextCard = document.getElementById('q' + (num + 1));
+    if (nextCard) {
+      nextCard.classList.add('active');
+      nextCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  function showResults() {
+    document.getElementById('q3').classList.remove('active');
+    var results = document.getElementById('results');
+    results.classList.add('show');
+
+    var scoreEl = document.getElementById('resultsScore');
+    var msgEl = document.getElementById('resultsMsg');
+
+    if (score === 3) {
+      scoreEl.textContent = 'You got all 3 right!';
+      msgEl.textContent = "You spotted every mistake. You clearly know what to do in this situation.";
+    } else if (score === 2) {
+      scoreEl.textContent = 'You got ' + score + ' out of 3.';
+      msgEl.textContent = 'Good work. Review what John should have done below to make sure all the steps are clear.';
+    } else {
+      scoreEl.textContent = 'You got ' + score + ' out of 3.';
+      msgEl.textContent = "That's okay. Read through what John should have done below, then try again.";
+    }
+
+    results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    updateProgress(3);
+  }
+
+  function updateProgress(done) {
+    document.getElementById('progress').style.width = Math.round((done / total) * 100) + '%';
+  }
+
+  function restart() {
+    score = 0;
+    answered = { q1: false, q2: false, q3: false };
+
+    ['q1','q2','q3'].forEach(function(qid) {
+      var card = document.getElementById(qid);
+      card.querySelectorAll('.option-btn').forEach(function(b) {
+        b.disabled = false;
+        b.classList.remove('correct','incorrect');
+      });
+      var num = qid.slice(1);
+      var fb = document.getElementById('fb' + num);
+      fb.className = 'feedback-box';
+      fb.innerHTML = '';
+      document.getElementById('nav' + num).classList.remove('show');
+      card.classList.remove('active');
+    });
+
+    document.getElementById('results').classList.remove('show');
+    document.getElementById('q1').classList.add('active');
+    updateProgress(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  updateProgress(0);
+</script>
+</body>
+</html>

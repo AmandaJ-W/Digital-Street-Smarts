@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Street Smarts – Course Introduction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: Lato, "Trebuchet MS", sans-serif; background: #ffffff; color: #1f2a1f; }
+  a { color: #0b4ea2; } a:hover { color: #08397a; }
+  a:focus-visible, summary:focus-visible { outline: 4px solid #8fd14f; outline-offset: 3px; border-radius: 12px; }
+  .wrap { padding-left: 12.5%; padding-right: 12.5%; }
+
+ 
+  .qa { background: linear-gradient(180deg, #eef6ff 0%, #ffffff 100%); border-top: 4px solid #8fd14f; padding-top: 56px; padding-bottom: 64px; }
+  .qa h2 { margin: 0 0 8px; font-size: 38px; font-weight: 900; color: #2e7d1a; }
+  .qa .hint { margin: 0 0 36px; font-size: 20px; line-height: 1.5; }
+  .qa h3 { margin: 36px 0 16px; font-size: 26px; font-weight: 900; color: #0b3f8f; }
+  .qa h3:first-of-type { margin-top: 0; }
+  details { margin-bottom: 14px; border-radius: 16px; background: #ffffff; border: 2px solid #b9d4f2; box-shadow: 0 2px 6px rgba(11,63,143,.08); max-width: 1000px; }
+  details[open] { border-color: #1552b0; }
+  summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 68px; padding: 16px 24px; font-size: 22px; font-weight: 700; color: #0b3f8f; }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { background: #f2f8ff; border-radius: 14px; }
+  .toggle { width: 40px; height: 40px; flex-shrink: 0; border-radius: 20px; background: linear-gradient(180deg, #4a9be8 0%, #1552b0 100%); box-shadow: inset 0 2px 0 rgba(255,255,255,.5); display: flex; align-items: center; justify-content: center; }
+  details[open] .plus-v { display: none; }
+  .answer { padding: 0 24px 24px; font-size: 21px; line-height: 1.65; }
+  .answer p { margin: 0 0 16px; }
+  .answer p:last-child { margin-bottom: 0; }
+  .answer ul { margin: 0 0 16px; padding-left: 28px; }
+  .answer li { margin-bottom: 8px; }
+  .note { padding: 16px 20px; border-radius: 12px; background: #fff8d6; border: 2px solid #f0dc8a; }
+
+
+ @media (max-width: 900px) {
+    .wrap { padding-left: 24px; padding-right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+
+
+<div class="qa wrap">
+  <h2>Module Q&amp;A</h2>
+  <p class="hint">Click on a question to see the answer. Click it again to close it.</p>
+
+  <h3>Getting started</h3>
+
+  <details>
+    <summary>Who do I contact if I need help?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>For any questions or concerns, please send an email to Amanda Walker at <a href="mailto:awalke11@wgu.edu">awalke11@wgu.edu</a>.</p>
+      <p>You can also text or call Amanda at <a href="tel:+19178304737">917-830-4737</a>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What do I need to start the module?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>You need a computer or tablet (iPad) with internet access. It is not recommended to use a mobile phone to view the course. The device needs to have a speaker that can play audio.</p>
+      <p class="note"><strong>Note:</strong> Videos are included throughout this course as a supplementary learning tool. If a video does not load due to slow internet, the written content on each page covers the same information, so you will not miss anything. Some videos are provided for learners who wish to explore a topic further and are not required to complete the module.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Do I need an email and password to log in to the module?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>No, you do not need to log in to access the module.</p>
+    </div>
+  </details>
+
+  <h3>Time and progress</h3>
+
+  <details>
+    <summary>How long is the module?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>The module consists of an introduction, 3 lessons, and a summary. There will be a short quiz after each lesson and a final assessment at the end that covers all course content. It should take approximately <strong>1 hour</strong> to finish.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>How much time do I have to finish the module?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>The module is self-paced, so you can finish at your own pace. If you decide to stop and return to the module later, please take note of where you left off.</p>
+      <p>This learning module is part of a student capstone research project. To keep on schedule with deadlines, please finish the module <strong>within 2 weeks</strong>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>How can I pick up where I left off?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>Because the learning module does not require a login to an account, it will not save your progress. It is highly recommended to write down or type your text responses in Microsoft Word, and to record which lesson you left off on.</p>
+    </div>
+  </details>
+
+  <h3>How the course works</h3>
+
+  <details>
+    <summary>How is the module designed?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>The module consists of four main components:</p>
+      <ul>
+        <li>a preliminary survey,</li>
+        <li>the learning content,</li>
+        <li>the final assessment,</li>
+<li>and the post module survey.</li>
+      </ul>
+      <p>The preliminary survey is designed to assess your current knowledge about online safety practices. Once you've completed the learning content and final assessment, your preliminary survey results will be compared to your post module survey results to measure the effectiveness of the learning material. Final assessment scores will also be used to determine whether learning objectives were met.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>What is the learning content like?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>The module content is made up of an introduction, 3 lessons, and a summary.</p>
+      <p>The course begins with a scenario for you to think about how you would respond if you found yourself in a similar situation. It is relevant for all 3 lessons. After working through the course content, you will return to the scenario and select the best course of action. The correct answer will then be revealed so you can compare it with your own response and reflect on what you've learned.</p>
+      <p>At the end of each lesson, you will complete a short quiz to check your learning. The results do not count toward your final score.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Will my assessment be graded?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>Yes, all assessments will be scored. All scores will be kept confidential and are not connected to your name or identifying information.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Is there a way to download the course content?<span class="toggle"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14"/><path class="plus-v" d="M12 5v14"/></svg></span></summary>
+    <div class="answer">
+      <p>Yes! There will be a page at the end of the course where you can download a PDF version of the course text. You can save it and print it out for studying later.</p>
+    </div>
+  </details>
+</div>
+
+
+
+</body>
+</html>

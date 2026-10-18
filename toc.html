@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Course Table of Contents</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #1a1a1a;
+      --muted: #888;
+      --blue-dark: #0b3f8f;
+      --blue-mid: #1552b0;
+      --blue-light-bg: #eef4ff;
+      --blue-border: #b9d4f2;
+      --green: #2e7d1a;
+      --green-light: #8fd14f;
+      --rule: #d0dff5;
+      --link-hover: #0b3f8f;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #12192b;
+        --fg: #e8eef8;
+        --muted: #7a8faa;
+        --blue-light-bg: #1a2540;
+        --blue-border: #2d4880;
+        --rule: #263355;
+        --link-hover: #7aaff5;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #12192b;
+      --fg: #e8eef8;
+      --muted: #7a8faa;
+      --blue-light-bg: #1a2540;
+      --blue-border: #2d4880;
+      --rule: #263355;
+      --link-hover: #7aaff5;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      padding: 32px 24px 48px;
+    }
+
+    .wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .page-header {
+      border-top: 5px solid var(--green-light);
+      background: linear-gradient(180deg, #f2f8ff 0%, #dcebfb 100%);
+      border-radius: 8px;
+      padding: 24px 28px 20px;
+      margin-bottom: 32px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .page-header {
+        background: linear-gradient(180deg, #1a2540 0%, #0f1a30 100%);
+      }
+    }
+    :root[data-theme="dark"] .page-header {
+      background: linear-gradient(180deg, #1a2540 0%, #0f1a30 100%);
+    }
+    .page-header h1 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--blue-dark);
+      letter-spacing: 0.01em;
+      margin-bottom: 4px;
+    }
+    .page-header p {
+      font-size: 0.9rem;
+      color: var(#eef4ff);
+    }
+
+    /* Section blocks */
+    .lesson-block,
+    .solo-block {
+      margin-bottom: 28px;
+    }
+
+    .lesson-heading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      background: var(--blue-dark);
+      color: #fff;
+      border-radius: 6px 6px 0 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .lesson-heading .badge {
+      background: var(--green-light);
+      color: #1a1a1a;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      margin-left: auto;
+    }
+
+    .lesson-body,
+    .solo-body {
+      border: 1px solid var(--blue-border);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      overflow: hidden;
+    }
+
+    .solo-heading {
+      padding: 10px 16px;
+      background: var(--blue-mid);
+      color: #fff;
+      border-radius: 6px 6px 0 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .toc-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--rule);
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.12s;
+    }
+    .toc-item:last-child {
+      border-bottom: none;
+    }
+    .toc-item:nth-child(even) {
+      background: var(--blue-light-bg);
+    }
+
+    /* Clickable rows */
+    a.toc-item {
+      cursor: pointer;
+    }
+    a.toc-item:hover {
+      background: #dceeff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) a.toc-item:hover { background: #1e3060; }
+    }
+    :root[data-theme="dark"] a.toc-item:hover { background: #1e3060; }
+
+    a.toc-item:hover .toc-label {
+      color: var(--link-hover);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* Left column: number or bullet */
+    .toc-num {
+      color: var(--blue-mid);
+      font-weight: 700;
+      min-width: 32px;
+      font-size: 0.82rem;
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .toc-num:empty::before {
+      content: "•";
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 1rem;
+    }
+
+    .toc-label {
+      color: var(--fg);
+      flex: 1;
+    }
+
+    /* Right-side oval tags */
+    .toc-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .tag-quiz     { background: #e8f1ff; color: var(--blue-mid); border: 1px solid #b9d4f2; }
+    .tag-activity { background: #f0fae5; color: var(--green);    border: 1px solid #b6e08a; }
+    .tag-summary  { background: #fff8e8; color: #7a5a00;         border: 1px solid #f0d88a; }
+    .tag-scenario { background: #f5eeff; color: #6030a0;         border: 1px solid #c8a8f0; }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .tag-quiz     { background: #1a2a4a; color: #7aaff5; border-color: #2d4880; }
+      :root:not([data-theme="light"]) .tag-activity { background: #1a2e10; color: #7fc84a; border-color: #2e5018; }
+      :root:not([data-theme="light"]) .tag-summary  { background: #2a2210; color: #d4a830; border-color: #5a4010; }
+      :root:not([data-theme="light"]) .tag-scenario { background: #22103a; color: #c090f5; border-color: #6040a0; }
+    }
+    :root[data-theme="dark"] .tag-quiz     { background: #1a2a4a; color: #7aaff5; border-color: #2d4880; }
+    :root[data-theme="dark"] .tag-activity { background: #1a2e10; color: #7fc84a; border-color: #2e5018; }
+    :root[data-theme="dark"] .tag-summary  { background: #2a2210; color: #d4a830; border-color: #5a4010; }
+    :root[data-theme="dark"] .tag-scenario { background: #22103a; color: #c090f5; border-color: #6040a0; }
+
+    @media (max-width: 480px) {
+      body { padding: 20px 16px 40px; }
+      .page-header h1 { font-size: 1.15rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="page-header">
+    <h1>Digital Street Smarts: Navigating Online Risks</h1>
+    <p>Table of Contents</p>
+  </div>
+
+  <!-- Course Introduction -->
+  <div class="solo-block">
+    <div class="solo-heading">Course Introduction</div>
+    <div class="solo-body">
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/welcome/mod-intro" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Welcome and introduction</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/welcome/mod-intro" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Course objectives</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/welcome/prelim-survey" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Preliminary survey</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Lesson 1 -->
+  <div class="lesson-block">
+    <div class="lesson-heading">
+      <span>Lesson 1: Common Scams</span>
+      <span class="badge">Lesson 1</span>
+    </div>
+    <div class="lesson-body">
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-obj" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 1 objectives</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-1" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 1 introduction</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-vocab" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Key vocabulary</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-scenario1" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 1 scenario: Meet Margaret</span>
+        <span class="toc-tag tag-scenario">Scenario</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-2" target="_blank">
+        <span class="toc-num">1.2</span>
+        <span class="toc-label">Grandparent scams</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-3" target="_blank">
+        <span class="toc-num">1.3</span>
+        <span class="toc-label">Financial services scams: emails, phone calls, and text messages</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-4" target="_blank">
+        <span class="toc-num">1.4</span>
+        <span class="toc-label">Government impersonation</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-5" target="_blank">
+        <span class="toc-num">1.5</span>
+        <span class="toc-label">Romance scams</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1-6" target="_blank">
+        <span class="toc-num">1.6</span>
+        <span class="toc-label">Tech support scams</span>
+      </a>
+      <div class="toc-item">
+        <span class="toc-num"></span>
+        <span class="toc-label">Spot-the-Scam activity</span>
+        <span class="toc-tag tag-activity">Activity</span>
+      </div>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1scenario2" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 1 scenario: Revisiting Margaret</span>
+        <span class="toc-tag tag-scenario">Scenario</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1quiz" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 1 quiz</span>
+        <span class="toc-tag tag-quiz">Quiz</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-1/lesson1summary" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 1 summary</span>
+        <span class="toc-tag tag-summary">Summary</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Lesson 2 -->
+  <div class="lesson-block">
+    <div class="lesson-heading">
+      <span>Lesson 2: Artificial Intelligence</span>
+      <span class="badge">Lesson 2</span>
+    </div>
+    <div class="lesson-body">
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2-obj" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 2 objectives</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2-1" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 2 introduction</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2-vocab" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Key vocabulary</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2-scenario1" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 2 scenario: Margaret and Facebook</span>
+        <span class="toc-tag tag-scenario">Scenario</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2-2" target="_blank">
+        <span class="toc-num">2.2</span>
+        <span class="toc-label">What is Artificial Intelligence?</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2-3" target="_blank">
+        <span class="toc-num">2.3</span>
+        <span class="toc-label">How AI is used for good</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2-4" target="_blank">
+        <span class="toc-num">2.4</span>
+        <span class="toc-label">AI scams and how they work</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2-5" target="_blank">
+        <span class="toc-num">2.5</span>
+        <span class="toc-label">Tips on identifying AI-generated content</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2scenario2" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 2 scenario: Revisiting Margaret</span>
+        <span class="toc-tag tag-scenario">Scenario</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2quiz" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 2 quiz</span>
+        <span class="toc-tag tag-quiz">Quiz</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-2/lesson2summary" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 2 summary</span>
+        <span class="toc-tag tag-summary">Summary</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Lesson 3 -->
+  <div class="lesson-block">
+    <div class="lesson-heading">
+      <span>Lesson 3: Emergency Toolbox</span>
+      <span class="badge">Lesson 3</span>
+    </div>
+    <div class="lesson-body">
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3-obj" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 3 objectives</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3-1" target="_blank">
+        <span class="toc-num">3.1</span>
+        <span class="toc-label">Lesson 3 introduction</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3-vocab" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Key vocabulary</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3-scenario1" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 3 scenario: Margaret's difficult week</span>
+        <span class="toc-tag tag-scenario">Scenario</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3-2" target="_blank">
+        <span class="toc-num">3.2</span>
+        <span class="toc-label">What to do in the moment</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3-3" target="_blank">
+        <span class="toc-num">3.3</span>
+        <span class="toc-label">What to do after a scam</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3-4" target="_blank">
+        <span class="toc-num">3.4</span>
+        <span class="toc-label">Who to report to</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3-5" target="_blank">
+        <span class="toc-num">3.5</span>
+        <span class="toc-label">How to protect your accounts going forward</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3scenario2" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 3 scenario: Revisiting Margaret</span>
+        <span class="toc-tag tag-scenario">Scenario</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3activity" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 3 activity: What went wrong?</span>
+        <span class="toc-tag tag-activity">Activity</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3quiz" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 3 quiz</span>
+        <span class="toc-tag tag-quiz">Quiz</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/lesson-3/lesson3summary" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Lesson 3 summary</span>
+        <span class="toc-tag tag-summary">Summary</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Course Conclusion -->
+  <div class="solo-block">
+    <div class="solo-heading">Course Conclusion</div>
+    <div class="solo-body">
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/modulesummary" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Course summary</span>
+        <span class="toc-tag tag-summary">Summary</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/modulesummary" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Final assessment: Margaret's full story</span>
+        <span class="toc-tag tag-quiz">Assessment</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/postmod-survey" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Post-module survey</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/feedback" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Module feedback</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Resources -->
+  <div class="solo-block">
+    <div class="solo-heading">Resources</div>
+    <div class="solo-body">
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/resources/references" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">References</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/resources/glossary" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Glossary</span>
+      </a>
+      <a class="toc-item" href="https://sites.google.com/view/digitalstreetsmarts/resources/download" target="_blank">
+        <span class="toc-num"></span>
+        <span class="toc-label">Downloadable takeaway</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

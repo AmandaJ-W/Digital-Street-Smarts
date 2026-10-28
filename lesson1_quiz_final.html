@@ -120,7 +120,7 @@
       font-weight: 700;
       color: #1552b0;
       cursor: pointer;
-      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-family: Lato, sans-serif;
       padding: 0.25rem 0;
       min-height: 44px;
       text-decoration: underline;
@@ -247,9 +247,9 @@
     <div class="progress-bar-fill" id="progress" style="width: 0%"></div>
   </div>
 
-  <!-- Q1 -->
+  
   <div class="question-card active" id="q1">
-    <p class="q-number">Question 1 of 4</p>
+    <p class="q-number">Question 1 of 5</p>
     <p class="q-prompt">You receive an email from 'support@bankofamerica-notifications.net' warning that your account has been suspended. What should you do first?</p>
     <button class="hint-btn" onclick="toggleHint('h1', this)">Show hint</button>
     <div class="hint-box" id="h1">Think about what you learned about sender addresses and suspicious links.</div>
@@ -265,9 +265,9 @@
     </div>
   </div>
 
-  <!-- Q2 -->
+ 
   <div class="question-card" id="q2">
-    <p class="q-number">Question 2 of 4</p>
+    <p class="q-number">Question 2 of 5</p>
     <p class="q-prompt">Which of the following is a red flag that an email may be fraudulent?</p>
     <button class="hint-btn" onclick="toggleHint('h2', this)">Show hint</button>
     <div class="hint-box" id="h2">Scammers use a specific tactic to stop you from pausing to verify.</div>
@@ -283,9 +283,9 @@
     </div>
   </div>
 
-  <!-- Q3 -->
+
   <div class="question-card" id="q3">
-    <p class="q-number">Question 3 of 4</p>
+    <p class="q-number">Question 3 of 5</p>
     <p class="q-prompt">You receive a phone call from someone who sounds like your grandson. He says he has been arrested abroad and needs $1,500 wired immediately. He asks you not to tell his parents. What is the safest thing to do?</p>
     <button class="hint-btn" onclick="toggleHint('h3', this)">Show hint</button>
     <div class="hint-box" id="h3">What did you learn about verifying suspicious calls independently?</div>
@@ -301,9 +301,9 @@
     </div>
   </div>
 
-  <!-- Q4 -->
+ 
   <div class="question-card" id="q4">
-    <p class="q-number">Question 4 of 4</p>
+    <p class="q-number">Question 4 of 5</p>
     <p class="q-prompt">A caller claims to be from a government agency and says you owe back taxes. They say you will be arrested if you do not pay immediately by gift card. What should you do?</p>
     <button class="hint-btn" onclick="toggleHint('h4', this)">Show hint</button>
     <div class="hint-box" id="h4">Think about what you learned about how legitimate government agencies contact people.</div>
@@ -315,14 +315,32 @@
     </div>
     <div class="feedback-box" id="fb4"></div>
     <div class="nav-row">
-      <button class="nav-btn" id="next4" onclick="showResults()">See my results &rarr;</button>
+      <button class="nav-btn" id="next4" onclick="nextQ(4)">Next question &rarr;</button>
     </div>
   </div>
 
-  <!-- Results -->
+
+  <div class="question-card" id="q5">
+    <p class="q-number">Question 5 of 5</p>
+    <p class="q-prompt">While you are browsing the internet, a warning suddenly fills your screen. It says your computer has been infected with a virus and that you must call "Microsoft Support" at the number shown right away, or your files will be deleted. The page will not close. What should you do?</p>
+    <button class="hint-btn" onclick="toggleHint('h5', this)">Show hint</button>
+    <div class="hint-box" id="h5">Think about how legitimate tech companies contact their customers, and what scammers want when they ask you to call them.</div>
+    <div class="options">
+      <button class="option-btn" onclick="answer(this, 'q5', false)">Call the number so a technician can connect to your computer and remove the virus.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', false)">Call the number, but ask the technician for their employee ID before letting them access your computer.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', true)">Do not call the number. Close the browser or restart your computer. Legitimate tech companies do not display phone numbers in pop-up warnings or contact you to request remote access.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', false)">Click the "Scan Now" button in the warning to check whether the virus is real.</button>
+    </div>
+    <div class="feedback-box" id="fb5"></div>
+    <div class="nav-row">
+      <button class="nav-btn" id="next5" onclick="showResults()">See my results &rarr;</button>
+    </div>
+  </div>
+
+  <!-- quiz result that changes according to number of q answered correctly -->
   <div class="results-card" id="results">
     <div class="results-score" id="score-display"></div>
-    <p class="results-label">out of 4 correct</p>
+    <p class="results-label">out of 5 correct</p>
     <p class="results-message" id="results-msg"></p>
     <button class="retry-btn" onclick="restartQuiz()">Try again</button>
     <br><br>
@@ -333,13 +351,14 @@
 
 <script>
   var score = 0;
-  var answered = [false, false, false, false];
+  var answered = [false, false, false, false, false];
 
   var explanations = {
     q1: { correct: 'Correct! The sender address uses a fake domain. Never click links or use contact information from a suspicious email. Always type the web address directly into your browser yourself.', incorrect: 'Not quite. The sender address uses a fake domain. You should never click links in suspicious emails. Instead, type the official web address directly into your browser.' },
     q2: { correct: "That's right. Spelling errors and urgent demands are classic scam tactics. A logo alone does not guarantee legitimacy. Scammers can copy and paste real logos into fake emails.", incorrect: "Think again. Spelling errors and urgent demands are the red flags to watch for. A company logo or a .gov address can be faked or used out of context." },
     q3: { correct: "Well done. This is a classic grandparent scam. AI can clone voices convincingly. Always hang up and call the person directly using a number you already have saved.", incorrect: "Not the safest choice. This is a grandparent scam. The request for secrecy and urgency are deliberate tactics. Always hang up and call back using a number you already trust." },
-    q4: { correct: "Exactly right. No legitimate government agency will ever demand immediate payment by gift card or threaten arrest over the phone. Hang up and contact the agency directly.", incorrect: "Remember: no legitimate government agency demands payment by gift card or threatens arrest over the phone. Hang up immediately." }
+    q4: { correct: "Exactly right. No legitimate government agency will ever demand immediate payment by gift card or threaten arrest over the phone. Hang up and contact the agency directly.", incorrect: "Remember: no legitimate government agency demands payment by gift card or threatens arrest over the phone. Hang up immediately." },
+    q5: { correct: "Correct! This is a tech support scam. Real companies like Microsoft and Apple do not put phone numbers in pop-up warnings or ask you to call them about a virus. Scammers create urgency and fear so that you will call and let them access your computer remotely, where they can steal personal information or charge you for fake repairs. Closing the browser or restarting your computer usually makes the warning go away.", incorrect: "Not quite. This is a tech support scam. Legitimate tech companies do not display phone numbers in pop-up warnings or ask for remote access to your computer. Calling the number, even to ask for an ID, puts you in contact with a scammer who wants access to your device and personal information. Clicking anything inside the warning can also be risky. The safest response is to close the browser or restart your computer." }
   };
 
   function toggleHint(id, btn) {
@@ -387,7 +406,7 @@
   }
 
   function updateProgress(qNum) {
-    var pct = (qNum / 4) * 100;
+    var pct = (qNum / 5) * 100;
     document.getElementById('progress').style.width = pct + '%';
   }
 
@@ -397,18 +416,18 @@
   }
 
   function showResults() {
-    document.getElementById('q4').classList.remove('active');
+    document.getElementById('q5').classList.remove('active');
     document.getElementById('progress').style.width = '100%';
     var results = document.getElementById('results');
     results.classList.add('show');
-    document.getElementById('score-display').textContent = score + ' / 4';
+    document.getElementById('score-display').textContent = score + ' / 5';
 
     var msg;
-    if (score === 4) {
+    if (score === 5) {
       msg = 'Excellent work! You answered every question correctly. You are well prepared to spot these common scam tactics.';
-    } else if (score === 3) {
+    } else if (score === 4) {
       msg = 'Good work! You got most questions right. Review the explanations for any questions you missed before moving on.';
-    } else if (score === 2) {
+    } else if (score === 3) {
       msg = 'You are getting there. Take a moment to review the lesson content and read through the explanations, then try again.';
     } else {
       msg = 'It looks like this material needs a bit more review. Go back and re-read Lesson 1, then try the quiz again.';
@@ -420,7 +439,7 @@
     score = 0;
     answered = [false, false, false, false];
 
-    for (var i = 1; i <= 4; i++) {
+    for (var i = 1; i <= 5; i++) {
       var card = document.getElementById('q' + i);
       card.classList.remove('active');
       var opts = card.querySelectorAll('.option-btn');

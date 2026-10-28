@@ -9,7 +9,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-family: Lato, sans-serif;
       background: #ffffff;
       padding: 2rem 1rem 4rem;
       color: #1f2a1f;
@@ -29,7 +29,7 @@
     }
     .quiz-label {
       font-size: 0.85rem;
-      text-transform: uppercase;
+      text-transform: none;
       letter-spacing: 0.1em;
       color: #2e7d1a;
       font-weight: 900;
@@ -99,7 +99,7 @@
       padding: 0.85rem 1.1rem;
       min-height: 56px;
       font-size: 1.05rem;
-      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-family: Lato, sans-serif;
       color: #1f2a1f;
       text-align: left;
       cursor: pointer;
@@ -161,7 +161,7 @@
       gap: 10px;
       margin-top: 0.5rem;
     }
-    .nav-btn, .retry-btn {
+    .nav-btn, .retry-btn, .back-btn {
       background: linear-gradient(180deg, #3d8ae0 0%, #1552b0 50%, #0b3f8f 100%);
       color: #ffffff;
       border: 2px solid #08397a;
@@ -172,8 +172,8 @@
       cursor: pointer;
       min-height: 52px;
     }
-    .nav-btn:hover, .retry-btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
-    .nav-btn:focus-visible, .retry-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
+    .nav-btn:hover, .retry-btn:hover, .back-btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
+    .nav-btn:focus-visible, .retry-btn:focus-visible, .back-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
 
     .nav-btn {
       padding: 0.6rem 1.6rem;
@@ -213,6 +213,15 @@
     .retry-btn {
       padding: 0.75rem 2.2rem;
       font-size: 1.1rem;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.5rem 1.4rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
     }
 
     @media (max-width: 480px) {
@@ -316,6 +325,8 @@
     <p class="results-label">out of 4 correct</p>
     <p class="results-message" id="results-msg"></p>
     <button class="retry-btn" onclick="restartQuiz()">Try again</button>
+    <br><br>
+    <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 3">&#8592; Back to Lesson 3</button>
   </div>
 
 </div>

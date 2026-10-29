@@ -99,7 +99,7 @@
       padding: 0.85rem 1.1rem;
       min-height: 56px;
       font-size: 1.05rem;
-      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-family: Lato, sans-serif;
       color: #1f2a1f;
       text-align: left;
       cursor: pointer;
@@ -120,7 +120,7 @@
       font-weight: 700;
       color: #1552b0;
       cursor: pointer;
-      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-family: Lato, sans-serif;
       padding: 0.25rem 0;
       min-height: 44px;
       text-decoration: underline;
@@ -161,19 +161,19 @@
       gap: 10px;
       margin-top: 0.5rem;
     }
-    .nav-btn, .retry-btn, .back-btn {
+    .nav-btn, .retry-btn {
       background: linear-gradient(180deg, #3d8ae0 0%, #1552b0 50%, #0b3f8f 100%);
       color: #ffffff;
       border: 2px solid #08397a;
       border-radius: 999px;
       box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 4px 10px rgba(11,63,143,.3);
       font-weight: 900;
-      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-family: Lato, sans-serif;
       cursor: pointer;
       min-height: 52px;
     }
-    .nav-btn:hover, .retry-btn:hover, .back-btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
-    .nav-btn:focus-visible, .retry-btn:focus-visible, .back-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
+    .nav-btn:hover, .retry-btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
+    .nav-btn:focus-visible, .retry-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
 
     .nav-btn {
       padding: 0.6rem 1.6rem;
@@ -214,15 +214,26 @@
       padding: 0.75rem 2.2rem;
       font-size: 1.1rem;
     }
-
     .back-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 0.5rem 1.4rem;
-      font-size: 1rem;
-      margin-bottom: 1rem;
+      gap: 5px;
+      background: linear-gradient(180deg, #3d8ae0 0%, #1552b0 50%, #0b3f8f 100%);
+      color: #ffffff;
+      border: 2px solid #08397a;
+      border-radius: 999px;
+      box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 4px 10px rgba(11,63,143,.3);
+      font-size: 1.1rem;
+      font-weight: 900;
+      font-family: Lato, "Trebuchet MS", sans-serif;
+      cursor: pointer;
+      padding: 0.75rem 2.2rem;
+      min-height: 52px;
+      margin-top: 0.85rem;
+      transition: filter 0.15s;
     }
+    .back-btn:hover { filter: brightness(1.1); }
+    .back-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
 
     @media (max-width: 480px) {
       body { font-size: 1.05rem; padding: 1rem 0.75rem 3rem; }
@@ -286,14 +297,14 @@
   <!-- Q3 -->
   <div class="question-card" id="q3">
     <p class="q-number">Question 3 of 5</p>
-    <p class="q-prompt">You receive a voice message that sounds exactly like your grandson. He asks you to send money urgently. Which of the following should make you suspicious that the voice may be AI-generated?</p>
+    <p class="q-prompt">Which of the following is an audio clue that a voice in a phone call or recording may be AI-generated?</p>
     <button class="hint-btn" onclick="toggleHint('h3', this)">Show hint</button>
-    <div class="hint-box" id="h3">Think about what clues in the content of a message, beyond just the voice itself, might indicate something is wrong.</div>
+    <div class="hint-box" id="h3">Think about what you learned about how AI-generated voices tend to sound compared to a real human voice.</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(this, 'q3', false)">The voice sounds completely natural and matches your grandson perfectly.</button>
-      <button class="option-btn" onclick="answer(this, 'q3', true)">The message is short and does not include any personal details you would expect him to know.</button>
-      <button class="option-btn" onclick="answer(this, 'q3', false)">The message was left as a voicemail rather than a live call.</button>
-      <button class="option-btn" onclick="answer(this, 'q3', false)">Your grandson has called you before asking for small favors.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The caller uses your first name.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The call comes from a number you do not recognize.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', true)">The voice sounds slightly flat or robotic, with pauses in unusual places.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The caller speaks very quickly.</button>
     </div>
     <div class="feedback-box" id="fb3"></div>
     <div class="nav-row">
@@ -304,14 +315,14 @@
   <!-- Q4 -->
   <div class="question-card" id="q4">
     <p class="q-number">Question 4 of 5</p>
-    <p class="q-prompt">You receive an unexpected call from someone who sounds like a family member asking for money urgently. What is the safest course of action?</p>
+    <p class="q-prompt">Carol receives a phone call. The voice sounds exactly like her daughter and says she is stranded at the airport and needs $500 wired right away. What type of AI scam is most likely taking place?</p>
     <button class="hint-btn" onclick="toggleHint('h4', this)">Show hint</button>
-    <div class="hint-box" id="h4">Think about what you learned about verifying suspicious contacts independently.</div>
+    <div class="hint-box" id="h4">Think about which type of AI-generated content involves copying a real person's voice from a recording.</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(this, 'q4', false)">Send the money immediately because the voice sounds genuine.</button>
-      <button class="option-btn" onclick="answer(this, 'q4', false)">Ask the caller a personal question only your family member would know before deciding.</button>
-      <button class="option-btn" onclick="answer(this, 'q4', true)">Hang up and call your family member back using a number you already have saved.</button>
-      <button class="option-btn" onclick="answer(this, 'q4', false)">Ask the caller to video call you so you can see their face before sending money.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">A phishing scam where a criminal is trying to get Carol's banking password.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', true)">A voice cloning scam where AI has been used to copy her daughter's voice.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">A tech support scam where a criminal is pretending to fix Carol's computer.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">An email spoofing scam where a criminal has faked her daughter's email address.</button>
     </div>
     <div class="feedback-box" id="fb4"></div>
     <div class="nav-row">
@@ -322,14 +333,14 @@
   <!-- Q5 -->
   <div class="question-card" id="q5">
     <p class="q-number">Question 5 of 5</p>
-    <p class="q-prompt">Which of the following best describes what Artificial Intelligence (AI) is?</p>
+    <p class="q-prompt">Which of the following best describes how AI-generated content is used in scams?</p>
     <button class="hint-btn" onclick="toggleHint('h5', this)">Show hint</button>
-    <div class="hint-box" id="h5">Think about what makes AI different from a regular computer program — AI can do something standard software cannot.</div>
+    <div class="hint-box" id="h5">Think about what types of content AI can create and why that makes it useful for deception.</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(this, 'q5', false)">A type of computer virus that spreads by copying itself from one device to another.</button>
-      <button class="option-btn" onclick="answer(this, 'q5', true)">Software that can learn from data and perform tasks that typically require human intelligence, such as generating voices, images, and video.</button>
-      <button class="option-btn" onclick="answer(this, 'q5', false)">A government database used to track suspicious activity on the internet.</button>
-      <button class="option-btn" onclick="answer(this, 'q5', false)">A social media algorithm that decides which posts to show you based on your activity.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', false)">Scammers use AI to break into bank accounts and steal passwords directly.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', false)">Scammers use AI to send spam emails to large numbers of people at once.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', true)">Scammers use AI to create realistic fake images, videos, and voices that make people believe something false is real.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', false)">Scammers use AI to track where a victim lives and monitor their daily routine.</button>
     </div>
     <div class="feedback-box" id="fb5"></div>
     <div class="nav-row">
@@ -343,7 +354,7 @@
     <p class="results-label">out of 5 correct</p>
     <p class="results-message" id="results-msg"></p>
     <button class="retry-btn" onclick="restartQuiz()">Try again</button>
-    <br><br>
+    <br>
     <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 2">&#8592; Back to Lesson 2</button>
   </div>
 
@@ -356,23 +367,23 @@
   var explanations = {
     q1: {
       correct: "Correct! Investment endorsement videos featuring celebrities are one of the most common uses of AI deepfakes. Even if a video looks completely real, you should never invest money based on a social media video alone. Always research independently through a trusted financial source.",
-      incorrect: "Not quite. This is a classic AI deepfake scam. Scammers generate fake videos of celebrities endorsing investments to make them appear legitimate. Even a video that looks completely real can be entirely AI-generated."
+      incorrect: "Incorrect. This is a classic AI deepfake scam. Scammers generate fake videos of celebrities endorsing investments to make them appear legitimate. Even a video that looks completely real can be entirely AI-generated."
     },
     q2: {
       correct: "That's right. AI frequently struggles to generate hands correctly, often producing extra fingers, unusual proportions, or blurred edges. This remains one of the most reliable visual clues that a photo may be AI-generated.",
-      incorrect: "Not quite. The most reliable visual clue that a photo may be AI-generated is distorted or extra fingers on the hands. AI frequently struggles to generate hands correctly, which is why checking the hands is one of the first things to look for."
+      incorrect: "Incorrect. The most reliable visual clue that a photo may be AI-generated is distorted or extra fingers on the hands. AI frequently struggles to generate hands correctly, which is why checking the hands is one of the first things to look for."
     },
     q3: {
-      correct: "Well done. A genuine family member calling with an urgent request would likely include personal details that only they would know. A short, generic message that lacks those personal details is a red flag, even if the voice sounds right. AI can clone a voice but cannot easily replicate personal knowledge.",
-      incorrect: "Think again. The key red flag here is that the message lacks personal details you would expect your grandson to include. AI can clone a voice convincingly, but it cannot replicate the personal knowledge a real family member would have."
+      correct: "That's right. AI-generated voices often sound almost right but not quite. A flat or robotic tone and pauses in unusual places are the audio clues to listen for. Using your first name, an unfamiliar number, and speaking quickly are not signs of AI.",
+      incorrect: "The audio clue to listen for is a flat or robotic tone and pauses in unusual places. AI-generated voices often lack the natural variation of a real human voice. Using your first name, an unfamiliar number, and speaking quickly are not signs of AI."
     },
     q4: {
-      correct: "Correct. Hanging up and calling back using a number you already have saved is always the safest response. This applies whether the threat is a cloned voice or any other type of impersonation scam. Note that asking a personal question or requesting a video call are not safe alternatives, as AI can now answer questions using gathered information and generate convincing video in real time.",
-      incorrect: "Not the safest choice. The only truly safe response is to hang up and call back using a number you already have saved. Asking a personal question is not safe because scammers can gather information from social media, and a video call is not safe because AI can generate convincing video in real time."
+      correct: "That's right. This is a voice cloning scam. AI can create a convincing copy of someone's voice using a short recording found on social media or voicemail. Scammers use that clone to call family members and ask for money in a fake emergency.",
+      incorrect: "This is a voice cloning scam. AI can copy a person's voice from a short recording found on social media or voicemail. The voice on the call sounds real, but it was generated by AI. Phishing uses fake emails or texts, tech support scams involve computer problems, and email spoofing uses fake email addresses."
     },
     q5: {
-      correct: "That's right. Artificial Intelligence is software that can learn from large amounts of data and perform tasks that typically require human intelligence, such as recognizing voices, generating realistic images, and holding conversations. This is what makes AI-generated content so convincing and increasingly difficult to detect.",
-      incorrect: "Not quite. Artificial Intelligence is software that can learn from large amounts of data and perform tasks that typically require human intelligence, such as recognizing voices, generating realistic images, and holding conversations. This is what makes AI-generated content so convincing and increasingly difficult to detect."
+      correct: "That's right. AI can generate images, videos, and audio that look and sound completely real. Scammers use this to create fake videos of celebrities, clone the voices of family members, and build convincing fake identities. The goal is always to make you believe something false is true.",
+      incorrect: "AI-generated content is content that AI creates from scratch. Scammers use it to produce fake images, videos, and audio that are convincing enough to fool people. That is what makes it so different from older types of scams. Hacking into bank accounts, spam emails, and physical surveillance are separate types of fraud."
     }
   };
 

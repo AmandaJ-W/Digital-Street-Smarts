@@ -181,23 +181,23 @@
       gap: 10px;
       margin-top: 0.5rem;
     }
-    .nav-btn, .retry-btn, .back-btn {
-      background: linear-gradient(180deg, #3d8ae0 0%, #1552b0 50%, #0b3f8f 100%);
+    .nav-btn, .retry-btn {
+      background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%);
       color: #ffffff;
-      border: 2px solid #08397a;
-      border-radius: 999px;
-      box-shadow: inset 0 2px 0 rgba(255,255,255,.45), 0 4px 10px rgba(11,63,143,.3);
-      font-weight: 900;
-      font-family: Lato, "Trebuchet MS", sans-serif;
+      border: none;
+      border-radius: 12px;
+      font-family: Lato, sans-serif;
+      font-weight: 700;
       cursor: pointer;
-      min-height: 52px;
+      transition: filter 0.15s;
     }
-    .nav-btn:hover, .retry-btn:hover, .back-btn:hover { background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%); }
-    .nav-btn:focus-visible, .retry-btn:focus-visible, .back-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
+    .nav-btn:hover:not(:disabled), .retry-btn:hover { filter: brightness(1.1); }
+    .nav-btn:focus-visible, .retry-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
 
     .nav-btn {
       padding: 0.6rem 1.6rem;
       font-size: 1.05rem;
+      min-height: 48px;
       display: none;
     }
     .nav-btn.show { display: inline-block; }
@@ -233,16 +233,28 @@
     .retry-btn {
       padding: 0.75rem 2.2rem;
       font-size: 1.1rem;
+      min-height: 48px;
     }
 
     .back-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 0.5rem 1.4rem;
-      font-size: 1rem;
-      margin-bottom: 1rem;
+      gap: 5px;
+      background: linear-gradient(180deg, #5aa0ec 0%, #1d62c4 50%, #0e4aa3 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: Lato, sans-serif;
+      cursor: pointer;
+      padding: 0.75rem 2.2rem;
+      min-height: 48px;
+      margin-top: 0.85rem;
+      transition: filter 0.15s;
     }
+    .back-btn:hover { filter: brightness(1.1); }
+    .back-btn:focus-visible { outline: 3px solid #1552b0; outline-offset: 3px; }
 
     @media (max-width: 480px) {
       body { font-size: 1.05rem; padding: 1rem 0.75rem 3rem; }
@@ -258,7 +270,7 @@
 <div class="wrap">
 
   <div class="quiz-header">
-    <p class="quiz-label">Lesson 1 Check</p>
+    <p class="quiz-label">Lesson 1 Quiz</p>
     <h1 class="quiz-title">Common Scams</h1>
     <p class="quiz-desc">Test your understanding of the key concepts from Lesson 1. Select the best answer for each question.</p>
   </div>
@@ -267,7 +279,7 @@
     <div class="progress-bar-fill" id="progress" style="width: 0%"></div>
   </div>
 
-  <!-- Q1: LO1 — Define phishing -->
+  
   <div class="question-card active" id="q1">
     <p class="q-number">Question 1 of 5</p>
     <p class="q-prompt">Which of the following best describes phishing?</p>
@@ -285,7 +297,7 @@
     </div>
   </div>
 
-  <!-- Q2: LO2 — Red flag in an email -->
+
   <div class="question-card" id="q2">
     <p class="q-number">Question 2 of 5</p>
     <p class="q-prompt">Which of the following is a red flag that an email may be fraudulent?</p>
@@ -303,7 +315,7 @@
     </div>
   </div>
 
-  <!-- Q3: LO2 — Red flag in a text message -->
+  
   <div class="question-card" id="q3">
     <p class="q-number">Question 3 of 5</p>
     <p class="q-prompt">You receive this text message: "ALERT: Your bank account has been locked. Click here to verify your identity now: www.secure-bank-verify.com." What makes this text a red flag?</p>
@@ -321,7 +333,7 @@
     </div>
   </div>
 
-  <!-- Q4: LO2 — Red flag in a phone call -->
+  
   <div class="question-card" id="q4">
     <p class="q-number">Question 4 of 5</p>
     <p class="q-prompt">A caller claims to be from the IRS and says you owe back taxes. They tell you that you will be arrested within the hour unless you pay immediately by gift card. What should you do?</p>
@@ -339,7 +351,7 @@
     </div>
   </div>
 
-  <!-- Q5: LO3 — Examine a suspicious email -->
+  
   <div class="question-card" id="q5">
     <p class="q-number">Question 5 of 5</p>
     <p class="q-prompt">Read this email carefully. Which answer correctly names the indicators that it is a scam?</p>
@@ -367,13 +379,13 @@
     </div>
   </div>
 
-  <!-- Results card -->
+  <!-- Results  -->
   <div class="results-card" id="results">
     <div class="results-score" id="score-display"></div>
     <p class="results-label">out of 5 correct</p>
     <p class="results-message" id="results-msg"></p>
     <button class="retry-btn" onclick="restartQuiz()">Try again</button>
-    <br><br>
+    <br>
     <button class="back-btn" onclick="window.close()" aria-label="Close this tab and return to Lesson 1">&#8592; Back to Lesson 1</button>
   </div>
 
@@ -385,24 +397,24 @@
 
   var explanations = {
     q1: {
-      correct: "That's right. Phishing is when a scammer pretends to be a trusted person or organization — such as your bank, the IRS, or a family member — to trick you into giving up personal information, clicking a dangerous link, or sending money. Phishing can happen through email, phone calls, and text messages.",
+      correct: "Correct! Phishing is when a scammer pretends to be a trusted person or organization, such as your bank, the IRS, or a family member, to trick you into giving up personal information, clicking a dangerous link, or sending money. Phishing can happen through email, phone calls, and text messages.",
       incorrect: "Not quite. Phishing is when a scammer pretends to be a trusted person or organization to trick you into giving up personal information, clicking a dangerous link, or sending money. It is not limited to one channel — it can happen through email, phone calls, and text messages."
     },
     q2: {
-      correct: "That's right. Spelling errors and urgent demands are classic phishing red flags. Scammers create pressure so you act before you think. A company logo or a .gov address is not proof of legitimacy — both can be faked or used out of context.",
-      incorrect: "Think again. Spelling errors and urgent demands are the red flags to watch for. Scammers create urgency so you do not pause to verify. A company logo, a .gov address, and your full name can all appear in phishing emails — none of them make a message safe."
+      correct: "Correct! Spelling errors and urgent demands are classic phishing red flags. Scammers create pressure so you act before you think. A company logo or a .gov address is not proof of legitimacy. Both can be faked or used out of context.",
+      incorrect: "Incorrect. Spelling errors and urgent demands are the red flags to watch for. Scammers create urgency so you do not pause to verify. A company logo, a .gov address, and your full name can all appear in phishing emails — none of them make a message safe."
     },
     q3: {
-      correct: "That's right. The link 'secure-bank-verify.com' is not your bank's real website, and the urgent language is designed to make you click before you think. Text message phishing — sometimes called smishing — is a common scam. Never click a link in an unexpected text. Go directly to your bank's website by typing the address yourself.",
-      incorrect: "Not quite. The red flags are the fake link and the urgent pressure. 'secure-bank-verify.com' is not your bank's real website. This type of scam is called smishing — phishing by text message. Never click a link in an unexpected text message claiming your account has a problem. Go directly to your bank's website by typing the address yourself."
+      correct: "Correct! The link 'secure-bank-verify.com' is not your bank's real website, and the urgent language is designed to make you click before you think. Text message phishing (sometimes called 'smishing') is a common scam. Never click a link in an unexpected text. Go directly to your bank's website by typing the address yourself.",
+      incorrect: "Incorrect. The red flags are the fake link and the urgent pressure. 'secure-bank-verify.com' is not your bank's real website. This type of scam is called 'smishing', which is phishing by text message. Never click a link in an unexpected text message claiming your account has a problem. Go directly to your bank's website by typing the address yourself."
     },
     q4: {
-      correct: "Correct. No legitimate government agency — including the IRS — will ever call and demand payment by gift card or threaten immediate arrest. These are pressure tactics designed to make you panic. If you receive a call like this, hang up and contact the agency directly using a number from their official website.",
-      incorrect: "Remember: no legitimate government agency demands payment by gift card or threatens arrest over the phone. Asking for a badge number only keeps you on the line with a scammer. If you receive a call like this, hang up and contact the agency directly using a number from their official website."
+      correct: "Correct! No legitimate government agency, including the IRS, will ever call and demand payment by gift card or threaten immediate arrest. These are pressure tactics designed to make you panic. If you receive a call like this, hang up and contact the agency directly using a number from their official website.",
+      incorrect: "Incorrect. Remember: no legitimate government agency demands payment by gift card or threatens arrest over the phone. Asking for a badge number only keeps you on the line with a scammer. If you receive a call like this, hang up and contact the agency directly using a number from their official website."
     },
     q5: {
-      correct: "That's right. This email has three clear scam indicators: it uses 'Dear Customer' instead of your name; the sender address and link spell 'PayPal' as 'paypa1' — replacing the letter l with the number 1; and the 24-hour deadline is designed to pressure you into clicking before you stop to think. Never click links in emails like this. Go directly to the company's website by typing the address yourself.",
-      incorrect: "Not quite. Look at the three indicators: the greeting says 'Dear Customer' instead of your name; the sender address and link read 'paypa1-secure.com' — the letter l is replaced by the number 1 to mimic PayPal's real address; and the 24-hour deadline pressures you to act fast. These are all classic phishing tactics. Never click links in emails like this."
+      correct: "Correct! This email has three clear scam indicators: it uses 'Dear Customer' instead of your name; the sender address and link spell 'PayPal' as 'paypa1' (replacing the letter l with the number 1); and the 24-hour deadline is designed to pressure you into clicking before you stop to think. Never click links in emails like this. Go directly to the company's website by typing in the web address yourself.",
+      incorrect: "Incorrect. Look at the three indicators: the greeting says 'Dear Customer' instead of your name; the sender address and link read 'paypa1-secure.com': the letter l is replaced by the number 1 to mimic PayPal's real address; and the 24-hour deadline pressures you to act fast. These are all classic phishing tactics. Never click links in emails like this."
     }
   };
 

@@ -9,7 +9,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: Lato, "Trebuchet MS", sans-serif;
+      font-family: Lato, sans-serif;
       background: #ffffff;
       padding: 2rem 1rem 4rem;
       color: #1f2a1f;
@@ -88,6 +88,26 @@
       color: #0b3f8f;
       margin-bottom: 1.25rem;
       line-height: 1.5;
+    }
+
+    .email-sample {
+      background: #f8f9fa;
+      border: 1px solid #d0d7de;
+      border-left: 4px solid #1552b0;
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      color: #1f2a1f;
+      line-height: 1.6;
+    }
+    .email-sample .email-field {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 0.25rem;
+    }
+    .email-sample .email-body {
+      margin-top: 0.5rem;
     }
 
     .options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 1rem; }
@@ -247,17 +267,17 @@
     <div class="progress-bar-fill" id="progress" style="width: 0%"></div>
   </div>
 
-  
+  <!-- Q1: LO1 — Define phishing -->
   <div class="question-card active" id="q1">
     <p class="q-number">Question 1 of 5</p>
-    <p class="q-prompt">You receive an email from 'support@bankofamerica-notifications.net' warning that your account has been suspended. What should you do first?</p>
+    <p class="q-prompt">Which of the following best describes phishing?</p>
     <button class="hint-btn" onclick="toggleHint('h1', this)">Show hint</button>
-    <div class="hint-box" id="h1">Think about what you learned about sender addresses and suspicious links.</div>
+    <div class="hint-box" id="h1">Think about what the lesson said about how scammers pretend to be someone you trust.</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(this, 'q1', false)">Click the link in the email to log in and check your account.</button>
-      <button class="option-btn" onclick="answer(this, 'q1', false)">Reply to the email asking for more information.</button>
-      <button class="option-btn" onclick="answer(this, 'q1', true)">Go directly to bankofamerica.com by typing it into your browser and log in from there.</button>
-      <button class="option-btn" onclick="answer(this, 'q1', false)">Call the number provided in the email to speak with customer service.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">A type of malware that installs itself on your computer when you open an email attachment.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', true)">An attempt by a scammer to trick you into giving up personal information by pretending to be a trusted person or organization.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">An unsolicited email advertising products or services you did not sign up to receive.</button>
+      <button class="option-btn" onclick="answer(this, 'q1', false)">A scam that only happens through email.</button>
     </div>
     <div class="feedback-box" id="fb1"></div>
     <div class="nav-row">
@@ -265,12 +285,12 @@
     </div>
   </div>
 
- 
+  <!-- Q2: LO2 — Red flag in an email -->
   <div class="question-card" id="q2">
     <p class="q-number">Question 2 of 5</p>
     <p class="q-prompt">Which of the following is a red flag that an email may be fraudulent?</p>
     <button class="hint-btn" onclick="toggleHint('h2', this)">Show hint</button>
-    <div class="hint-box" id="h2">Scammers use a specific tactic to stop you from pausing to verify.</div>
+    <div class="hint-box" id="h2">Scammers use a specific tactic to stop you from pausing to verify before you act.</div>
     <div class="options">
       <button class="option-btn" onclick="answer(this, 'q2', false)">The email addresses you by your full name.</button>
       <button class="option-btn" onclick="answer(this, 'q2', true)">The email contains spelling errors and demands immediate action.</button>
@@ -283,17 +303,17 @@
     </div>
   </div>
 
-
+  <!-- Q3: LO2 — Red flag in a text message -->
   <div class="question-card" id="q3">
     <p class="q-number">Question 3 of 5</p>
-    <p class="q-prompt">You receive a phone call from someone who sounds like your grandson. He says he has been arrested abroad and needs $1,500 wired immediately. He asks you not to tell his parents. What is the safest thing to do?</p>
+    <p class="q-prompt">You receive this text message: "ALERT: Your bank account has been locked. Click here to verify your identity now: www.secure-bank-verify.com." What makes this text a red flag?</p>
     <button class="hint-btn" onclick="toggleHint('h3', this)">Show hint</button>
-    <div class="hint-box" id="h3">What did you learn about verifying suspicious calls independently?</div>
+    <div class="hint-box" id="h3">Think about what you learned about suspicious links and urgent language in text messages.</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(this, 'q3', false)">Wire the money immediately. He needs help.</button>
-      <button class="option-btn" onclick="answer(this, 'q3', false)">Ask the caller to send you proof before you wire the money.</button>
-      <button class="option-btn" onclick="answer(this, 'q3', true)">Hang up and call your grandson back using the number you already have saved.</button>
-      <button class="option-btn" onclick="answer(this, 'q3', false)">Call the lawyer the caller mentions to verify the story.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The text was sent to your phone number instead of your email address.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', true)">The link does not match your bank's real website, and the message pressures you to act immediately.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The text arrived outside of normal banking hours.</button>
+      <button class="option-btn" onclick="answer(this, 'q3', false)">The text does not include your name.</button>
     </div>
     <div class="feedback-box" id="fb3"></div>
     <div class="nav-row">
@@ -301,15 +321,15 @@
     </div>
   </div>
 
- 
+  <!-- Q4: LO2 — Red flag in a phone call -->
   <div class="question-card" id="q4">
     <p class="q-number">Question 4 of 5</p>
-    <p class="q-prompt">A caller claims to be from a government agency and says you owe back taxes. They say you will be arrested if you do not pay immediately by gift card. What should you do?</p>
+    <p class="q-prompt">A caller claims to be from the IRS and says you owe back taxes. They tell you that you will be arrested within the hour unless you pay immediately by gift card. What should you do?</p>
     <button class="hint-btn" onclick="toggleHint('h4', this)">Show hint</button>
     <div class="hint-box" id="h4">Think about what you learned about how legitimate government agencies contact people.</div>
     <div class="options">
       <button class="option-btn" onclick="answer(this, 'q4', false)">Purchase the gift cards and provide the numbers over the phone to avoid arrest.</button>
-      <button class="option-btn" onclick="answer(this, 'q4', false)">Ask the caller for their badge number and then pay.</button>
+      <button class="option-btn" onclick="answer(this, 'q4', false)">Ask the caller for their badge number, then decide whether to pay.</button>
       <button class="option-btn" onclick="answer(this, 'q4', true)">Hang up. Legitimate government agencies do not demand immediate payment by gift card or threaten arrest over the phone.</button>
       <button class="option-btn" onclick="answer(this, 'q4', false)">Stay on the line and ask the caller to transfer you to their supervisor.</button>
     </div>
@@ -319,17 +339,27 @@
     </div>
   </div>
 
-
+  <!-- Q5: LO3 — Examine a suspicious email -->
   <div class="question-card" id="q5">
     <p class="q-number">Question 5 of 5</p>
-    <p class="q-prompt">While you are browsing the internet, a warning suddenly fills your screen. It says your computer has been infected with a virus and that you must call "Microsoft Support" at the number shown right away, or your files will be deleted. The page will not close. What should you do?</p>
+    <p class="q-prompt">Read this email carefully. Which answer correctly names the indicators that it is a scam?</p>
+    <div class="email-sample">
+      <div class="email-field"><strong>From:</strong> support@paypa1-secure.com</div>
+      <div class="email-field"><strong>Subject:</strong> Urgent: Your account will be suspended</div>
+      <div class="email-body">
+        Dear Customer,<br><br>
+        We have detected unusual activity on your PayPal account. Your access will be suspended in 24 hours.<br><br>
+        To restore access, click here: <strong>www.paypa1-secure.com/verify</strong><br><br>
+        Do not ignore this notice.
+      </div>
+    </div>
     <button class="hint-btn" onclick="toggleHint('h5', this)">Show hint</button>
-    <div class="hint-box" id="h5">Think about how legitimate tech companies contact their customers, and what scammers want when they ask you to call them.</div>
+    <div class="hint-box" id="h5">Look closely at the sender address and the link. Notice how the message tries to make you feel.</div>
     <div class="options">
-      <button class="option-btn" onclick="answer(this, 'q5', false)">Call the number so a technician can connect to your computer and remove the virus.</button>
-      <button class="option-btn" onclick="answer(this, 'q5', false)">Call the number, but ask the technician for their employee ID before letting them access your computer.</button>
-      <button class="option-btn" onclick="answer(this, 'q5', true)">Do not call the number. Close the browser or restart your computer. Legitimate tech companies do not display phone numbers in pop-up warnings or contact you to request remote access.</button>
-      <button class="option-btn" onclick="answer(this, 'q5', false)">Click the "Scan Now" button in the warning to check whether the virus is real.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', true)">The email uses a generic greeting, the sender address and link use a misspelled domain, and the 24-hour deadline creates pressure to act without thinking.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', false)">The email was sent to your inbox and contains a clickable link.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', false)">The email mentions account activity and gives you time to respond before suspension.</button>
+      <button class="option-btn" onclick="answer(this, 'q5', false)">The email does not include a company logo or a phone number.</button>
     </div>
     <div class="feedback-box" id="fb5"></div>
     <div class="nav-row">
@@ -337,7 +367,7 @@
     </div>
   </div>
 
-  <!-- quiz result that changes according to number of q answered correctly -->
+  <!-- Results card -->
   <div class="results-card" id="results">
     <div class="results-score" id="score-display"></div>
     <p class="results-label">out of 5 correct</p>
@@ -354,11 +384,26 @@
   var answered = [false, false, false, false, false];
 
   var explanations = {
-    q1: { correct: 'Correct! The sender address uses a fake domain. Never click links or use contact information from a suspicious email. Always type the web address directly into your browser yourself.', incorrect: 'Not quite. The sender address uses a fake domain. You should never click links in suspicious emails. Instead, type the official web address directly into your browser.' },
-    q2: { correct: "That's right. Spelling errors and urgent demands are classic scam tactics. A logo alone does not guarantee legitimacy. Scammers can copy and paste real logos into fake emails.", incorrect: "Think again. Spelling errors and urgent demands are the red flags to watch for. A company logo or a .gov address can be faked or used out of context." },
-    q3: { correct: "Well done. This is a classic grandparent scam. AI can clone voices convincingly. Always hang up and call the person directly using a number you already have saved.", incorrect: "Not the safest choice. This is a grandparent scam. The request for secrecy and urgency are deliberate tactics. Always hang up and call back using a number you already trust." },
-    q4: { correct: "Exactly right. No legitimate government agency will ever demand immediate payment by gift card or threaten arrest over the phone. Hang up and contact the agency directly.", incorrect: "Remember: no legitimate government agency demands payment by gift card or threatens arrest over the phone. Hang up immediately." },
-    q5: { correct: "Correct! This is a tech support scam. Real companies like Microsoft and Apple do not put phone numbers in pop-up warnings or ask you to call them about a virus. Scammers create urgency and fear so that you will call and let them access your computer remotely, where they can steal personal information or charge you for fake repairs. Closing the browser or restarting your computer usually makes the warning go away.", incorrect: "Not quite. This is a tech support scam. Legitimate tech companies do not display phone numbers in pop-up warnings or ask for remote access to your computer. Calling the number, even to ask for an ID, puts you in contact with a scammer who wants access to your device and personal information. Clicking anything inside the warning can also be risky. The safest response is to close the browser or restart your computer." }
+    q1: {
+      correct: "That's right. Phishing is when a scammer pretends to be a trusted person or organization — such as your bank, the IRS, or a family member — to trick you into giving up personal information, clicking a dangerous link, or sending money. Phishing can happen through email, phone calls, and text messages.",
+      incorrect: "Not quite. Phishing is when a scammer pretends to be a trusted person or organization to trick you into giving up personal information, clicking a dangerous link, or sending money. It is not limited to one channel — it can happen through email, phone calls, and text messages."
+    },
+    q2: {
+      correct: "That's right. Spelling errors and urgent demands are classic phishing red flags. Scammers create pressure so you act before you think. A company logo or a .gov address is not proof of legitimacy — both can be faked or used out of context.",
+      incorrect: "Think again. Spelling errors and urgent demands are the red flags to watch for. Scammers create urgency so you do not pause to verify. A company logo, a .gov address, and your full name can all appear in phishing emails — none of them make a message safe."
+    },
+    q3: {
+      correct: "That's right. The link 'secure-bank-verify.com' is not your bank's real website, and the urgent language is designed to make you click before you think. Text message phishing — sometimes called smishing — is a common scam. Never click a link in an unexpected text. Go directly to your bank's website by typing the address yourself.",
+      incorrect: "Not quite. The red flags are the fake link and the urgent pressure. 'secure-bank-verify.com' is not your bank's real website. This type of scam is called smishing — phishing by text message. Never click a link in an unexpected text message claiming your account has a problem. Go directly to your bank's website by typing the address yourself."
+    },
+    q4: {
+      correct: "Correct. No legitimate government agency — including the IRS — will ever call and demand payment by gift card or threaten immediate arrest. These are pressure tactics designed to make you panic. If you receive a call like this, hang up and contact the agency directly using a number from their official website.",
+      incorrect: "Remember: no legitimate government agency demands payment by gift card or threatens arrest over the phone. Asking for a badge number only keeps you on the line with a scammer. If you receive a call like this, hang up and contact the agency directly using a number from their official website."
+    },
+    q5: {
+      correct: "That's right. This email has three clear scam indicators: it uses 'Dear Customer' instead of your name; the sender address and link spell 'PayPal' as 'paypa1' — replacing the letter l with the number 1; and the 24-hour deadline is designed to pressure you into clicking before you stop to think. Never click links in emails like this. Go directly to the company's website by typing the address yourself.",
+      incorrect: "Not quite. Look at the three indicators: the greeting says 'Dear Customer' instead of your name; the sender address and link read 'paypa1-secure.com' — the letter l is replaced by the number 1 to mimic PayPal's real address; and the 24-hour deadline pressures you to act fast. These are all classic phishing tactics. Never click links in emails like this."
+    }
   };
 
   function toggleHint(id, btn) {
@@ -437,7 +482,7 @@
 
   function restartQuiz() {
     score = 0;
-    answered = [false, false, false, false];
+    answered = [false, false, false, false, false];
 
     for (var i = 1; i <= 5; i++) {
       var card = document.getElementById('q' + i);

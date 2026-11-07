@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<title>Lesson 1 Quiz: Common Scams</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Lato,"Trebuchet MS",sans-serif;
+  background:#dce8f5;
+  padding:2rem 1rem 4rem;
+  color:#1f2a1f;
+  font-size:1.05rem;
+  line-height:1.65;
+}
+.wrap{max-width:720px;margin:0 auto}
+
+/* ── XP window chrome ── */
+.quiz-window{
+  border:1.5px solid #5882c0;
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:1.25rem;
+  box-shadow:0 3px 14px rgba(11,63,143,.15);
+}
+.quiz-chrome{
+  background:linear-gradient(180deg,#4e95db 0%,#1856c0 55%,#0f43a4 100%);
+  padding:.5rem 1.1rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,20,.18);
+}
+.chrome-title{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.95)}
+.quiz-header-body{
+  background:linear-gradient(180deg,#f6fbff 0%,#e8f3fd 100%);
+  padding:1rem 1.2rem 1.1rem;
+}
+.quiz-title{font-size:1.75rem;font-weight:900;color:#0b3f8f;line-height:1.2;margin-bottom:.3rem}
+.quiz-desc{font-size:.97rem;color:#2a3a2a}
+
+/* ── Progress ── */
+.progress-bar-wrap{
+  background:#ccdff5;border:1px solid #aac8ed;
+  border-radius:99px;height:10px;margin-bottom:1.25rem;overflow:hidden;
+}
+.progress-bar-fill{
+  height:100%;
+  background:linear-gradient(180deg,#b6e67f 0%,#6fbf3a 45%,#3f9a24 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.65);
+  border-radius:99px;transition:width .4s ease;
+}
+
+/* ── Question cards ── */
+.question-card{
+  display:none;border:1.5px solid #b9d4f2;border-radius:10px;
+  overflow:hidden;margin-bottom:1rem;
+  box-shadow:0 2px 7px rgba(11,63,143,.07);background:#fff;
+}
+.question-card.active{display:block}
+.card-strip{
+  background:linear-gradient(180deg,#edf5ff 0%,#dde9fb 100%);
+  border-bottom:1px solid #c0d8f5;padding:.32rem 1.1rem;
+}
+.q-badge{font-size:.78rem;font-weight:700;color:#1552b0}
+.card-body{padding:1.1rem 1.2rem 1rem}
+.q-prompt{font-size:1.1rem;font-weight:700;color:#0b3f8f;margin-bottom:1.1rem;line-height:1.5}
+
+/* ── Email sample (Q5) ── */
+.email-sample{
+  background:#f7f9fc;border:1px solid #ccdff5;border-left:4px solid #1552b0;
+  border-radius:7px;padding:.8rem 1rem;margin-bottom:1.1rem;
+  font-size:.93rem;color:#1f2a1f;line-height:1.6;
+}
+.email-sample .email-field{font-size:.87rem;color:#555;margin-bottom:.2rem}
+.email-sample .email-body{margin-top:.5rem}
+
+/* ── Options ── */
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:.9rem}
+.option-btn{
+  background:linear-gradient(180deg,#fff 0%,#f4f9ff 100%);
+  border:1.5px solid #b9d4f2;border-radius:9px;
+  padding:.72rem 1rem;min-height:50px;
+  font-size:1rem;font-family:Lato,"Trebuchet MS",sans-serif;
+  color:#1f2a1f;text-align:left;cursor:pointer;
+  transition:border-color .15s,background .15s;line-height:1.5;
+}
+.option-btn:hover:not(:disabled){border-color:#1552b0;background:#e6f1fd}
+.option-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.option-btn.correct{background:#eaf6df;border-color:#3f9a24;color:#1f5410;font-weight:700}
+.option-btn.incorrect{background:#fdecea;border-color:#c62828;color:#5a1212}
+.option-btn.reveal-correct{background:#eaf6df;border-color:#3f9a24;color:#1f5410}
+.option-btn:disabled{cursor:default}
+
+/* ── Hint ── */
+.hint-btn{
+  background:none;border:none;font-size:.9rem;font-weight:700;
+  color:#1552b0;cursor:pointer;font-family:Lato,sans-serif;
+  padding:.15rem 0;min-height:36px;text-decoration:underline;
+  margin-bottom:.4rem;display:block;
+}
+.hint-btn:hover{color:#0b3f8f}
+.hint-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.hint-box{
+  background:#fff9d4;border:1.5px solid #e0c84a;border-radius:7px;
+  padding:.6rem .85rem;font-size:.93rem;color:#4a3a00;
+  margin-bottom:.7rem;display:none;
+}
+.hint-box.show{display:block}
+
+/* ── Feedback ── */
+.feedback-box{
+  border-radius:9px;padding:.75rem 1rem;font-size:.95rem;
+  line-height:1.55;margin-bottom:.7rem;display:none;
+}
+.feedback-box.show{display:block}
+.feedback-box.correct-fb{background:#eaf6df;border:1.5px solid #3f9a24;color:#1f5410}
+.feedback-box.incorrect-fb{background:#fdecea;border:1.5px solid #c62828;color:#5a1212}
+.feedback-label{font-weight:900;margin-bottom:3px}
+
+/* ── Nav row ── */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:.4rem}
+.back-q-btn{
+  background:linear-gradient(180deg,#f0f6ff 0%,#d8e8f8 100%);
+  color:#0b3f8f;border:1.5px solid #9ec0e0;border-radius:999px;
+  padding:.45rem 1.1rem;font-size:.9rem;font-weight:700;
+  font-family:Lato,sans-serif;cursor:pointer;min-height:38px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75);transition:background .15s;
+}
+.back-q-btn:hover{background:linear-gradient(180deg,#ddeeff 0%,#c2d8f0 100%)}
+.back-q-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.nav-btn,.retry-btn{
+  background:linear-gradient(180deg,#3d8ae0 0%,#1552b0 50%,#0b3f8f 100%);
+  color:#fff;border:2px solid #08397a;border-radius:999px;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 4px 10px rgba(11,63,143,.3);
+  font-weight:900;font-family:Lato,sans-serif;cursor:pointer;min-height:44px;
+  transition:background .15s;
+}
+.nav-btn:hover,.retry-btn:hover{background:linear-gradient(180deg,#5aa0ec 0%,#1d62c4 50%,#0e4aa3 100%)}
+.nav-btn:focus-visible,.retry-btn:focus-visible{outline:3px solid #1552b0;outline-offset:3px}
+.nav-btn{padding:.5rem 1.4rem;font-size:.95rem;display:none}
+.nav-btn.show{display:inline-block}
+.retry-btn{padding:.6rem 2rem;font-size:.97rem}
+
+/* ── Results card ── */
+.results-card{
+  display:none;border:1.5px solid #5882c0;border-radius:10px;
+  overflow:hidden;box-shadow:0 3px 14px rgba(11,63,143,.15);
+}
+.results-card.show{display:block}
+.results-chrome{
+  background:linear-gradient(180deg,#4e95db 0%,#1856c0 55%,#0f43a4 100%);
+  padding:.5rem 1.1rem;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,20,.18);
+}
+.results-chrome-title{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.95)}
+.results-body{
+  background:linear-gradient(180deg,#f6fbff 0%,#e8f3fd 100%);
+  padding:1.5rem 1.25rem;text-align:center;
+}
+.results-score{font-size:3rem;font-weight:900;color:#0b3f8f;margin-bottom:.2rem}
+.results-label{font-size:.97rem;font-weight:700;color:#2e7d1a;margin-bottom:1rem}
+.results-message{font-size:.97rem;color:#1f2a1f;margin-bottom:1.25rem;line-height:1.6}
+
+/* ── Lesson back button (GitHub version) ── */
+.lesson-back-btn{
+  display:inline-block;margin-top:.65rem;
+  background:linear-gradient(180deg,#f0f6ff 0%,#d8e8f8 100%);
+  color:#0b3f8f;border:1.5px solid #9ec0e0;border-radius:999px;
+  padding:.45rem 1.3rem;font-size:.9rem;font-weight:700;
+  font-family:Lato,sans-serif;cursor:pointer;min-height:38px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75);transition:background .15s;
+}
+.lesson-back-btn:hover{background:linear-gradient(180deg,#ddeeff 0%,#c2d8f0 100%)}
+.lesson-back-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+
+@media(max-width:480px){
+  body{font-size:1rem;padding:1rem .75rem 3rem}
+  .quiz-title{font-size:1.5rem}
+  .q-prompt{font-size:1rem}
+  .card-body{padding:.9rem 1rem .85rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="quiz-window">
+    <div class="quiz-chrome"><span class="chrome-title">Lesson 1 Quiz</span></div>
+    <div class="quiz-header-body">
+      <h1 class="quiz-title">Common Scams</h1>
+      <p class="quiz-desc">Test your understanding of the key concepts from Lesson 1. Select the best answer for each question.</p>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress" style="width:0%"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card active" id="q1">
+    <div class="card-strip"><span class="q-badge">1 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Which of the following best describes phishing?</p>
+      <button class="hint-btn" onclick="toggleHint('h1',this)">Show hint</button>
+      <div class="hint-box" id="h1">Think about what the lesson said about how scammers pretend to be someone you trust.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q1',false)">A type of malware that installs itself on your computer when you open an email attachment.</button>
+        <button class="option-btn" onclick="answer(this,'q1',true)">An attempt by a scammer to trick you into giving up personal information by pretending to be a trusted person or organization.</button>
+        <button class="option-btn" onclick="answer(this,'q1',false)">An unsolicited email advertising products or services you did not sign up to receive.</button>
+        <button class="option-btn" onclick="answer(this,'q1',false)">A scam that only happens through email.</button>
+      </div>
+      <div class="feedback-box" id="fb1"></div>
+      <div class="nav-row">
+        <span></span>
+        <button class="nav-btn" id="next1" onclick="nextQ(1)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card" id="q2">
+    <div class="card-strip"><span class="q-badge">2 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Which of the following is a red flag that an email may be fraudulent?</p>
+      <button class="hint-btn" onclick="toggleHint('h2',this)">Show hint</button>
+      <div class="hint-box" id="h2">Scammers use a specific tactic to stop you from pausing to verify before you act.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q2',false)">The email addresses you by your full name.</button>
+        <button class="option-btn" onclick="answer(this,'q2',true)">The email contains spelling errors and demands immediate action.</button>
+        <button class="option-btn" onclick="answer(this,'q2',false)">The email comes from an address ending in .gov.</button>
+        <button class="option-btn" onclick="answer(this,'q2',false)">The email includes the company's official logo.</button>
+      </div>
+      <div class="feedback-box" id="fb2"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(2)">&#8592; Back</button>
+        <button class="nav-btn" id="next2" onclick="nextQ(2)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card" id="q3">
+    <div class="card-strip"><span class="q-badge">3 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">You receive this text message: &ldquo;ALERT: Your bank account has been locked. Click here to verify your identity now: www.secure-bank-verify.com.&rdquo; What makes this text a red flag?</p>
+      <button class="hint-btn" onclick="toggleHint('h3',this)">Show hint</button>
+      <div class="hint-box" id="h3">Think about what you learned about suspicious links and urgent language in text messages.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q3',false)">The text was sent to your phone number instead of your email address.</button>
+        <button class="option-btn" onclick="answer(this,'q3',true)">The link does not match your bank's real website, and the message pressures you to act immediately.</button>
+        <button class="option-btn" onclick="answer(this,'q3',false)">The text arrived outside of normal banking hours.</button>
+        <button class="option-btn" onclick="answer(this,'q3',false)">The text does not include your name.</button>
+      </div>
+      <div class="feedback-box" id="fb3"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(3)">&#8592; Back</button>
+        <button class="nav-btn" id="next3" onclick="nextQ(3)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card" id="q4">
+    <div class="card-strip"><span class="q-badge">4 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">A caller claims to be from the IRS and says you owe back taxes. They tell you that you will be arrested within the hour unless you pay immediately by gift card. What should you do?</p>
+      <button class="hint-btn" onclick="toggleHint('h4',this)">Show hint</button>
+      <div class="hint-box" id="h4">Think about what you learned about how legitimate government agencies contact people.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q4',false)">Purchase the gift cards and provide the numbers over the phone to avoid arrest.</button>
+        <button class="option-btn" onclick="answer(this,'q4',false)">Ask the caller for their badge number, then decide whether to pay.</button>
+        <button class="option-btn" onclick="answer(this,'q4',true)">Hang up. Legitimate government agencies do not demand immediate payment by gift card or threaten arrest over the phone.</button>
+        <button class="option-btn" onclick="answer(this,'q4',false)">Stay on the line and ask the caller to transfer you to their supervisor.</button>
+      </div>
+      <div class="feedback-box" id="fb4"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(4)">&#8592; Back</button>
+        <button class="nav-btn" id="next4" onclick="nextQ(4)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-card" id="q5">
+    <div class="card-strip"><span class="q-badge">5 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Read this email carefully. Which answer correctly names the indicators that it is a scam?</p>
+      <div class="email-sample">
+        <div class="email-field"><strong>From:</strong> support@paypa1-secure.com</div>
+        <div class="email-field"><strong>Subject:</strong> Urgent: Your account will be suspended</div>
+        <div class="email-body">
+          Dear Customer,<br><br>
+          We have detected unusual activity on your PayPal account. Your access will be suspended in 24 hours.<br><br>
+          To restore access, click here: <strong>www.paypa1-secure.com/verify</strong><br><br>
+          Do not ignore this notice.
+        </div>
+      </div>
+      <button class="hint-btn" onclick="toggleHint('h5',this)">Show hint</button>
+      <div class="hint-box" id="h5">Look closely at the sender address and the link. Notice how the message tries to make you feel.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q5',true)">The email uses a generic greeting, the sender address and link use a misspelled domain, and the 24-hour deadline creates pressure to act without thinking.</button>
+        <button class="option-btn" onclick="answer(this,'q5',false)">The email was sent to your inbox and contains a clickable link.</button>
+        <button class="option-btn" onclick="answer(this,'q5',false)">The email mentions account activity and gives you time to respond before suspension.</button>
+        <button class="option-btn" onclick="answer(this,'q5',false)">The email does not include a company logo or a phone number.</button>
+      </div>
+      <div class="feedback-box" id="fb5"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(5)">&#8592; Back</button>
+        <button class="nav-btn" id="next5" onclick="showResults()">See my results &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-card" id="results">
+    <div class="results-chrome"><span class="results-chrome-title">Your results</span></div>
+    <div class="results-body">
+      <div class="results-score" id="score-display"></div>
+      <p class="results-label">out of 5 correct</p>
+      <p class="results-message" id="results-msg"></p>
+      <button class="retry-btn" onclick="restartQuiz()">Try again</button>
+      <br>
+      <button class="lesson-back-btn" onclick="history.back()">&#8592; Back to Lesson 1</button>
+    </div>
+  </div>
+
+</div>
+<script>
+var score=0;
+var answered=[false,false,false,false,false];
+
+var explanations={
+  q1:{
+    correct:"Correct! Phishing is when a scammer pretends to be a trusted person or organization, such as your bank, the IRS, or a family member, to trick you into giving up personal information, clicking a dangerous link, or sending money. Phishing can happen through email, phone calls, and text messages.",
+    incorrect:"Not quite. Phishing is when a scammer pretends to be a trusted person or organization to trick you into giving up personal information, clicking a dangerous link, or sending money. It is not limited to one channel — it can happen through email, phone calls, and text messages."
+  },
+  q2:{
+    correct:"Correct! Spelling errors and urgent demands are classic phishing red flags. Scammers create pressure so you act before you think. A company logo or a .gov address is not proof of legitimacy. Both can be faked or used out of context.",
+    incorrect:"Incorrect. Spelling errors and urgent demands are the red flags to watch for. Scammers create urgency so you do not pause to verify. A company logo, a .gov address, and your full name can all appear in phishing emails — none of them make a message safe."
+  },
+  q3:{
+    correct:"Correct! The link 'secure-bank-verify.com' is not your bank's real website, and the urgent language is designed to make you click before you think. Text message phishing (sometimes called 'smishing') is a common scam. Never click a link in an unexpected text. Go directly to your bank's website by typing the address yourself.",
+    incorrect:"Incorrect. The red flags are the fake link and the urgent pressure. 'secure-bank-verify.com' is not your bank's real website. This type of scam is called 'smishing', which is phishing by text message. Never click a link in an unexpected text message claiming your account has a problem. Go directly to your bank's website by typing the address yourself."
+  },
+  q4:{
+    correct:"Correct! No legitimate government agency, including the IRS, will ever call and demand payment by gift card or threaten immediate arrest. These are pressure tactics designed to make you panic. If you receive a call like this, hang up and contact the agency directly using a number from their official website.",
+    incorrect:"Incorrect. Remember: no legitimate government agency demands payment by gift card or threatens arrest over the phone. Asking for a badge number only keeps you on the line with a scammer. If you receive a call like this, hang up and contact the agency directly using a number from their official website."
+  },
+  q5:{
+    correct:"Correct! This email has three clear scam indicators: it uses 'Dear Customer' instead of your name; the sender address and link spell 'PayPal' as 'paypa1' (replacing the letter l with the number 1); and the 24-hour deadline is designed to pressure you into clicking before you stop to think. Never click links in emails like this. Go directly to the company's website by typing in the web address yourself.",
+    incorrect:"Incorrect. Look at the three indicators: the greeting says 'Dear Customer' instead of your name; the sender address and link read 'paypa1-secure.com': the letter l is replaced by the number 1 to mimic PayPal's real address; and the 24-hour deadline pressures you to act fast. These are all classic phishing tactics. Never click links in emails like this."
+  }
+};
+
+function toggleHint(id,btn){
+  var box=document.getElementById(id);
+  if(box.classList.contains('show')){box.classList.remove('show');btn.textContent='Show hint';}
+  else{box.classList.add('show');btn.textContent='Hide hint';}
+}
+
+function answer(btn,qid,isCorrect){
+  var qNum=parseInt(qid.replace('q',''));
+  if(answered[qNum-1])return;
+  answered[qNum-1]=true;
+  var options=btn.parentElement.querySelectorAll('.option-btn');
+  options.forEach(function(o){o.disabled=true;});
+  var fb=document.getElementById('fb'+qNum);
+  var exp=explanations[qid];
+  if(isCorrect){
+    btn.classList.add('correct');score++;
+    fb.className='feedback-box show correct-fb';
+    fb.innerHTML='<p class="feedback-label">Correct!</p><p>'+exp.correct+'</p>';
+  }else{
+    btn.classList.add('incorrect');
+    options.forEach(function(o){if(o.onclick&&o.onclick.toString().indexOf('true')>-1)o.classList.add('reveal-correct');});
+    fb.className='feedback-box show incorrect-fb';
+    fb.innerHTML='<p class="feedback-label">Not quite.</p><p>'+exp.incorrect+'</p>';
+  }
+  document.getElementById('next'+qNum).classList.add('show');
+  updateProgress(qNum);
+}
+
+function updateProgress(qNum){document.getElementById('progress').style.width=(qNum/5*100)+'%';}
+
+function goBack(current){
+  document.getElementById('q'+current).classList.remove('active');
+  var prev=document.getElementById('q'+(current-1));
+  prev.classList.add('active');
+  prev.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function nextQ(current){
+  document.getElementById('q'+current).classList.remove('active');
+  document.getElementById('q'+(current+1)).classList.add('active');
+}
+
+function showResults(){
+  document.getElementById('q5').classList.remove('active');
+  document.getElementById('progress').style.width='100%';
+  var results=document.getElementById('results');
+  results.classList.add('show');
+  document.getElementById('score-display').textContent=score+' / 5';
+  var msg;
+  if(score===5)msg='Excellent work! You answered every question correctly. You are well prepared to spot these common scam tactics.';
+  else if(score===4)msg='Good work! You got most questions right. Review the explanations for any questions you missed before moving on.';
+  else if(score===3)msg='You are getting there. Take a moment to review the lesson content and read through the explanations, then try again.';
+  else msg='It looks like this material needs a bit more review. Go back and re-read Lesson 1, then try the quiz again.';
+  document.getElementById('results-msg').textContent=msg;
+  results.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function restartQuiz(){
+  score=0;answered=[false,false,false,false,false];
+  for(var i=1;i<=5;i++){
+    var card=document.getElementById('q'+i);
+    card.classList.remove('active');
+    card.querySelectorAll('.option-btn').forEach(function(o){o.disabled=false;o.className='option-btn';});
+    var fb=document.getElementById('fb'+i);fb.className='feedback-box';fb.innerHTML='';
+    document.getElementById('next'+i).classList.remove('show');
+    var hb=card.querySelector('.hint-box');hb.classList.remove('show');
+    card.querySelector('.hint-btn').textContent='Show hint';
+  }
+  document.getElementById('results').classList.remove('show');
+  document.getElementById('progress').style.width='0%';
+  document.getElementById('q1').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

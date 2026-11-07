@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<title>Lesson 2 Quiz: Artificial Intelligence Scams</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Lato,"Trebuchet MS",sans-serif;background:#dce8f5;padding:2rem 1rem 4rem;color:#1f2a1f;font-size:1.05rem;line-height:1.65}
+.wrap{max-width:720px;margin:0 auto}
+.quiz-window{border:1.5px solid #5882c0;border-radius:10px;overflow:hidden;margin-bottom:1.25rem;box-shadow:0 3px 14px rgba(11,63,143,.15)}
+.quiz-chrome{background:linear-gradient(180deg,#4e95db 0%,#1856c0 55%,#0f43a4 100%);padding:.5rem 1.1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,20,.18)}
+.chrome-title{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.95)}
+.quiz-header-body{background:linear-gradient(180deg,#f6fbff 0%,#e8f3fd 100%);padding:1rem 1.2rem 1.1rem}
+.quiz-title{font-size:1.75rem;font-weight:900;color:#0b3f8f;line-height:1.2;margin-bottom:.3rem}
+.quiz-desc{font-size:.97rem;color:#2a3a2a}
+.progress-bar-wrap{background:#ccdff5;border:1px solid #aac8ed;border-radius:99px;height:10px;margin-bottom:1.25rem;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(180deg,#b6e67f 0%,#6fbf3a 45%,#3f9a24 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.65);border-radius:99px;transition:width .4s ease}
+.question-card{display:none;border:1.5px solid #b9d4f2;border-radius:10px;overflow:hidden;margin-bottom:1rem;box-shadow:0 2px 7px rgba(11,63,143,.07);background:#fff}
+.question-card.active{display:block}
+.card-strip{background:linear-gradient(180deg,#edf5ff 0%,#dde9fb 100%);border-bottom:1px solid #c0d8f5;padding:.32rem 1.1rem}
+.q-badge{font-size:.78rem;font-weight:700;color:#1552b0}
+.card-body{padding:1.1rem 1.2rem 1rem}
+.q-prompt{font-size:1.1rem;font-weight:700;color:#0b3f8f;margin-bottom:1.1rem;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:.9rem}
+.option-btn{background:linear-gradient(180deg,#fff 0%,#f4f9ff 100%);border:1.5px solid #b9d4f2;border-radius:9px;padding:.72rem 1rem;min-height:50px;font-size:1rem;font-family:Lato,"Trebuchet MS",sans-serif;color:#1f2a1f;text-align:left;cursor:pointer;transition:border-color .15s,background .15s;line-height:1.5}
+.option-btn:hover:not(:disabled){border-color:#1552b0;background:#e6f1fd}
+.option-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.option-btn.correct{background:#eaf6df;border-color:#3f9a24;color:#1f5410;font-weight:700}
+.option-btn.incorrect{background:#fdecea;border-color:#c62828;color:#5a1212}
+.option-btn.reveal-correct{background:#eaf6df;border-color:#3f9a24;color:#1f5410}
+.option-btn:disabled{cursor:default}
+.hint-btn{background:none;border:none;font-size:.9rem;font-weight:700;color:#1552b0;cursor:pointer;font-family:Lato,sans-serif;padding:.15rem 0;min-height:36px;text-decoration:underline;margin-bottom:.4rem;display:block}
+.hint-btn:hover{color:#0b3f8f}
+.hint-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.hint-box{background:#fff9d4;border:1.5px solid #e0c84a;border-radius:7px;padding:.6rem .85rem;font-size:.93rem;color:#4a3a00;margin-bottom:.7rem;display:none}
+.hint-box.show{display:block}
+.feedback-box{border-radius:9px;padding:.75rem 1rem;font-size:.95rem;line-height:1.55;margin-bottom:.7rem;display:none}
+.feedback-box.show{display:block}
+.feedback-box.correct-fb{background:#eaf6df;border:1.5px solid #3f9a24;color:#1f5410}
+.feedback-box.incorrect-fb{background:#fdecea;border:1.5px solid #c62828;color:#5a1212}
+.feedback-label{font-weight:900;margin-bottom:3px}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:.4rem}
+.back-q-btn{background:linear-gradient(180deg,#f0f6ff 0%,#d8e8f8 100%);color:#0b3f8f;border:1.5px solid #9ec0e0;border-radius:999px;padding:.45rem 1.1rem;font-size:.9rem;font-weight:700;font-family:Lato,sans-serif;cursor:pointer;min-height:38px;box-shadow:inset 0 1px 0 rgba(255,255,255,.75);transition:background .15s}
+.back-q-btn:hover{background:linear-gradient(180deg,#ddeeff 0%,#c2d8f0 100%)}
+.back-q-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.nav-btn,.retry-btn{background:linear-gradient(180deg,#3d8ae0 0%,#1552b0 50%,#0b3f8f 100%);color:#fff;border:2px solid #08397a;border-radius:999px;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 4px 10px rgba(11,63,143,.3);font-weight:900;font-family:Lato,sans-serif;cursor:pointer;min-height:44px;transition:background .15s}
+.nav-btn:hover,.retry-btn:hover{background:linear-gradient(180deg,#5aa0ec 0%,#1d62c4 50%,#0e4aa3 100%)}
+.nav-btn:focus-visible,.retry-btn:focus-visible{outline:3px solid #1552b0;outline-offset:3px}
+.nav-btn{padding:.5rem 1.4rem;font-size:.95rem;display:none}
+.nav-btn.show{display:inline-block}
+.retry-btn{padding:.6rem 2rem;font-size:.97rem}
+.results-card{display:none;border:1.5px solid #5882c0;border-radius:10px;overflow:hidden;box-shadow:0 3px 14px rgba(11,63,143,.15)}
+.results-card.show{display:block}
+.results-chrome{background:linear-gradient(180deg,#4e95db 0%,#1856c0 55%,#0f43a4 100%);padding:.5rem 1.1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,20,.18)}
+.results-chrome-title{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.95)}
+.results-body{background:linear-gradient(180deg,#f6fbff 0%,#e8f3fd 100%);padding:1.5rem 1.25rem;text-align:center}
+.results-score{font-size:3rem;font-weight:900;color:#0b3f8f;margin-bottom:.2rem}
+.results-label{font-size:.97rem;font-weight:700;color:#2e7d1a;margin-bottom:1rem}
+.results-message{font-size:.97rem;color:#1f2a1f;margin-bottom:1.25rem;line-height:1.6}
+@media(max-width:480px){body{font-size:1rem;padding:1rem .75rem 3rem}.quiz-title{font-size:1.5rem}.q-prompt{font-size:1rem}.card-body{padding:.9rem 1rem .85rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="quiz-window">
+    <div class="quiz-chrome"><span class="chrome-title">Lesson 2 Check</span></div>
+    <div class="quiz-header-body">
+      <h1 class="quiz-title">Artificial Intelligence Scams</h1>
+      <p class="quiz-desc">Test your understanding of the key concepts from Lesson 2. Select the best answer for each question.</p>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress" style="width:0%"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card active" id="q1">
+    <div class="card-strip"><span class="q-badge">1 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Margaret sees a video on Facebook of a celebrity endorsing an investment opportunity with guaranteed returns. The video looks completely real. What is the most likely explanation?</p>
+      <button class="hint-btn" onclick="toggleHint('h1',this)">Show hint</button>
+      <div class="hint-box" id="h1">Think about what you learned about how AI can be used to manipulate video footage of real people.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q1',false)">The celebrity genuinely endorses this investment and the video is real.</button>
+        <button class="option-btn" onclick="answer(this,'q1',true)">The video is a deepfake generated by AI to make it appear the celebrity is saying something they never said.</button>
+        <button class="option-btn" onclick="answer(this,'q1',false)">The video was recorded without the celebrity's knowledge but is otherwise real.</button>
+        <button class="option-btn" onclick="answer(this,'q1',false)">The celebrity was paid to appear in the video but later regretted it.</button>
+      </div>
+      <div class="feedback-box" id="fb1"></div>
+      <div class="nav-row">
+        <span></span>
+        <button class="nav-btn" id="next1" onclick="nextQ(1)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card" id="q2">
+    <div class="card-strip"><span class="q-badge">2 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Which of the following is a visual clue that a photo may have been generated by AI?</p>
+      <button class="hint-btn" onclick="toggleHint('h2',this)">Show hint</button>
+      <div class="hint-box" id="h2">Think about which part of the human body AI most commonly struggles to generate correctly.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q2',false)">The photo was taken outdoors in natural lighting.</button>
+        <button class="option-btn" onclick="answer(this,'q2',false)">The person in the photo is smiling.</button>
+        <button class="option-btn" onclick="answer(this,'q2',true)">The person in the photo has distorted or extra fingers on their hands.</button>
+        <button class="option-btn" onclick="answer(this,'q2',false)">The photo was shared on social media.</button>
+      </div>
+      <div class="feedback-box" id="fb2"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(2)">&#8592; Back</button>
+        <button class="nav-btn" id="next2" onclick="nextQ(2)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card" id="q3">
+    <div class="card-strip"><span class="q-badge">3 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Which of the following is an audio clue that a voice in a phone call or recording may be AI-generated?</p>
+      <button class="hint-btn" onclick="toggleHint('h3',this)">Show hint</button>
+      <div class="hint-box" id="h3">Think about what you learned about how AI-generated voices tend to sound compared to a real human voice.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q3',false)">The caller uses your first name.</button>
+        <button class="option-btn" onclick="answer(this,'q3',false)">The call comes from a number you do not recognize.</button>
+        <button class="option-btn" onclick="answer(this,'q3',true)">The voice sounds slightly flat or robotic, with pauses in unusual places.</button>
+        <button class="option-btn" onclick="answer(this,'q3',false)">The caller speaks very quickly.</button>
+      </div>
+      <div class="feedback-box" id="fb3"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(3)">&#8592; Back</button>
+        <button class="nav-btn" id="next3" onclick="nextQ(3)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card" id="q4">
+    <div class="card-strip"><span class="q-badge">4 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Carol receives a phone call. The voice sounds exactly like her daughter and says she is stranded at the airport and needs $500 wired right away. What type of AI scam is most likely taking place?</p>
+      <button class="hint-btn" onclick="toggleHint('h4',this)">Show hint</button>
+      <div class="hint-box" id="h4">Think about which type of AI-generated content involves copying a real person's voice from a recording.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q4',false)">A phishing scam where a criminal is trying to get Carol's banking password.</button>
+        <button class="option-btn" onclick="answer(this,'q4',true)">A voice cloning scam where AI has been used to copy her daughter's voice.</button>
+        <button class="option-btn" onclick="answer(this,'q4',false)">A tech support scam where a criminal is pretending to fix Carol's computer.</button>
+        <button class="option-btn" onclick="answer(this,'q4',false)">An email spoofing scam where a criminal has faked her daughter's email address.</button>
+      </div>
+      <div class="feedback-box" id="fb4"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(4)">&#8592; Back</button>
+        <button class="nav-btn" id="next4" onclick="nextQ(4)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="question-card" id="q5">
+    <div class="card-strip"><span class="q-badge">5 of 5</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Which of the following best describes how AI-generated content is used in scams?</p>
+      <button class="hint-btn" onclick="toggleHint('h5',this)">Show hint</button>
+      <div class="hint-box" id="h5">Think about what types of content AI can create and why that makes it useful for deception.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q5',false)">Scammers use AI to break into bank accounts and steal passwords directly.</button>
+        <button class="option-btn" onclick="answer(this,'q5',false)">Scammers use AI to send spam emails to large numbers of people at once.</button>
+        <button class="option-btn" onclick="answer(this,'q5',true)">Scammers use AI to create realistic fake images, videos, and voices that make people believe something false is real.</button>
+        <button class="option-btn" onclick="answer(this,'q5',false)">Scammers use AI to track where a victim lives and monitor their daily routine.</button>
+      </div>
+      <div class="feedback-box" id="fb5"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(5)">&#8592; Back</button>
+        <button class="nav-btn" id="next5" onclick="showResults()">See my results &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-card" id="results">
+    <div class="results-chrome"><span class="results-chrome-title">Your results</span></div>
+    <div class="results-body">
+      <div class="results-score" id="score-display"></div>
+      <p class="results-label">out of 5 correct</p>
+      <p class="results-message" id="results-msg"></p>
+      <button class="retry-btn" onclick="restartQuiz()">Try again</button>
+    </div>
+  </div>
+
+</div>
+<script>
+var score=0;
+var answered=[false,false,false,false,false];
+var explanations={
+  q1:{correct:"Correct! Investment endorsement videos featuring celebrities are one of the most common uses of AI deepfakes. Even if a video looks completely real, you should never invest money based on a social media video alone. Always research independently through a trusted financial source.",incorrect:"Incorrect. This is a classic AI deepfake scam. Scammers generate fake videos of celebrities endorsing investments to make them appear legitimate. Even a video that looks completely real can be entirely AI-generated."},
+  q2:{correct:"That's right. AI frequently struggles to generate hands correctly, often producing extra fingers, unusual proportions, or blurred edges. This remains one of the most reliable visual clues that a photo may be AI-generated.",incorrect:"Incorrect. The most reliable visual clue that a photo may be AI-generated is distorted or extra fingers on the hands. AI frequently struggles to generate hands correctly, which is why checking the hands is one of the first things to look for."},
+  q3:{correct:"That's right. AI-generated voices often sound almost right but not quite. A flat or robotic tone and pauses in unusual places are the audio clues to listen for. Using your first name, an unfamiliar number, and speaking quickly are not signs of AI.",incorrect:"The audio clue to listen for is a flat or robotic tone and pauses in unusual places. AI-generated voices often lack the natural variation of a real human voice. Using your first name, an unfamiliar number, and speaking quickly are not signs of AI."},
+  q4:{correct:"That's right. This is a voice cloning scam. AI can create a convincing copy of someone's voice using a short recording found on social media or voicemail. Scammers use that clone to call family members and ask for money in a fake emergency.",incorrect:"This is a voice cloning scam. AI can copy a person's voice from a short recording found on social media or voicemail. The voice on the call sounds real, but it was generated by AI. Phishing uses fake emails or texts, tech support scams involve computer problems, and email spoofing uses fake email addresses."},
+  q5:{correct:"That's right. AI can generate images, videos, and audio that look and sound completely real. Scammers use this to create fake videos of celebrities, clone the voices of family members, and build convincing fake identities. The goal is always to make you believe something false is true.",incorrect:"AI-generated content is content that AI creates from scratch. Scammers use it to produce fake images, videos, and audio that are convincing enough to fool people. That is what makes it so different from older types of scams. Hacking into bank accounts, spam emails, and physical surveillance are separate types of fraud."}
+};
+function toggleHint(id,btn){var box=document.getElementById(id);if(box.classList.contains('show')){box.classList.remove('show');btn.textContent='Show hint';}else{box.classList.add('show');btn.textContent='Hide hint';}}
+function answer(btn,qid,isCorrect){
+  var qNum=parseInt(qid.replace('q',''));if(answered[qNum-1])return;answered[qNum-1]=true;
+  var options=btn.parentElement.querySelectorAll('.option-btn');options.forEach(function(o){o.disabled=true;});
+  var fb=document.getElementById('fb'+qNum);var exp=explanations[qid];
+  if(isCorrect){btn.classList.add('correct');score++;fb.className='feedback-box show correct-fb';fb.innerHTML='<p class="feedback-label">Correct!</p><p>'+exp.correct+'</p>';}
+  else{btn.classList.add('incorrect');options.forEach(function(o){if(o.onclick&&o.onclick.toString().indexOf('true')>-1)o.classList.add('reveal-correct');});fb.className='feedback-box show incorrect-fb';fb.innerHTML='<p class="feedback-label">Not quite.</p><p>'+exp.incorrect+'</p>';}
+  document.getElementById('next'+qNum).classList.add('show');updateProgress(qNum);
+}
+function updateProgress(qNum){document.getElementById('progress').style.width=(qNum/5*100)+'%';}
+function goBack(current){document.getElementById('q'+current).classList.remove('active');var prev=document.getElementById('q'+(current-1));prev.classList.add('active');prev.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function nextQ(current){document.getElementById('q'+current).classList.remove('active');document.getElementById('q'+(current+1)).classList.add('active');}
+function showResults(){
+  document.getElementById('q5').classList.remove('active');document.getElementById('progress').style.width='100%';
+  var results=document.getElementById('results');results.classList.add('show');
+  document.getElementById('score-display').textContent=score+' / 5';
+  var msg;
+  if(score===5)msg='Excellent work! You answered every question correctly. You have a strong understanding of how AI is used in scams and how to protect yourself.';
+  else if(score===4)msg='Good work! You got most questions right. Review the explanations for any questions you missed before moving on.';
+  else if(score===3)msg='You are getting there. Take a moment to review the lesson content and read through the explanations, then try again.';
+  else msg='It looks like this material needs a bit more review. Go back and re-read Lesson 2, then try the quiz again.';
+  document.getElementById('results-msg').textContent=msg;results.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function restartQuiz(){
+  score=0;answered=[false,false,false,false,false];
+  for(var i=1;i<=5;i++){var card=document.getElementById('q'+i);card.classList.remove('active');card.querySelectorAll('.option-btn').forEach(function(o){o.disabled=false;o.className='option-btn';});var fb=document.getElementById('fb'+i);fb.className='feedback-box';fb.innerHTML='';document.getElementById('next'+i).classList.remove('show');var hb=card.querySelector('.hint-box');hb.classList.remove('show');card.querySelector('.hint-btn').textContent='Show hint';}
+  document.getElementById('results').classList.remove('show');document.getElementById('progress').style.width='0%';document.getElementById('q1').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

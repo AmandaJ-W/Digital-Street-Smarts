@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<title>Lesson 3 Quiz: Emergency Toolbox</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Lato,"Trebuchet MS",sans-serif;background:#dce8f5;padding:2rem 1rem 4rem;color:#1f2a1f;font-size:1.05rem;line-height:1.65}
+.wrap{max-width:720px;margin:0 auto}
+.quiz-window{border:1.5px solid #5882c0;border-radius:10px;overflow:hidden;margin-bottom:1.25rem;box-shadow:0 3px 14px rgba(11,63,143,.15)}
+.quiz-chrome{background:linear-gradient(180deg,#4e95db 0%,#1856c0 55%,#0f43a4 100%);padding:.5rem 1.1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,20,.18)}
+.chrome-title{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.95)}
+.quiz-header-body{background:linear-gradient(180deg,#f6fbff 0%,#e8f3fd 100%);padding:1rem 1.2rem 1.1rem}
+.quiz-title{font-size:1.75rem;font-weight:900;color:#0b3f8f;line-height:1.2;margin-bottom:.3rem}
+.quiz-desc{font-size:.97rem;color:#2a3a2a}
+.progress-bar-wrap{background:#ccdff5;border:1px solid #aac8ed;border-radius:99px;height:10px;margin-bottom:1.25rem;overflow:hidden}
+.progress-bar-fill{height:100%;background:linear-gradient(180deg,#b6e67f 0%,#6fbf3a 45%,#3f9a24 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.65);border-radius:99px;transition:width .4s ease}
+.question-card{display:none;border:1.5px solid #b9d4f2;border-radius:10px;overflow:hidden;margin-bottom:1rem;box-shadow:0 2px 7px rgba(11,63,143,.07);background:#fff}
+.question-card.active{display:block}
+.card-strip{background:linear-gradient(180deg,#edf5ff 0%,#dde9fb 100%);border-bottom:1px solid #c0d8f5;padding:.32rem 1.1rem}
+.q-badge{font-size:.78rem;font-weight:700;color:#1552b0}
+.card-body{padding:1.1rem 1.2rem 1rem}
+.q-prompt{font-size:1.1rem;font-weight:700;color:#0b3f8f;margin-bottom:1.1rem;line-height:1.5}
+.options{display:flex;flex-direction:column;gap:9px;margin-bottom:.9rem}
+.option-btn{background:linear-gradient(180deg,#fff 0%,#f4f9ff 100%);border:1.5px solid #b9d4f2;border-radius:9px;padding:.72rem 1rem;min-height:50px;font-size:1rem;font-family:Lato,"Trebuchet MS",sans-serif;color:#1f2a1f;text-align:left;cursor:pointer;transition:border-color .15s,background .15s;line-height:1.5}
+.option-btn:hover:not(:disabled){border-color:#1552b0;background:#e6f1fd}
+.option-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.option-btn.correct{background:#eaf6df;border-color:#3f9a24;color:#1f5410;font-weight:700}
+.option-btn.incorrect{background:#fdecea;border-color:#c62828;color:#5a1212}
+.option-btn.reveal-correct{background:#eaf6df;border-color:#3f9a24;color:#1f5410}
+.option-btn:disabled{cursor:default}
+.hint-btn{background:none;border:none;font-size:.9rem;font-weight:700;color:#1552b0;cursor:pointer;font-family:Lato,sans-serif;padding:.15rem 0;min-height:36px;text-decoration:underline;margin-bottom:.4rem;display:block}
+.hint-btn:hover{color:#0b3f8f}
+.hint-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.hint-box{background:#fff9d4;border:1.5px solid #e0c84a;border-radius:7px;padding:.6rem .85rem;font-size:.93rem;color:#4a3a00;margin-bottom:.7rem;display:none}
+.hint-box.show{display:block}
+.feedback-box{border-radius:9px;padding:.75rem 1rem;font-size:.95rem;line-height:1.55;margin-bottom:.7rem;display:none}
+.feedback-box.show{display:block}
+.feedback-box.correct-fb{background:#eaf6df;border:1.5px solid #3f9a24;color:#1f5410}
+.feedback-box.incorrect-fb{background:#fdecea;border:1.5px solid #c62828;color:#5a1212}
+.feedback-label{font-weight:900;margin-bottom:3px}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:.4rem}
+.back-q-btn{background:linear-gradient(180deg,#f0f6ff 0%,#d8e8f8 100%);color:#0b3f8f;border:1.5px solid #9ec0e0;border-radius:999px;padding:.45rem 1.1rem;font-size:.9rem;font-weight:700;font-family:Lato,sans-serif;cursor:pointer;min-height:38px;box-shadow:inset 0 1px 0 rgba(255,255,255,.75);transition:background .15s}
+.back-q-btn:hover{background:linear-gradient(180deg,#ddeeff 0%,#c2d8f0 100%)}
+.back-q-btn:focus-visible{outline:3px solid #1552b0;outline-offset:2px}
+.nav-btn,.retry-btn{background:linear-gradient(180deg,#3d8ae0 0%,#1552b0 50%,#0b3f8f 100%);color:#fff;border:2px solid #08397a;border-radius:999px;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 4px 10px rgba(11,63,143,.3);font-weight:900;font-family:Lato,sans-serif;cursor:pointer;min-height:44px;transition:background .15s}
+.nav-btn:hover,.retry-btn:hover{background:linear-gradient(180deg,#5aa0ec 0%,#1d62c4 50%,#0e4aa3 100%)}
+.nav-btn:focus-visible,.retry-btn:focus-visible{outline:3px solid #1552b0;outline-offset:3px}
+.nav-btn{padding:.5rem 1.4rem;font-size:.95rem;display:none}
+.nav-btn.show{display:inline-block}
+.retry-btn{padding:.6rem 2rem;font-size:.97rem}
+.results-card{display:none;border:1.5px solid #5882c0;border-radius:10px;overflow:hidden;box-shadow:0 3px 14px rgba(11,63,143,.15)}
+.results-card.show{display:block}
+.results-chrome{background:linear-gradient(180deg,#4e95db 0%,#1856c0 55%,#0f43a4 100%);padding:.5rem 1.1rem;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,20,.18)}
+.results-chrome-title{font-size:.82rem;font-weight:700;color:rgba(255,255,255,.95)}
+.results-body{background:linear-gradient(180deg,#f6fbff 0%,#e8f3fd 100%);padding:1.5rem 1.25rem;text-align:center}
+.results-score{font-size:3rem;font-weight:900;color:#0b3f8f;margin-bottom:.2rem}
+.results-label{font-size:.97rem;font-weight:700;color:#2e7d1a;margin-bottom:1rem}
+.results-message{font-size:.97rem;color:#1f2a1f;margin-bottom:1.25rem;line-height:1.6}
+@media(max-width:480px){body{font-size:1rem;padding:1rem .75rem 3rem}.quiz-title{font-size:1.5rem}.q-prompt{font-size:1rem}.card-body{padding:.9rem 1rem .85rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="quiz-window">
+    <div class="quiz-chrome"><span class="chrome-title">Lesson 3 Check</span></div>
+    <div class="quiz-header-body">
+      <h1 class="quiz-title">Emergency toolbox</h1>
+      <p class="quiz-desc">Test your understanding of the key concepts from Lesson 3. Select the best answer for each question.</p>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress" style="width:0%"></div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="question-card active" id="q1">
+    <div class="card-strip"><span class="q-badge">1 of 4</span></div>
+    <div class="card-body">
+      <p class="q-prompt">You receive a phone call from someone claiming to be your bank's fraud department. They say there is suspicious activity on your account and ask you to confirm your account number. What is the safest thing to do?</p>
+      <button class="hint-btn" onclick="toggleHint('h1',this)">Show hint</button>
+      <div class="hint-box" id="h1">Think about what you learned about verifying who you are really talking to when you get an unexpected call.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q1',false)">Confirm your account number so they can protect your account.</button>
+        <button class="option-btn" onclick="answer(this,'q1',false)">Ask them to send you an email instead to verify who they are.</button>
+        <button class="option-btn" onclick="answer(this,'q1',true)">Hang up and call your bank back using the phone number printed on the back of your card.</button>
+        <button class="option-btn" onclick="answer(this,'q1',false)">Put them on hold while you check your bank account online.</button>
+      </div>
+      <div class="feedback-box" id="fb1"></div>
+      <div class="nav-row">
+        <span></span>
+        <button class="nav-btn" id="next1" onclick="nextQ(1)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="question-card" id="q2">
+    <div class="card-strip"><span class="q-badge">2 of 4</span></div>
+    <div class="card-body">
+      <p class="q-prompt">You realize you have shared your bank account number and PIN with a scammer. What should you do first?</p>
+      <button class="hint-btn" onclick="toggleHint('h2',this)">Show hint</button>
+      <div class="hint-box" id="h2">Think about which action would most quickly protect your money and limit any damage.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q2',false)">Wait to see if any money is taken before taking action.</button>
+        <button class="option-btn" onclick="answer(this,'q2',true)">Contact your bank immediately to report the incident and protect your account.</button>
+        <button class="option-btn" onclick="answer(this,'q2',false)">Change your email password in case the scammer uses it to access your bank.</button>
+        <button class="option-btn" onclick="answer(this,'q2',false)">Report the scam to the FTC before doing anything else.</button>
+      </div>
+      <div class="feedback-box" id="fb2"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(2)">&#8592; Back</button>
+        <button class="nav-btn" id="next2" onclick="nextQ(2)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="question-card" id="q3">
+    <div class="card-strip"><span class="q-badge">3 of 4</span></div>
+    <div class="card-body">
+      <p class="q-prompt">You receive an email that appears to be from the IRS demanding immediate payment. You suspect it is a phishing attempt. Where should you report it?</p>
+      <button class="hint-btn" onclick="toggleHint('h3',this)">Show hint</button>
+      <div class="hint-box" id="h3">Think about the two reporting options mentioned in the lesson for IRS phishing scams specifically.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q3',false)">Reply to the email to let them know it looks suspicious.</button>
+        <button class="option-btn" onclick="answer(this,'q3',false)">Report it only to your local police department.</button>
+        <button class="option-btn" onclick="answer(this,'q3',false)">Delete it immediately without reporting it to anyone.</button>
+        <button class="option-btn" onclick="answer(this,'q3',true)">Report it to the FTC at reportfraud.ftc.gov and forward it to phishing@irs.gov.</button>
+      </div>
+      <div class="feedback-box" id="fb3"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(3)">&#8592; Back</button>
+        <button class="nav-btn" id="next3" onclick="nextQ(3)">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="question-card" id="q4">
+    <div class="card-strip"><span class="q-badge">4 of 4</span></div>
+    <div class="card-body">
+      <p class="q-prompt">Which of the following is considered the most effective way to protect your online accounts from unauthorized access?</p>
+      <button class="hint-btn" onclick="toggleHint('h4',this)">Show hint</button>
+      <div class="hint-box" id="h4">Think about which security layer adds a second step beyond just your password when you log in.</div>
+      <div class="options">
+        <button class="option-btn" onclick="answer(this,'q4',false)">Using a different password for every account.</button>
+        <button class="option-btn" onclick="answer(this,'q4',false)">Never using public Wi-Fi networks.</button>
+        <button class="option-btn" onclick="answer(this,'q4',false)">Logging out of your accounts when you are done using them.</button>
+        <button class="option-btn" onclick="answer(this,'q4',true)">Enabling multi-factor authentication (MFA) on your accounts.</button>
+      </div>
+      <div class="feedback-box" id="fb4"></div>
+      <div class="nav-row">
+        <button class="back-q-btn" onclick="goBack(4)">&#8592; Back</button>
+        <button class="nav-btn" id="next4" onclick="showResults()">See my results &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results-card" id="results">
+    <div class="results-chrome"><span class="results-chrome-title">Your results</span></div>
+    <div class="results-body">
+      <div class="results-score" id="score-display"></div>
+      <p class="results-label">out of 4 correct</p>
+      <p class="results-message" id="results-msg"></p>
+      <button class="retry-btn" onclick="restartQuiz()">Try again</button>
+    </div>
+  </div>
+
+</div>
+<script>
+var score=0;
+var answered=[false,false,false,false];
+var explanations={
+  q1:{correct:"That's right. You should always hang up and call your bank back using the number on your card or on the bank's official website. This guarantees you are speaking to a real representative. Never give out account information to someone who called you.",incorrect:"Incorrect. The safest action is to hang up and call your bank back using the number printed on the back of your card. This guarantees you are speaking to a real representative and not a scammer who is impersonating one."},
+  q2:{correct:"Correct. If you have shared your banking credentials with a scammer, contacting your bank immediately is the most important first step. They can freeze your account, reverse any unauthorized transactions, and issue new account details before the scammer has a chance to act.",incorrect:"Incorrect. Contacting your bank immediately is the most critical first step. They can freeze your account and prevent any transactions before the scammer has a chance to use your information. Time is the most important factor in limiting the damage."},
+  q3:{correct:"That's right. For an IRS phishing email, you should report it to the FTC at reportfraud.ftc.gov and forward the email to phishing@irs.gov. This notifies both the federal consumer protection agency and the IRS directly.",incorrect:"Incorrect. For an IRS phishing email, you should report it to the FTC at reportfraud.ftc.gov and forward the email to phishing@irs.gov. Never reply to a suspected phishing email, as this can confirm to the scammer that your address is active."},
+  q4:{correct:"That's right. Multi-factor authentication (MFA) is the most effective protection because it requires a second form of verification beyond your password. Even if a scammer obtains your password, they cannot log in without the second factor.",incorrect:"Incorrect. Multi-factor authentication (MFA) is the most effective protection. It adds a second verification step beyond your password, so even if your password is stolen, the scammer cannot access your account without also having your phone or authentication device."}
+};
+function toggleHint(id,btn){var box=document.getElementById(id);if(box.classList.contains('show')){box.classList.remove('show');btn.textContent='Show hint';}else{box.classList.add('show');btn.textContent='Hide hint';}}
+function answer(btn,qid,isCorrect){
+  var qNum=parseInt(qid.replace('q',''));if(answered[qNum-1])return;answered[qNum-1]=true;
+  var options=btn.parentElement.querySelectorAll('.option-btn');options.forEach(function(o){o.disabled=true;});
+  var fb=document.getElementById('fb'+qNum);var exp=explanations[qid];
+  if(isCorrect){btn.classList.add('correct');score++;fb.className='feedback-box show correct-fb';fb.innerHTML='<p class="feedback-label">Correct!</p><p>'+exp.correct+'</p>';}
+  else{btn.classList.add('incorrect');options.forEach(function(o){if(o.onclick&&o.onclick.toString().indexOf('true')>-1)o.classList.add('reveal-correct');});fb.className='feedback-box show incorrect-fb';fb.innerHTML='<p class="feedback-label">Not quite.</p><p>'+exp.incorrect+'</p>';}
+  document.getElementById('next'+qNum).classList.add('show');updateProgress(qNum);
+}
+function updateProgress(qNum){document.getElementById('progress').style.width=(qNum/4*100)+'%';}
+function goBack(current){document.getElementById('q'+current).classList.remove('active');var prev=document.getElementById('q'+(current-1));prev.classList.add('active');prev.scrollIntoView({behavior:'smooth',block:'nearest'});}
+function nextQ(current){document.getElementById('q'+current).classList.remove('active');document.getElementById('q'+(current+1)).classList.add('active');}
+function showResults(){
+  document.getElementById('q4').classList.remove('active');document.getElementById('progress').style.width='100%';
+  var results=document.getElementById('results');results.classList.add('show');
+  document.getElementById('score-display').textContent=score+' / 4';
+  var msg;
+  if(score===4)msg='Excellent! You answered every question correctly. You know what to do if you are ever caught in a scam situation.';
+  else if(score===3)msg='Good work! You got most questions right. Review the explanation for the question you missed to make sure you have all the tools you need.';
+  else if(score===2)msg='You are getting there. Take a moment to review the lesson content and read through the explanations, then try again.';
+  else msg='It looks like this material needs a bit more review. Go back and re-read Lesson 3, then try the quiz again.';
+  document.getElementById('results-msg').textContent=msg;results.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function restartQuiz(){
+  score=0;answered=[false,false,false,false];
+  for(var i=1;i<=4;i++){var card=document.getElementById('q'+i);card.classList.remove('active');card.querySelectorAll('.option-btn').forEach(function(o){o.disabled=false;o.className='option-btn';});var fb=document.getElementById('fb'+i);fb.className='feedback-box';fb.innerHTML='';document.getElementById('next'+i).classList.remove('show');var hb=card.querySelector('.hint-box');hb.classList.remove('show');card.querySelector('.hint-btn').textContent='Show hint';}
+  document.getElementById('results').classList.remove('show');document.getElementById('progress').style.width='0%';document.getElementById('q1').classList.add('active');window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
